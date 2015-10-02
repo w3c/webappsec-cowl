@@ -253,18 +253,19 @@ spec: DOM-Parsing; urlPrefix: https://w3c.github.io/DOM-Parsing/
   the confidentiality and integrity of data that is shared with
   untrusted code, whether third-party or their own.  Existing
   mechanisms (e.g.,
-  CORS's <a><code>Access-Control-Allow-Origin</code></a> header and
-  the <a>postMessage()</a> <code>targetOrigin</code> argument) provide
-  a way for restricting which <a>origins</a> may access the shared data.
-  But, once content has access to data it can usually disseminate it
-  without restrictions.  While CSP can be used to confine code, i.e.,
-  restrict how confidential data is disseminated, setting a correct
-  CSP policy (as to confine code) is difficult and limited to content
-  the author has control over. Indeed, sharing confidential data in
-  the existing model almost always requires the sender to trust the
-  receiver not to leak the data, accidentally or otherwise.  COWL
-  provides a defense-in-depth option for protecting data
-  confidentiality and integrity.  In particular, with COWL:
+  CORS's<a><code>Access-Control-Allow-Origin</code></a> header and the
+  <code>targetOrigin</code> argument to
+  <a><code>postMessage()</code></a>) provide a way for restricting
+  which <a>origins</a> may access the shared data.  But, once content
+  has access to data it can usually disseminate it without
+  restrictions.  While CSP can be used to confine code, i.e., restrict
+  how confidential data is disseminated, setting a correct CSP policy
+  (as to confine code) is difficult and limited to content the author
+  has control over. Indeed, sharing confidential data in the existing
+  model almost always requires the sender to trust the receiver not to
+  leak the data, accidentally or otherwise.  COWL provides a
+  defense-in-depth option for protecting data confidentiality and
+  integrity.  In particular, with COWL:
 
   1. Authors should be able to specify confidentiality and integrity
      policies on data in terms of origin labels: the origins to whom the
