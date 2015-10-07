@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-03">3 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-06">6 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1673,8 +1673,7 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
            <p>Else, re-throw the exception and terminate this algorithm.</p>
          </ol>
         <li data-md="">
-         <p>Return a new <a class="idl-code" data-link-type="interface" href="#label0">Label</a>, in <a data-link-type="dfn" href="#normal-form">normal form</a>, which is <a data-link-type="dfn" href="#equivalent">equivalent</a> to adding <var>O</var>’s <a data-link-type="dfn" href="#label-set">label set</a> to
- the <a data-link-type="dfn" href="#label-set">label set</a> of the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> on which
+         <p>Return a new <a data-link-type="dfn" href="#normal-form">normal form</a> <a class="idl-code" data-link-type="interface" href="#label0">Label</a> that is <a data-link-type="dfn" href="#equivalent">equivalent</a> to a label whose <a data-link-type="dfn" href="#label-set">label set</a> contains the <a data-link-type="dfn" href="#disjunction-set">disjunction sets</a> of <var>O</var> and the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> on which
  the method was invoked.</p>
        </ol>
       <dt><dfn class="idl-code" data-dfn-for="Label" data-dfn-type="method" data-export="" id="dom-label-_or-label-or-domstring-other" title="_or(other)">_or((Label or DOMString) other)<a class="self-link" href="#dom-label-_or-label-or-domstring-other"></a></dfn>
@@ -1708,7 +1707,7 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
          <ol>
           <li data-md="">
            <p>Let <var>JSON dset</var> be a JSON array of strings,
-  each corresponding an origin in <var>dset</var>.</p>
+  each corresponding to an origin in <var>dset</var>.</p>
           <li data-md="">
            <p>Append <var>JSON dset</var> to the <var>JSON lset</var> array.</p>
          </ol>
@@ -1746,7 +1745,7 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
            <p>For each string <var>str</var> of <var>dset</var>:</p>
            <ol>
             <li data-md="">
-             <p>If <var>str</var> is a <code>"unique"</code>,
+             <p>If <var>str</var> is <code>"unique"</code>,
  let <var>origin</var> be a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a>.</p>
              <div class="note" role="note"> Much like <a data-link-type="functionish" href="#dom-privilege-freshprivilege">FreshPrivilege()</a>, <code>"unique"</code> is used to create a label
    component that is globally unique. </div>
