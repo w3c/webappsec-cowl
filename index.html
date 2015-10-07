@@ -1923,14 +1923,14 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="pri
       for creating privileges.  Context code must still take <a data-link-type="dfn" href="#ownership">ownership</a> of or set the <a data-link-type="dfn" href="#current-privilege">current privilege</a> to the
       privilege for it to be used (to bypass label restrictions). </div>
      <h4 class="heading settled" data-level="3.2.3" id="privilege-examples"><span class="secno">3.2.3. </span><span class="content">Examples</span><a class="self-link" href="#privilege-examples"></a></h4>
-     <div class="example" id="example-2a2b2e88">
-      <a class="self-link" href="#example-2a2b2e88"></a> To be backwards-compatible with the Same-Origin Policy, COWL
+     <div class="example" id="example-e2ef9092">
+      <a class="self-link" href="#example-e2ef9092"></a> To be backwards-compatible with the Same-Origin Policy, COWL
       grants each <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#windows">browsing context</a> a <a data-link-type="dfn" href="#default-privilege">default privilege</a> that corresponds to their origin. For example, a page on <code>https://example.com</code> has a privilege whose <a data-link-type="dfn" href="#internal-privilege-label">internal
       privilege label</a> is <code><a class="idl-code" data-link-type="interface" href="#label0">Label</a>("https://example.com")</code>. 
       <p>As a result, reading data that is sensitive to <code><a class="idl-code" data-link-type="interface" href="#label0">Label</a>("https://example.com")</code> does
       not confine the context. For example, reading a <a data-link-type="dfn" href="#labeled-objects">labeled object</a> whose confidentiality label is <code><a class="idl-code" data-link-type="interface" href="#label0">Label</a>("https://example.com")</code> does
       not restrict the context from communicating—and thus
-      accidentally leak that object’s contents—to another origin.
+      accidentally leaking that object’s contents—to another origin.
       To prevent accidental leaks, the author should drop privileges by
       setting the <a data-link-type="dfn" href="#current-privilege">current privilege</a> to an <a data-link-type="dfn" href="#empty-privilege">empty
       privilege</a>:</p>
@@ -2000,7 +2000,7 @@ COWL.privilege = COWL.privilege.delegate(user1);
 or not COWL confinement is enabled and thus <a data-link-type="dfn" href="#label">labels</a> should
 be enforced in the current context.</p>
       <li data-md="">
-       <p>The <dfn data-dfn-type="dfn" data-noexport="" id="context-labels">context <a data-link-type="dfn" href="#label">labels</a><a class="self-link" href="#context-labels"></a></dfn>, which consist consist of:</p>
+       <p>The <dfn data-dfn-type="dfn" data-noexport="" id="context-labels">context <a data-link-type="dfn" href="#label">labels</a><a class="self-link" href="#context-labels"></a></dfn>, which consist of:</p>
        <ul>
         <li data-md="">
          <p><dfn data-dfn-type="dfn" data-noexport="" id="context-confidentiality-label">context confidentiality label<a class="self-link" href="#context-confidentiality-label"></a></dfn> reflects the
@@ -2037,7 +2037,7 @@ subject to confinement.</p>
         <p>Unless the <a data-link-type="dfn" href="#current-confidentiality-label">current confidentiality label</a> and the <a data-link-type="dfn" href="#current-integrity-label">current integrity label</a> are
 non-<a data-link-type="dfn" href="#empty-label">empty label</a>s, the context’s communication
 is unrestricted; code is only
-subject to the restrictions imposed by other mechanism such as
+subject to the restrictions imposed by other mechanisms such as
 the Same-Origin Policy and CSP.</p>
        <li data-md="">
         <p>Unless the <a data-link-type="dfn" href="#current-privilege">current privilege</a> is dropped or set to a <a data-link-type="dfn" href="#delegated-privilege">delegated privilege</a>, code can disseminate data sensitive
@@ -2150,14 +2150,14 @@ privilege</a>.</p>
 <pre><code><a class="idl-code" data-link-type="interface" href="#cowl">COWL</a>.integrity = new <a class="idl-code" data-link-type="interface" href="#label0">Label</a>(window.location.origin);
 </code></pre>
      </div>
-     <div class="example" id="example-6b16c955">
-      <a class="self-link" href="#example-6b16c955"></a> The author of <code>https://mashup.com</code> can set the <a data-link-type="dfn" href="#context-confidentiality-label">context
+     <div class="example" id="example-7bccdbf1">
+      <a class="self-link" href="#example-7bccdbf1"></a> The author of <code>https://mashup.com</code> can set the <a data-link-type="dfn" href="#context-confidentiality-label">context
       confidentiality label</a> to receive data sensitive from <code>https://provider.com</code>: 
 <pre><code><a class="idl-code" data-link-type="interface" href="#cowl">COWL</a>.confidentiality = new <a class="idl-code" data-link-type="interface" href="#label0">Label</a>('https://provider.com');
 </code></pre>
       <p>At this point, the context can only communicate with <code>https://provider.com</code>. The data provider can
-      ensures that the context is appropriately labeled as such before
-      it can inspect an HTTP response by setting response labels using
+      ensure that only appropriately labeled contexts
+      can inspect an HTTP response by setting response labels using
       the <a href="#response-header"><code>Sec-COWL</code></a> response
       header.</p>
      </div>
@@ -2303,8 +2303,8 @@ influenced the computation.</p>
     example of how <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>s can be used to
     confine third-party libraries (e.g., a password strength
     checker). <a href="#labeledobject-xhr-send-example">§3.6.1.1 Examples</a> and <a href="#labeledobject-xhr-receive-example">§3.6.2.1 Examples</a> show how <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>s are used with the <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a> constructor. 
-     <div class="example" id="example-dc400635">
-      <a class="self-link" href="#example-dc400635"></a> Author of <code>https://police.gov</code> wishes to plot the
+     <div class="example" id="example-1238f22d">
+      <a class="self-link" href="#example-1238f22d"></a> The author of <code>https://police.gov</code> wishes to plot the
       location of police cars on a map provided by <code>https://maps.biz</code> without revealing the individual
       car locations. After revealing the general area to <code>https://maps.biz</code>, the author of <code>https://police.gov</code> labels the police car
       coordinates and sends them to the mapping service: 
@@ -3300,11 +3300,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="acknowledgements"><span class="secno">6. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
-    <p>Thanks to Dan Boneh, Brendan Eich, Brad Hill, Dave Herman, Bobby
-  Holley, Brad Karp, Jonathan Kingston Petr Marchenko, David Mazières,
-  Devon Rifkin, Alejandro Russo, and Brian Smith for influencing
-  (directly or otherwise) the design of COWL and/or their comments on
-  this document.</p>
+    <p>Thanks to Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill, Dave
+  Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
+  David Mazières, Devon Rifkin, Alejandro Russo, and Brian Smith for
+  influencing (directly or otherwise) the design of COWL and/or their
+  comments on this document.</p>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
