@@ -1496,8 +1496,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       </code></pre>
       At this point, the context can only communicate with
       <code>https://provider.com</code>. The data provider can
-      ensures that the context is appropriately labeled as such before
-      it can inspect an HTTP response by setting response labels using
+      ensure that only appropriately labeled contexts
+      can inspect an HTTP response by setting response labels using
       the <a href="#response-header"><code>Sec-COWL</code></a> response
       header.
     </div>
