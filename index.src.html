@@ -900,9 +900,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
            2. Else, re-throw the exception and terminate this algorithm.
 
-        2. Return a new <a interface>Label</a>, in <a>normal form</a>, which is
-           <a>equivalent</a> to adding <var>O</var>'s <a>label set</a> to
-           the <a>label set</a> of the <a interface>Label</a> on which
+        2. Return a new <a>normal form</a> <a interface>Label</a>
+           that is <a>equivalent</a> to a label whose
+           <a>label set</a> contains the <a>disjunction sets</a> of
+           <var>O</var> and the <a interface>Label</a> on which
            the method was invoked.
       </dd>
       <dt><dfn method title="_or(other)">_or((Label or DOMString) other)</dfn></dt>
