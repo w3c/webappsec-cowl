@@ -1837,7 +1837,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       The ABNF for the <code>Sec-COWL</code> HTTP request header is:
 
       <pre>
-        "Sec-COWL:" <a>ctx-metadata</a> / <a>data-metadata</a>
+        "Sec-COWL:" ( <a>ctx-metadata</a> [ "," <a>data-metadata</a> ] ) /
+                    ( <a>data-metadata</a> [ "," <a>ctx-metadata</a> ] )
       </pre>
 
       The user agent MUST send a header field named <code>Sec-COWL</code>
@@ -1850,6 +1851,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       send another header with this field name whose value is
       <a>labeled data metadata</a> (e.g., when sending <a>labeled
       objects</a> with <a>XMLHttpRequest</a>).
+
+      Note, according to [[!RFC2616]], the user agent MAY combine
+      multiple header field values into a single, comma-separated
+      value.
 
 
       <div class="example">
@@ -1872,6 +1877,14 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
                   <a>ctx-privilege</a> [ ['http://university.edu', 'cowl://user1'], ['cowl://a0281e1f-8412-4068-a7ed-e3f234d7fd5a'] ];
         </code></pre>
       </div>
+
+      When processing a request, a server SHOULD only use the first
+      <code>Sec-COWL</code> header that contains a <a>ctx-metadata</a>
+      directive to retrive the <a>labeled context metadata</a>.
+      Similarly, a server SHOULD only use the first <code>Sec-COWL</code>
+      header that contains a <a>data-metadata</a> directive to retrive
+      the <a>labeled data metadata</a> of the request.
+
     </section>
 
     <section>

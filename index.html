@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-06">6 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-07">7 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2411,7 +2411,8 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
      <section>
       <h4 class="heading settled" data-level="3.5.1" id="request-header"><span class="secno">3.5.1. </span><span class="content">The <code>Sec-COWL</code> HTTP Request Header Field</span><a class="self-link" href="#request-header"></a></h4>
       <p>The ABNF for the <code>Sec-COWL</code> HTTP request header is:</p>
-<pre>"Sec-COWL:" <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> / <a data-link-type="dfn" href="#data-metadata">data-metadata</a>
+<pre>"Sec-COWL:" ( <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> [ "," <a data-link-type="dfn" href="#data-metadata">data-metadata</a> ] ) /
+            ( <a data-link-type="dfn" href="#data-metadata">data-metadata</a> [ "," <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> ] )
 </pre>
       <p>The user agent MUST send a header field named <code>Sec-COWL</code> along with requests if <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> is enabled.
       The value of this header MUST contain the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context
@@ -2419,6 +2420,9 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
       label</a>, and <a data-link-type="dfn" href="#context-privilege">context privileges</a>. The user agent MAY
       send another header with this field name whose value is <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> (e.g., when sending <a data-link-type="dfn" href="#labeled-objects">labeled
       objects</a> with <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a>).</p>
+      <p class="note" role="note">Note, according to <a data-link-type="biblio" href="#biblio-rfc2616">[RFC2616]</a>, the user agent MAY combine
+      multiple header field values into a single, comma-separated
+      value.</p>
       <div class="example" id="example-da414d56">
        <a class="self-link" href="#example-da414d56"></a> Request header from a <code>http://a.com</code> page that has
         read data sensitive to <code>http://b.com</code>. 
@@ -2434,6 +2438,9 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
           <a data-link-type="dfn" href="#ctx-privilege">ctx-privilege</a> [ ['http://university.edu', 'cowl://user1'], ['cowl://a0281e1f-8412-4068-a7ed-e3f234d7fd5a'] ];
 </code></pre>
       </div>
+      <p>When processing a request, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> directive to retrive the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a>.
+      Similarly, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#data-metadata">data-metadata</a> directive to retrive
+      the <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> of the request.</p>
      </section>
      <section>
       <h4 class="heading settled" data-level="3.5.2" id="response-header"><span class="secno">3.5.2. </span><span class="content">The <code>Sec-COWL</code> HTTP Response Header Field</span><a class="self-link" href="#response-header"></a></h4>
@@ -3650,6 +3657,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    <dd>Ian Hickson; et al. <a href="http://www.w3.org/TR/html5/">HTML5</a>. 28 October 2014. REC. URL: <a href="http://www.w3.org/TR/html5/">http://www.w3.org/TR/html5/</a>
    <dt id="biblio-rfc2119"><a class="self-link" href="#biblio-rfc2119"></a>[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+   <dt id="biblio-rfc2616"><a class="self-link" href="#biblio-rfc2616"></a>[RFC2616]
+   <dd>R. Fielding; et al. <a href="https://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a>. June 1999. Draft Standard. URL: <a href="https://tools.ietf.org/html/rfc2616">https://tools.ietf.org/html/rfc2616</a>
    <dt id="biblio-rfc3864"><a class="self-link" href="#biblio-rfc3864"></a>[RFC3864]
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
    <dt id="biblio-rfc5234"><a class="self-link" href="#biblio-rfc5234"></a>[RFC5234]
