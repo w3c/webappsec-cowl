@@ -2,6 +2,7 @@
 <pre class="metadata">
 Status: ED
 Group: WebAppSec
+TR: http://www.w3.org/TR/COWL/
 ED: https://w3c.github.io/webappsec-cowl/
 Shortname: COWL
 Level: 1
@@ -36,7 +37,7 @@ spec: WEBMESSAGING; urlPrefix: http://www.w3.org/TR/webmessaging/
 spec: WORKERS; urlPrefix: http://www.w3.org/TR/workers/
   type: dfn
     text: Worker
-    text: Web Worker
+    text: Web Worker; url: infrastructure
 spec: CSP2; urlPrefix: https://www.w3.org/TR/CSP2/
   type: dfn
     text: content-security-policy
@@ -51,11 +52,11 @@ spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
     urlPrefix: webappapis.html
       text: environment settings object; url: settings-object
       text: incumbent settings object; url: incumbent-settings-object
-  type: dfn
     urlPrefix: embedded-content-0.html
       text: iframe; url: the-iframe-element
     urlPrefix: browsers.html
       text: browsing context; url: windows
+      text: top-level browsing context; url: top-level-browsing-context
       text: active sandboxing flag set; url: active-sandboxing-flag-set
       text: sandboxing flag set; url: sandboxing-flag-set
       text: forced sandboxing flag set; url: forced-sandboxing-flag-set
@@ -63,7 +64,6 @@ spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
       text: sandboxed document.domain browsing context flag;url: sandboxed-document.domain-browsing-context-flag
       text: sandboxed origin browsing context flag;url: sandboxed-origin-browsing-context-flag
       text: sandboxed navigation browsing context flag;url: sandboxed-navigation-browsing-context-flag
-      text: script from reading from or writing to the document.cookie IDL attribute; url: sandboxCookies
       text: navigating; url: navigate
     urlPrefix: infrastructure.html
       text: structured clone; url: structured-clone
@@ -73,7 +73,9 @@ spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
       text: strictly split a string
       text: skip whitespace
       text: collect a sequence of characters
-      text: space characters
+      text: space characters; url: space-character
+    urlPrefix: dom.html
+      text: script from reading from or writing to the document.cookie IDL attribute; url: sandboxCookies
   type: interface
     urlPrefix: browsers.html
       text: Window; url: window
@@ -131,7 +133,6 @@ spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
     text: network error; url: concept-network-error
     text: extracting a MIME type; url: concept-header-extract-mime-type
     text: navigation request; url: navigation-request
-    text: context frame type; url: concept-request-context-frame-type
 spec: ENCODING; urlPrefix: https://encoding.spec.whatwg.org/
   type: dfn
     text: utf-8 decode; url: utf-8-decode
@@ -1137,7 +1138,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       <a>internal privilege label</a> set to
       <code><a>Label()</a></code>.
       </dd>
-      <dt><dfn constructor>FreshPrivilege()</dfn></dt>
+      <dt><dfn method title="FreshPrivilege()">FreshPrivilege()</dfn></dt>
       <dd>
 
         When invoking the <a>FreshPrivilege()</a> constructor, the user
@@ -2288,7 +2289,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
                 enabled, let <var>dstConf</var> be the <var>dstState</var>
                 <a>effective confidentiality label</a>.
 
-             5. Else, let <var>dstConf</var> be the <a intergrity>Label</a> returned by the <a>label
+             5. Else, let <var>dstConf</var> be the <a interface>Label</a> returned by the <a>label
                 upgrade</a> algorithm when invoked with the
                 <var>dstState</var> <a>context confidentiality label</a>
                 and <a>context privilege</a>.
@@ -2325,7 +2326,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
                 enabled, let <var>dstConf</var> be the <var>dstState</var>
                 <a>effective confidentiality label</a>.
 
-             5. Else, let <var>dstConf</var> be the <a intergrity>Label</a> returned by the <a>label
+             5. Else, let <var>dstConf</var> be the <a interface>Label</a> returned by the <a>label
                 upgrade</a> algorithm when invoked with the
                 <var>dstState</var> <a>context confidentiality label</a>
                 and <a>context privilege</a>.
@@ -2645,7 +2646,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     4. Let <var>conf</var> be the <var>state</var> <a>effective confidentiality label</a>.
 
-    6. Let <var>dstConf</var> be the <a integrity>Label</a> created by invoking
+    6. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
        the <a>Label(origin)</a> constructor with the
        <a href="https://fetch.spec.whatwg.org/#concept-request-url">url</a>
        associated with the <var>request</var>.
@@ -2656,13 +2657,12 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     8. Else:
 
         1. If the <var>request</var> is a <a>navigation request</a>
-           and the <var>request</var>'s <a>context frame type</a> is
-           <code>top-level</code> the user agent MAY return
-           <strong>allowed</strong>, but MUST indicate to the user
-           that data labeled <var>conf</var> may have been leaked due
-           to the navigation.  It is RECOMMENDED that user agents give
-           users the options to block the navigation, e.g., via a
-           pop-up dialog.
+           and the <var>context</var> is a <a>top-level browsing
+           context</a>, the user agent MAY return <strong>allowed</strong>,
+           but MUST indicate to the user that data labeled
+           <var>conf</var> may have been leaked due to the navigation.
+           It is RECOMMENDED that user agents give users the options to
+           block the navigation, e.g., via a pop-up dialog.
 
            ISSUE: We can simply disallow leaks via top-level
            navigation at the cost of potentially forcing users to

@@ -15,6 +15,8 @@
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="http://www.w3.org/TR/2015/WD-COWL-1-20151013/">http://www.w3.org/TR/2015/WD-COWL-1-20151013/</a>
+     <dt>Latest version:
+     <dd><a href="http://www.w3.org/TR/COWL/">http://www.w3.org/TR/COWL/</a>
      <dt>Editor's Draft:
      <dd><a href="https://w3c.github.io/webappsec-cowl/">https://w3c.github.io/webappsec-cowl/</a>
      <dt>Version History:
@@ -887,7 +889,7 @@ JSON.stringify(aORbANDc) === '[["https://a.com", "https://b.com"], ["https://c.c
     privilege label</a>.</p>
 <pre class="idl">[<a class="idl-code" data-link-type="constructor" href="#dom-privilege-privilege">Constructor</a>, Exposed=Window, Worker]
 interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="privilege0">Privilege<a class="self-link" href="#privilege0"></a></dfn> {
-  static <a data-link-type="idl-name" href="#privilege0">Privilege</a> <dfn class="idl-code" data-dfn-for="Privilege" data-dfn-type="method" data-export="" data-lt="FreshPrivilege()" id="dom-privilege-freshprivilege">FreshPrivilege<a class="self-link" href="#dom-privilege-freshprivilege"></a></dfn>(); // Named constructor
+  static <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-freshprivilege">FreshPrivilege</a>(); // Named constructor
   <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-aslabel">asLabel</a>();
 
   <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-combine">combine</a>(<a data-link-type="idl-name" href="#privilege0">Privilege</a> <dfn class="idl-code" data-dfn-for="Privilege/combine(other)" data-dfn-type="argument" data-export="" id="dom-privilege-combine-other-other">other<a class="self-link" href="#dom-privilege-combine-other-other"></a></dfn>);
@@ -901,7 +903,7 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="pri
       <dt><dfn class="idl-code" data-dfn-for="Privilege" data-dfn-type="constructor" data-export="" id="dom-privilege-privilege">Privilege()<a class="self-link" href="#dom-privilege-privilege"></a></dfn>
       <dd> When invoking the <a data-link-type="functionish" href="#dom-privilege-privilege">Privilege()</a> constructor, the user
         agent MUST return a new <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> that has an <a data-link-type="dfn" href="#internal-privilege-label">internal privilege label</a> set to <code><a data-link-type="functionish" href="#dom-label-label">Label()</a></code>. 
-      <dt><dfn class="idl-code" data-dfn-for="Privilege" data-dfn-type="constructor" data-export="" id="dom-privilege-freshprivilege">FreshPrivilege()<a class="self-link" href="#dom-privilege-freshprivilege"></a></dfn>
+      <dt><dfn class="idl-code" data-dfn-for="Privilege" data-dfn-type="method" data-export="" id="dom-privilege-freshprivilege" title="FreshPrivilege()">FreshPrivilege()<a class="self-link" href="#dom-privilege-freshprivilege"></a></dfn>
       <dd>
        <p>When invoking the <a data-link-type="functionish" href="#dom-privilege-freshprivilege">FreshPrivilege()</a> constructor, the user
         agent MUST use an algorithm equivalent to the following:</p>
@@ -1192,7 +1194,7 @@ privilege</a>.</p>
     object that is protected by a confidentiality and integrity
     label, i.e., the object has associated labels.</p>
      <p>This API is designed to be used in conjunction with other APIs and
-    elements on the web platform. In particular, <a data-link-type="functionish" href="http://www.w3.org/TR/webmessaging/#dom-window-postmessage">postMessage()</a>, <a data-link-type="dfn" href="http://www.w3.org/TR/workers/#web-worker">Web Workers</a>, and <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a> (e.g., with an
+    elements on the web platform. In particular, <a data-link-type="functionish" href="http://www.w3.org/TR/webmessaging/#dom-window-postmessage">postMessage()</a>, <a data-link-type="dfn" href="http://www.w3.org/TR/workers/#infrastructure">Web Workers</a>, and <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a> (e.g., with an
     overloaded <a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method"><code>send()</code></a> method for <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> arguments).</p>
      <p>A <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> MUST have an internal <dfn data-dfn-type="dfn" data-noexport="" id="protected-object">protected
     object<a class="self-link" href="#protected-object"></a></dfn>, a confidentiality <a data-link-type="dfn" href="#label">label</a>, and an
@@ -1783,7 +1785,7 @@ Content-Type: application/labeled-json;
          <p>If <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> for <var>dstState</var> is
   enabled, let <var>dstConf</var> be the <var>dstState</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
         <li data-md="">
-         <p>Else, let <var>dstConf</var> be the <a data-link-type="dfn" href="#label" intergrity="">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
+         <p>Else, let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
   upgrade</a> algorithm when invoked with the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
          <p class="note" role="note">Note, if the receiver has not enabled <a data-link-type="dfn" href="#confinement-mode">confinement
   mode</a>, COWL flexibly assumes that it can receive
@@ -1812,7 +1814,7 @@ Content-Type: application/labeled-json;
          <p>If <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> for <var>dstState</var> is
   enabled, let <var>dstConf</var> be the <var>dstState</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
         <li data-md="">
-         <p>Else, let <var>dstConf</var> be the <a data-link-type="dfn" href="#label" intergrity="">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
+         <p>Else, let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
   upgrade</a> algorithm when invoked with the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
          <p class="note" role="note">Note, if the receiver has not enabled <a data-link-type="dfn" href="#confinement-mode">confinement
   mode</a>, COWL flexibly assumes that it can receive
@@ -1847,7 +1849,7 @@ Content-Type: application/labeled-json;
       <li data-md="">
        <p>The <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a>.  This
 flag ensures that the browsing context cannot access content
-of (what was previously) the same origin. It also prevents <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and
+of (what was previously) the same origin. It also prevents <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and
 blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#biblio-webstorage">[WEBSTORAGE]</a></p>
        <div class="note" role="note">
          The user agent MUST ensure that if content has access
@@ -2060,7 +2062,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
       <li data-md="">
        <p>Let <var>conf</var> be the <var>state</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
       <li data-md="">
-       <p>Let <var>dstConf</var> be the <a data-link-type="dfn" href="#label" integrity="">Label</a> created by invoking
+       <p>Let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> created by invoking
  the <a data-link-type="functionish" href="#dom-label-label">Label(origin)</a> constructor with the <a href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> associated with the <var>request</var>.</p>
       <li data-md="">
        <p>If <var>dstConf</var> <a data-link-type="dfn" href="#subsumes">subsumes</a> <var>conf</var>, return <strong>allowed</strong>.</p>
@@ -2068,11 +2070,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>Else:</p>
        <ol>
         <li data-md="">
-         <p>If the <var>request</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#navigation-request">navigation request</a> and the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-context-frame-type">context frame type</a> is <code>top-level</code> the user agent MAY return <strong>allowed</strong>, but MUST indicate to the user
- that data labeled <var>conf</var> may have been leaked due
- to the navigation.  It is RECOMMENDED that user agents give
- users the options to block the navigation, e.g., via a
- pop-up dialog.</p>
+         <p>If the <var>request</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#navigation-request">navigation request</a> and the <var>context</var> is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing
+ context</a>, the user agent MAY return <strong>allowed</strong>,
+ but MUST indicate to the user that data labeled <var>conf</var> may have been leaked due to the navigation.
+ It is RECOMMENDED that user agents give users the options to
+ block the navigation, e.g., via a pop-up dialog.</p>
          <p class="issue" id="issue-a5e7c388"><a class="self-link" href="#issue-a5e7c388"></a> We can simply disallow leaks via top-level
  navigation at the cost of potentially forcing users to
  navigate away by closing tabs or inputting another URL via
@@ -2205,11 +2207,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
          <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#skip-whitespace">Skip whitespace</a>.</p>
         <li data-md="">
          <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">Collect a sequence of characters</a> that are
-  not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space characters</a>. The collected characters
+  not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-character">space characters</a>. The collected characters
   are the <var>directive name</var>.</p>
         <li data-md="">
          <p>If there are characters remaining in <var>token</var>,
-  skip ahead exactly one character (which must be a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space character</a>).</p>
+  skip ahead exactly one character (which must be a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-character">space character</a>).</p>
         <li data-md="">
          <p>The remaining characters in <var>token</var> (if any) are
   the <var>directive value</var>.</p>
@@ -2253,11 +2255,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
          <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#skip-whitespace">Skip whitespace</a>.</p>
         <li data-md="">
          <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">Collect a sequence of characters</a> that are
-  not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space characters</a>. The collected characters
+  not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-character">space characters</a>. The collected characters
   are the <var>directive name</var>.</p>
         <li data-md="">
          <p>If there are characters remaining in <var>token</var>,
-  skip ahead exactly one character (which must be a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space character</a>).</p>
+  skip ahead exactly one character (which must be a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-character">space character</a>).</p>
         <li data-md="">
          <p>The remaining characters in <var>token</var> (if any) are
   the <var>directive value</var>.</p>
@@ -2427,12 +2429,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    <li><a href="#dom-cowl-enable">enable()</a><span>, in §3.3.2</span>
    <li><a href="#dom-label-equals">equals(other)</a><span>, in §3.1.2</span>
    <li><a href="#equivalent">equivalent</a><span>, in §2.1</span>
-   <li>
-    FreshPrivilege()
-    <ul>
-     <li><a href="#dom-privilege-freshprivilege">method for Privilege</a><span>, in §3.2</span>
-     <li><a href="#dom-privilege-freshprivilege">constructor for Privilege</a><span>, in §3.2.1</span>
-    </ul>
+   <li><a href="#dom-privilege-freshprivilege">FreshPrivilege()</a><span>, in §3.2.1</span>
    <li><a href="#dom-label-fromjson">fromJSON(obj)</a><span>, in §3.1.2</span>
    <li><a href="#dom-label-fromjson">fromJSON(obj, self)</a><span>, in §3.1.2</span>
    <li>
@@ -2551,7 +2548,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
     <ul>
      <li><a href="https://fetch.spec.whatwg.org/#concept-response-body">body</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-request-client">client</a>
-     <li><a href="https://fetch.spec.whatwg.org/#concept-request-context-frame-type">context frame type</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-header-extract-mime-type">extracting a mime type</a>
      <li><a href="https://fetch.spec.whatwg.org/#fetching">fetching</a>
@@ -2584,13 +2580,14 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <li><a href="http://www.w3.org/TR/html5/browsers.html#sandboxed-navigation-browsing-context-flag">sandboxed navigation browsing context flag</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#sandboxed-plugins-browsing-context-flag">sandboxed plugins browsing context flag</a>
-     <li><a href="http://www.w3.org/TR/html5/browsers.html#sandboxCookies">script from reading from or writing to the document.cookie idl attribute</a>
+     <li><a href="http://www.w3.org/TR/html5/dom.html#sandboxCookies">script from reading from or writing to the document.cookie idl attribute</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#skip-whitespace">skip whitespace</a>
-     <li><a href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space characters</a>
+     <li><a href="http://www.w3.org/TR/html5/infrastructure.html#space-character">space characters</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#strictly-split-a-string">strictly split a string</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structurally clonable</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structurally cloned</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structured clone</a>
+     <li><a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a>
     </ul>
    <li>
     <a data-link-type="biblio" href="#biblio-rfc5234">[rfc5234]</a> defines the following terms:
@@ -2632,7 +2629,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    <li>
     <a data-link-type="biblio" href="#biblio-workers">[workers]</a> defines the following terms:
     <ul>
-     <li><a href="http://www.w3.org/TR/workers/#web-worker">web worker</a>
+     <li><a href="http://www.w3.org/TR/workers/#infrastructure">web worker</a>
      <li><a href="http://www.w3.org/TR/workers/#worker">worker</a>
     </ul>
    <li>
@@ -2722,7 +2719,7 @@ interface <a href="#label0">Label</a> {
 
 [<a class="idl-code" data-link-type="constructor" href="#dom-privilege-privilege">Constructor</a>, Exposed=Window, Worker]
 interface <a href="#privilege0">Privilege</a> {
-  static <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a href="#dom-privilege-freshprivilege">FreshPrivilege</a>(); // Named constructor
+  static <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-freshprivilege">FreshPrivilege</a>(); // Named constructor
   <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-aslabel">asLabel</a>();
 
   <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-combine">combine</a>(<a data-link-type="idl-name" href="#privilege0">Privilege</a> <a href="#dom-privilege-combine-other-other">other</a>);
