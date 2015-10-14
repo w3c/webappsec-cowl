@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-08">8 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-14">14 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2440,8 +2440,8 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
           <a data-link-type="dfn" href="#ctx-privilege">ctx-privilege</a> [ ['http://university.edu', 'cowl://user1'], ['cowl://a0281e1f-8412-4068-a7ed-e3f234d7fd5a'] ];
 </code></pre>
       </div>
-      <p>When processing a request, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> directive to retrive the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a>.
-      Similarly, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#data-metadata">data-metadata</a> directive to retrive
+      <p>When processing a request, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> directive to retrieve the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a>.
+      Similarly, a server SHOULD only use the first <code>Sec-COWL</code> header that contains a <a data-link-type="dfn" href="#data-metadata">data-metadata</a> directive to retrieve
       the <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> of the request.</p>
      </section>
      <section>
@@ -2524,7 +2524,7 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
  labels of the <a class="idl-code" data-link-type="argument" href="#dom-xmlhttprequest-send-lobj-lobj">lobj</a> argument.</p>
       <li data-md="">
        <p>Invoke the <code><a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method">send()</a></code> method on the object this method was called on with <var>json</var> as an argument.</p>
-       <p class="note" role="note">Note, that <code><a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method">send()</a></code> throws an exception in step 4 if <var>obj</var> cannot be <a data-link-type="dfn" href="https://w3c.github.io/DOM-Parsing/#dfn-concept-fragment-serializing-algorithm">serialized</a>.
+       <p class="note" role="note">Note, that <code><a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method">send()</a></code> throws an exception if <var>obj</var> cannot be <a data-link-type="dfn" href="https://w3c.github.io/DOM-Parsing/#dfn-concept-fragment-serializing-algorithm">serialized</a>.
   User agents MUST ensure that all <a data-link-type="dfn" href="#protected-object">protected object</a>s can be
   serialized at the time of creating <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>s.</p>
        <div class="note" role="note"> This algorithm does not check if the integrity label of
@@ -2536,8 +2536,8 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
     the server will respect the confidentiality of the data. </div>
      </ol>
      <h5 class="heading settled" data-level="3.6.1.1" id="labeledobject-xhr-send-example"><span class="secno">3.6.1.1. </span><span class="content">Examples</span><a class="self-link" href="#labeledobject-xhr-send-example"></a></h5>
-     <div class="example" id="example-8f3790c7">
-      <a class="self-link" href="#example-8f3790c7"></a> Author of <code>https://example.com</code> sends JSON object
+     <div class="example" id="example-039911d0">
+      <a class="self-link" href="#example-039911d0"></a> Author of <code>https://example.com</code> sends JSON object
       endorsed by <code>https://validator.com</code>: 
 <pre><code>// Suppose that labeledObject is a public, high-integrity value:
 JSON.stringify(labeledObject.confidentiality) === '[[]]';
@@ -2550,7 +2550,7 @@ req.open("POST", "https://example.com/...");
 // Send the labeled object:
 req.send(labeledObject);
 </code></pre>
-      <p>Assuming the context has a <a data-link-type="dfn" href="#default-cowl-state">default COWL state</a>, <code><a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method">send()</a></code> would send an HTTP request of the form:</p>
+      <p>Assuming the context has a <a data-link-type="dfn" href="#default-cowl-state">default COWL state</a>, <code><a data-link-type="functionish" href="https://xhr.spec.whatwg.org/#the-send()-method">send()</a></code> would make an HTTP request of the form:</p>
 <pre><code>Sec-COWL: <a data-link-type="dfn" href="#ctx-confidentiality">ctx-confidentiality</a> [[]];
           <a data-link-type="dfn" href="#ctx-integrity">ctx-integrity</a> [[]];
           <a data-link-type="dfn" href="#ctx-privilege">ctx-privilege</a> [["https://example.com"]];
