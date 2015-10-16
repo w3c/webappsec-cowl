@@ -779,7 +779,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         <a>origins</a>. <a>Labels</a> can be associated with data and
         content using the JavaScript <a interface>LabeledObject</a> and
         <a interface>COWL</a> interfaces or the <code>Sec-COWL</code>
-        HTTP headers.
+        HTTP header field.
       </dd>
       <dt>Explicit authority via <a>privileges</a></dt>
       <dd>
@@ -1785,11 +1785,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   </section>
 
   <section>
-    <h3 id="header">The <code>Sec-COWL</code> HTTP Headers</h3>
+    <h3 id="header">The <code>Sec-COWL</code> HTTP Header Field</h3>
 
-    The <code>Sec-COWL</code> HTTP request and response headers are
-    used by user agents and servers to convey <a>label metadata</a> to
-    servers and user agents, respectively.
+    The <code>Sec-COWL</code> HTTP header field is
+    used to convey <a>label metadata</a>.
 
     <dfn>Label metadata</dfn> is either <a>labeled context metadata</a>
     or <a>labeled data metadata</a>.
@@ -1833,9 +1832,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     [[#parse-labeled-metadata-data]] and [[#parse-labeled-metadata-ctx]].
 
     <section>
-      <h4 id="request-header">The <code>Sec-COWL</code> HTTP Request Header Field</h4>
+      <h4 id="request-header"><code>Sec-COWL</code> in HTTP Requests</h4>
 
-      The ABNF for the <code>Sec-COWL</code> HTTP request header is:
+      The ABNF for <code>Sec-COWL</code> HTTP requests is:
 
       <pre>
         "Sec-COWL:" ( <a>ctx-metadata</a> [ "," <a>data-metadata</a> ] ) /
@@ -1889,9 +1888,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     </section>
 
     <section>
-      <h4 id="response-header">The <code>Sec-COWL</code> HTTP Response Header Field</h4>
+      <h4 id="response-header"><code>Sec-COWL</code> in HTTP Responses</h4>
 
-      The ABNF for the <code>Sec-COWL</code> HTTP response header is:
+      The ABNF for <code>Sec-COWL</code> HTTP responses is:
       <pre>
         "Sec-COWL:" <a>ctx-metadata</a> / <a>data-metadata</a>
       </pre>
