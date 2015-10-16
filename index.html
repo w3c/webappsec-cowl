@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-14">14 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-16">16 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1105,10 +1105,10 @@ further.</p>
         <li><a href="#labeledobject-examples"><span class="secno">3.4.4</span> <span class="content">Examples</span></a>
        </ul>
       <li>
-       <a href="#header"><span class="secno">3.5</span> <span class="content">The <code>Sec-COWL</code> HTTP Headers</span></a>
+       <a href="#header"><span class="secno">3.5</span> <span class="content">The <code>Sec-COWL</code> HTTP Header Field</span></a>
        <ul class="toc">
-        <li><a href="#request-header"><span class="secno">3.5.1</span> <span class="content">The <code>Sec-COWL</code> HTTP Request Header Field</span></a>
-        <li><a href="#response-header"><span class="secno">3.5.2</span> <span class="content">The <code>Sec-COWL</code> HTTP Response Header Field</span></a>
+        <li><a href="#request-header"><span class="secno">3.5.1</span> <span class="content"><code>Sec-COWL</code> in HTTP Requests</span></a>
+        <li><a href="#response-header"><span class="secno">3.5.2</span> <span class="content"><code>Sec-COWL</code> in HTTP Responses</span></a>
        </ul>
       <li>
        <a href="#extension-xhr"><span class="secno">3.6</span> <span class="content">Extensions to XMLHttpRequest</span></a>
@@ -1312,7 +1312,7 @@ checker.postMessage(labeledPassword, "https://untrusted.com");
   user data. In addition to using CORS response headers to restrict the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origins</a> that can access the data <a data-link-type="biblio" href="#biblio-cors">[CORS]</a>, the operator
   wishes to restrict how the data is further disseminated by these
   origins. To do so, the operator sends a response header
-  field named <a href="#response-header"><code>Sec-COWL</code></a> (described in <a href="#response-header">§3.5.2 The Sec-COWL HTTP Response Header Field</a>) whose value contains the
+  field named <a href="#response-header"><code>Sec-COWL</code></a> (described in <a href="#response-header">§3.5.2 Sec-COWL in HTTP Responses</a>) whose value contains the
   sensitivity of the data in the form of a serialized confidentiality <a data-link-type="dfn" href="#label">label</a>.  In turn, COWL enforces the label restrictions on the
   third-party code.</p>
      <div class="example" id="example-79ce2c5f">
@@ -1348,7 +1348,7 @@ checker.postMessage(labeledPassword, "https://untrusted.com");
       <a class="self-link" href="#example-ce4fd5ba"></a> Suppose <code>https://university.edu</code> wished to isolate
     different parts of their site according to users. The server
     operator can weaken the privilege of a page when serving user
-    content by providing a response header field named <a href="#response-header"><code>Sec-COWL</code></a> (see <a href="#response-header">§3.5.2 The Sec-COWL HTTP Response Header Field</a>) whose value contains
+    content by providing a response header field named <a href="#response-header"><code>Sec-COWL</code></a> (see <a href="#response-header">§3.5.2 Sec-COWL in HTTP Responses</a>) whose value contains
     a serialized <a data-link-type="dfn" href="#delegated-privilege">delegated privilege</a>. For example, for any
     content under <code>https://university.edu/~user1</code>, the
     following header is set: 
@@ -1584,7 +1584,7 @@ reflects the fact that the object (produced by <code>https://a.com</code>) was n
      <dt>Policy specification via <a data-link-type="dfn" href="#origin-label">origin labels</a>
      <dd> COWL provides a <a class="idl-code" data-link-type="interface" href="#label0">Label</a> interface for specifying
         confidentiality and integrity policies in terms of <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origins</a>. <a data-link-type="dfn" href="#label">Labels</a> can be associated with data and
-        content using the JavaScript <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> and <a class="idl-code" data-link-type="interface" href="#cowl">COWL</a> interfaces or the <code>Sec-COWL</code> HTTP headers. 
+        content using the JavaScript <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> and <a class="idl-code" data-link-type="interface" href="#cowl">COWL</a> interfaces or the <code>Sec-COWL</code> HTTP header field. 
      <dt>Explicit authority via <a data-link-type="dfn" href="#privilege">privileges</a>
      <dd> The COWL framework provides a JavaScript <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> interface for operating on and minting
         new <a data-link-type="dfn" href="#privilege">privileges</a>.  The <a class="idl-code" data-link-type="interface" href="#cowl">COWL</a> JavaScript
@@ -2377,10 +2377,9 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
      </div>
     </section>
     <section>
-     <h3 class="heading settled" data-level="3.5" id="header"><span class="secno">3.5. </span><span class="content">The <code>Sec-COWL</code> HTTP Headers</span><a class="self-link" href="#header"></a></h3>
-     <p>The <code>Sec-COWL</code> HTTP request and response headers are
-    used by user agents and servers to convey <a data-link-type="dfn" href="#label-metadata">label metadata</a> to
-    servers and user agents, respectively.</p>
+     <h3 class="heading settled" data-level="3.5" id="header"><span class="secno">3.5. </span><span class="content">The <code>Sec-COWL</code> HTTP Header Field</span><a class="self-link" href="#header"></a></h3>
+     <p>The <code>Sec-COWL</code> HTTP header field is
+    used to convey <a data-link-type="dfn" href="#label-metadata">label metadata</a>.</p>
      <p><dfn data-dfn-type="dfn" data-noexport="" id="label-metadata">Label metadata<a class="self-link" href="#label-metadata"></a></dfn> is either <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a> or <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a>.</p>
      <p><dfn data-dfn-type="dfn" data-noexport="" id="labeled-context-metadata">Labeled context metadata<a class="self-link" href="#labeled-context-metadata"></a></dfn> encodes <a data-link-type="dfn" href="#cowl-state">COWL state</a> information, including:</p>
      <ul>
@@ -2411,8 +2410,8 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
 </pre>
      <p>The parsing algorithms for <a data-link-type="dfn" href="#label-metadata">label metadata</a> are given in <a href="#parse-labeled-metadata-data">§4.10 Parse labeled data metadata</a> and <a href="#parse-labeled-metadata-ctx">§4.11 Parse labeled context metadata</a>.</p>
      <section>
-      <h4 class="heading settled" data-level="3.5.1" id="request-header"><span class="secno">3.5.1. </span><span class="content">The <code>Sec-COWL</code> HTTP Request Header Field</span><a class="self-link" href="#request-header"></a></h4>
-      <p>The ABNF for the <code>Sec-COWL</code> HTTP request header is:</p>
+      <h4 class="heading settled" data-level="3.5.1" id="request-header"><span class="secno">3.5.1. </span><span class="content"><code>Sec-COWL</code> in HTTP Requests</span><a class="self-link" href="#request-header"></a></h4>
+      <p>The ABNF for <code>Sec-COWL</code> HTTP requests is:</p>
 <pre>"Sec-COWL:" ( <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> [ "," <a data-link-type="dfn" href="#data-metadata">data-metadata</a> ] ) /
             ( <a data-link-type="dfn" href="#data-metadata">data-metadata</a> [ "," <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> ] )
 </pre>
@@ -2445,8 +2444,8 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
       the <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> of the request.</p>
      </section>
      <section>
-      <h4 class="heading settled" data-level="3.5.2" id="response-header"><span class="secno">3.5.2. </span><span class="content">The <code>Sec-COWL</code> HTTP Response Header Field</span><a class="self-link" href="#response-header"></a></h4>
-      <p>The ABNF for the <code>Sec-COWL</code> HTTP response header is:</p>
+      <h4 class="heading settled" data-level="3.5.2" id="response-header"><span class="secno">3.5.2. </span><span class="content"><code>Sec-COWL</code> in HTTP Responses</span><a class="self-link" href="#response-header"></a></h4>
+      <p>The ABNF for <code>Sec-COWL</code> HTTP responses is:</p>
 <pre>"Sec-COWL:" <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> / <a data-link-type="dfn" href="#data-metadata">data-metadata</a>
 </pre>
       <p>The header value may contain <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a> which can be used to set the initial <a data-link-type="dfn" href="#cowl-state">COWL state</a> of a
@@ -3279,7 +3278,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <dt>Author/Change controller
      <dd>W3C
      <dt>Specification document
-     <dd>This specification (See <a href="#header">§3.5 The Sec-COWL HTTP Headers</a>)
+     <dd>This specification (See <a href="#header">§3.5 The Sec-COWL HTTP Header Field</a>)
     </dl>
     <h3 class="heading settled" data-level="5.2" id="iana-mime"><span class="secno">5.2. </span><span class="content"> The <code>application/labeled-json</code> MIME media type </span><a class="self-link" href="#iana-mime"></a></h3>
     <dl>
