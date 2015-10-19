@@ -3002,8 +3002,9 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
         <p class="issue" id="issue-eb38f690"><a class="self-link" href="#issue-eb38f690"></a> We can be more permissive and allow transferring all but <a data-link-type="dfn" href="#default-privilege">default privileges</a>. Feedback on this would be welcome.</p>
        </div>
       <li data-md="">
-       <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object with the same internal <a data-link-type="dfn" href="#protected-object">protected object</a>, confidentiality label, and integrity
- label as that of <var>input</var>.</p>
+       <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object whose
+ confidentiality and integrity labels are the same as that of <var>input</var>, and whose internal <a data-link-type="dfn" href="#protected-object">protected object</a> is
+ a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structured clone</a> of the <a data-link-type="dfn" href="#protected-object">protected object</a> of the <var>input</var> <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>.</p>
       <li data-md="">
        <p>Return <var>output</var>.</p>
      </ol>

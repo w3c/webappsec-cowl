@@ -2597,10 +2597,12 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        </div>
 
     4. If <var>input</var> is a <a interface>LabeledObject</a> object, let
-       <var>output</var> be a newly constructed <a
-       interface>LabeledObject</a> object with the same internal
-       <a>protected object</a>, confidentiality label, and integrity
-       label as that of <var>input</var>.
+       <var>output</var> be a newly constructed
+       <a interface>LabeledObject</a> object whose
+       confidentiality and integrity labels are the same as that of
+       <var>input</var>, and whose internal <a>protected object</a> is
+       a <a>structured clone</a> of the <a>protected object</a> of the
+       <var>input</var> <a interface>LabeledObject</a>.
 
     5. Return <var>output</var>.
 
