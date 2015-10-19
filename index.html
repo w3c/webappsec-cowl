@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-16">16 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-18">18 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2832,7 +2832,7 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
   up enabling <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> and has a
   non-<a data-link-type="dfn" href="#empty-label">empty label</a>, access must be revoked and
   the two must be considered as if they are of different
-  origins.  Th current version of this document specifies
+  origins.  The current version of this document specifies
   this requirement in terms of the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin
   browsing context flag</a>. 
         <p class="issue" id="issue-64db3753"><a class="self-link" href="#issue-64db3753"></a> Implementation-wise, this may pose a challenge
@@ -2920,7 +2920,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>For each <a data-link-type="dfn" href="#disjunction-set">disjunction set</a> <var>dset</var> in the <a data-link-type="dfn" href="#label-set">label set</a> of <var>label</var>:</p>
        <ol>
         <li data-md="">
-         <p>Let <var>cur</var> be a newly create <a class="idl-code" data-link-type="interface" href="#label0">Label</a> whose <a data-link-type="dfn" href="#label-set">label set</a> is <var>dset</var>.</p>
+         <p>Let <var>cur</var> be a newly created <a class="idl-code" data-link-type="interface" href="#label0">Label</a> whose <a data-link-type="dfn" href="#label-set">label set</a> is <var>dset</var>.</p>
         <li data-md="">
          <p>If <var>privLabel</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>cur</var>, add <var>dset</var> to <var>lset</var>.</p>
        </ol>
@@ -2978,7 +2978,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>Let <var>currentInt</var> be the current context’s <a data-link-type="dfn" href="#effective-integrity-label">effective
  integrity label</a>.</p>
       <li data-md="">
-       <p>If <var>objConf</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>currentConf</var> or if <var>currentInt</var> does not <a data-link-type="dfn" href="#subsumes">subsumes</a> <var>objInt</var>, return <code>false</code>.</p>
+       <p>If <var>objConf</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>currentConf</var> or if <var>currentInt</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>objInt</var>, return <code>false</code>.</p>
       <li data-md="">
        <p>Else, return <code>true</code>.</p>
      </ol>
@@ -3032,7 +3032,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>Let <var>state</var> be the <a data-link-type="dfn" href="#cowl-state">COWL state</a> retrieved via the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">environment settings object</a> <var>context</var>.</p>
       <li data-md="">
        <p>If the <var>state</var> <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> is not
- enabled, return <strong>allowed</strong> and terminated this
+ enabled, return <strong>allowed</strong> and terminate this
  algorithm.</p>
       <li data-md="">
        <p>Let <var>conf</var> be the <var>state</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
@@ -3077,7 +3077,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
       algorithm is used to make the determination of whether or not a
       response is blocked. 
       <p>This algorithm is also used to set the <a data-link-type="dfn" href="#cowl-state">COWL state</a> for
-      new documents and Workers according to server-supplied the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a>.</p>
+      new documents and Workers according to the server-supplied <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a>.</p>
      </div>
      <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">Request</a> <var>request</var> and <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">Response</a> <var>response</var>, a user agent determines
     whether the response should be returned via the following algorithm:</p>
