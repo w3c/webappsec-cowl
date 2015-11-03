@@ -2540,6 +2540,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        algorithm when invoked with
        <var>currentInt</var>.<a>_or(<var>integrity</var>)</a>
        and <a>current privilege</a>.
+
+    ISSUE(w3c/webappsec-cowl#34): Current algorithm allows tainting
+    any context, disallow "over tainting" a top-level context.
+
   </section>
 
   <section>
@@ -2646,22 +2650,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     7. If <var>dstConf</var> <a>subsumes</a> <var>conf</var>, return
        <strong>allowed</strong>.
 
-    8. Else:
-
-        1. If the <var>request</var> is a <a>navigation request</a>
-           and the <var>context</var> is a <a>top-level browsing
-           context</a>, the user agent MAY return <strong>allowed</strong>,
-           but MUST indicate to the user that data labeled
-           <var>conf</var> may have been leaked due to the navigation.
-           It is RECOMMENDED that user agents give users the options to
-           block the navigation, e.g., via a pop-up dialog.
-
-           ISSUE: We can simply disallow leaks via top-level
-           navigation at the cost of potentially forcing users to
-           navigate away by closing tabs or inputting another URL via
-           the address bar.  Feedback on this would be welcome.
-
-        2. Else, return <strong>blocked</strong>.
+    8. Else, return <strong>blocked</strong>.
 
     Note, the integrity label of the current context is not used in
     this algorithm since, conceptually, the integrity label of a

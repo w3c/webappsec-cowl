@@ -2966,6 +2966,10 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
       <li data-md="">
        <p>Set the <a data-link-type="dfn" href="#context-integrity-label">context integrity label</a> to the <a data-link-type="dfn" href="#label">Label</a> returned by the by the <a data-link-type="dfn" href="#label-downgrade">label downgrade</a> algorithm when invoked with <var>currentInt</var>.<a data-link-type="functionish" href="#dom-label-_or">_or(<var>integrity</var>)</a> and <a data-link-type="dfn" href="#current-privilege">current privilege</a>.</p>
      </ol>
+     <div class="issue no-marker" id="issue-ee7a9039">
+      <a class="self-link" href="#issue-ee7a9039"></a><a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/34">Issue #34 on GitHub: “Don't allow over-tainting a top-level context”</a>
+      <p>When a top-level context gets tainted and then tries to navigate we can either a) allow the navigation and potentially leak data or b) disallow navigation. Neither solution is great. A better approach (thanks to the folks at TPAC 2015) is to just disallow a top-level context from getting overly tainted. Given the use of privileges this is pretty sensible and also safe: it's like setting the clearance to the public label. (I think it makes sense to reintroduce clearance in full in v2.)</p>
+     </div>
     </section>
     <section>
      <h3 class="heading settled" data-level="4.6" id="alg-write-check"><span class="secno">4.6. </span><span class="content">Write Check</span><a class="self-link" href="#alg-write-check"></a></h3>
@@ -3042,21 +3046,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
       <li data-md="">
        <p>If <var>dstConf</var> <a data-link-type="dfn" href="#subsumes">subsumes</a> <var>conf</var>, return <strong>allowed</strong>.</p>
       <li data-md="">
-       <p>Else:</p>
-       <ol>
-        <li data-md="">
-         <p>If the <var>request</var> is a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#navigation-request">navigation request</a> and the <var>context</var> is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing
- context</a>, the user agent MAY return <strong>allowed</strong>,
- but MUST indicate to the user that data labeled <var>conf</var> may have been leaked due to the navigation.
- It is RECOMMENDED that user agents give users the options to
- block the navigation, e.g., via a pop-up dialog.</p>
-         <p class="issue" id="issue-a5e7c388"><a class="self-link" href="#issue-a5e7c388"></a> We can simply disallow leaks via top-level
- navigation at the cost of potentially forcing users to
- navigate away by closing tabs or inputting another URL via
- the address bar.  Feedback on this would be welcome.</p>
-        <li data-md="">
-         <p>Else, return <strong>blocked</strong>.</p>
-       </ol>
+       <p>Else, return <strong>blocked</strong>.</p>
      </ol>
      <p class="note" role="note">Note, the integrity label of the current context is not used in
     this algorithm since, conceptually, the integrity label of a
@@ -3530,7 +3520,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <li><a href="https://fetch.spec.whatwg.org/#concept-header-list">header list</a>
      <li><a href="https://fetch.spec.whatwg.org/#main-fetch">main fetch</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-header-name">name</a>
-     <li><a href="https://fetch.spec.whatwg.org/#navigation-request">navigation request</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-network-error">network error</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-request">request</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-response">response</a>
@@ -3562,7 +3551,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structurally clonable</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structurally cloned</a>
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#structured-clone">structured clone</a>
-     <li><a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a>
     </ul>
    <li>
     <a data-link-type="biblio" href="#biblio-rfc5234">[rfc5234]</a> defines the following terms:
@@ -3762,10 +3750,11 @@ enum <a class="idl-code" data-link-type="enum" href="https://xhr.spec.whatwg.org
     <p>Specify changes to HTML that will disallow arbitrary communication via less overt channels (e.g., iframe height/width, URL fragments, etc.). This can be marked as at-risk for now.</p>
     <a href="#issue-d6b68f03"> ↵ </a>
    </div>
-   <div class="issue"> We can simply disallow leaks via top-level
- navigation at the cost of potentially forcing users to
- navigate away by closing tabs or inputting another URL via
- the address bar.  Feedback on this would be welcome.<a href="#issue-a5e7c388"> ↵ </a></div>
+   <div class="issue no-marker">
+    <a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/34">Issue #34 on GitHub: “Don't allow over-tainting a top-level context”</a>
+    <p>When a top-level context gets tainted and then tries to navigate we can either a) allow the navigation and potentially leak data or b) disallow navigation. Neither solution is great. A better approach (thanks to the folks at TPAC 2015) is to just disallow a top-level context from getting overly tainted. Given the use of privileges this is pretty sensible and also safe: it's like setting the clearance to the public label. (I think it makes sense to reintroduce clearance in full in v2.)</p>
+    <a href="#issue-ee7a9039"> ↵ </a>
+   </div>
    <div class="issue"> Should the user agent warn the user if the
  server provided an integrity label that it is not
  allowed to provide?<a href="#issue-41cd6952"> ↵ </a></div>
