@@ -1645,6 +1645,11 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
          <p>Else, it MUST return a new <a data-link-type="dfn" href="#label">Label</a> that contains a <a data-link-type="dfn" href="#label-set">label set</a> of a single <a data-link-type="dfn" href="#disjunction-set">disjunction set</a>, which
  itself MUST contain the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-url">URL</a> corresponding to the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> of the parameter.</p>
        </ol>
+      <div class="issue no-marker" id="issue-fe2ad744">
+       <a class="self-link" href="#issue-fe2ad744"></a><a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/38">Issue #38 on GitHub: “Don't use origins for app-specific principals”</a>
+       <p>Using names like <code>cowl://user</code> won't match as origins in certain browser implementations. Moreover, app-specific principals named as such should not be confused with origins.</p>
+       <p>Change Label definition to accommodate for app-specific and permissions (e.g., geo-location) use cases.</p>
+      </div>
      </dl>
      <h4 class="heading settled" data-level="3.1.2" id="labe-methods"><span class="secno">3.1.2. </span><span class="content">Methods</span><a class="self-link" href="#labe-methods"></a></h4>
      <dl>
@@ -3735,6 +3740,12 @@ enum <a class="idl-code" data-link-type="enum" href="https://xhr.spec.whatwg.org
     </blockquote>
     <p>In COWL, we have an interface that has a method named <code>or</code> (see <a href="https://w3c.github.io/webappsec-cowl/#dom-label-_or-label-or-domstring-other">this</a>). In the idl section it makes sense to use <code>_or</code>, but it would be nice to refer to the method as <code>or</code> elsewhere (e.g., in examples or other algorithms) while retaining links to the definition. Any thoughts on this?</p>
     <a href="#issue-b6694352"> ↵ </a>
+   </div>
+   <div class="issue no-marker">
+    <a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/38">Issue #38 on GitHub: “Don't use origins for app-specific principals”</a>
+    <p>Using names like <code>cowl://user</code> won't match as origins in certain browser implementations. Moreover, app-specific principals named as such should not be confused with origins.</p>
+    <p>Change Label definition to accommodate for app-specific and permissions (e.g., geo-location) use cases.</p>
+    <a href="#issue-fe2ad744"> ↵ </a>
    </div>
    <div class="issue no-marker">
     <a class="marker" href="https://github.com/tabatkins/bikeshed/issues/516">Issue #516 on GitHub: “Support for NamedConstructor”</a>
