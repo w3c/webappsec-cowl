@@ -994,7 +994,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-10-18">18 October 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-11-03">3 November 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1620,8 +1620,14 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
   [Throws] static <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="method" href="#dom-label-fromjson">fromJSON</a>(object <dfn class="idl-code" data-dfn-for="Label/fromJSON(obj, self), Label/fromJSON(obj)" data-dfn-type="argument" data-export="" id="dom-label-fromjson-obj-self-obj">obj<a class="self-link" href="#dom-label-fromjson-obj-self-obj"></a></dfn>, optional DOMString <dfn class="idl-code" data-dfn-for="Label/fromJSON(obj, self), Label/fromJSON(obj)" data-dfn-type="argument" data-export="" id="dom-label-fromjson-obj-self-self">self<a class="self-link" href="#dom-label-fromjson-obj-self-self"></a></dfn>);
 };
 </pre>
-     <p class="issue" id="issue-afa876b4"><a class="self-link" href="#issue-afa876b4"></a> Current WebIDL implementation requires an underscore for
-    certain identifiers. Can we rename <code>_or</code> to <code>or</code>?</p>
+     <div class="issue no-marker" id="issue-b6694352">
+      <a class="self-link" href="#issue-b6694352"></a><a class="marker" href="https://github.com/tabatkins/bikeshed/issues/517">Issue #517 on GitHub: “Support for escaped identifies”</a>
+      <p>Based on the <a href="http://www.w3.org/TR/WebIDL/#idl-names">WebIDL names</a>:</p>
+      <blockquote>
+       <p>A leading "_" is used to escape an identifier from looking like a reserved word so that, for example, an interface named “interface” can be defined. The leading "_" is dropped to unescape the identifier.</p>
+      </blockquote>
+      <p>In COWL, we have an interface that has a method named <code>or</code> (see <a href="https://w3c.github.io/webappsec-cowl/#dom-label-_or-label-or-domstring-other">this</a>). In the idl section it makes sense to use <code>_or</code>, but it would be nice to refer to the method as <code>or</code> elsewhere (e.g., in examples or other algorithms) while retaining links to the definition. Any thoughts on this?</p>
+     </div>
      <h4 class="heading settled" data-level="3.1.1" id="label-constructors"><span class="secno">3.1.1. </span><span class="content">Constructors</span><a class="self-link" href="#label-constructors"></a></h4>
      <dl>
       <dt><dfn class="idl-code" data-dfn-for="Label" data-dfn-type="constructor" data-export="" id="dom-label-label">Label()<a class="self-link" href="#dom-label-label"></a></dfn>
@@ -1872,8 +1878,11 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="pri
   [Throws] <a data-link-type="idl-name" href="#privilege0">Privilege</a> <a class="idl-code" data-link-type="method" href="#dom-privilege-delegate">delegate</a>(<a data-link-type="idl-name" href="#label0">Label</a> <dfn class="idl-code" data-dfn-for="Privilege/delegate(label)" data-dfn-type="argument" data-export="" id="dom-privilege-delegate-label-label">label<a class="self-link" href="#dom-privilege-delegate-label-label"></a></dfn>);
 };
 </pre>
-     <p class="issue" id="issue-56e73af5"><a class="self-link" href="#issue-56e73af5"></a> Bikeshed does not allow WebIDL’s NamedConstructor. For now,
-    inlining the constructor as a static method.</p>
+     <div class="issue no-marker" id="issue-bf105aae">
+      <a class="self-link" href="#issue-bf105aae"></a><a class="marker" href="https://github.com/tabatkins/bikeshed/issues/516">Issue #516 on GitHub: “Support for NamedConstructor”</a>
+      <p>Bikeshed currently does not have support for named constructors. COWL is currently using static methods to bypass this, but it would be great if we didn't have to. While digging around, I believe there were a few other specs that were doing the same.</p>
+      <p>Thanks! <br> Ref: <a href="https://w3c.github.io/webappsec-cowl/#issue-56e73af5">https://w3c.github.io/webappsec-cowl/#issue-56e73af5</a></p>
+     </div>
      <h4 class="heading settled" data-level="3.2.1" id="privilege-constructors"><span class="secno">3.2.1. </span><span class="content">Constructors</span><a class="self-link" href="#privilege-constructors"></a></h4>
      <dl>
       <dt><dfn class="idl-code" data-dfn-for="Privilege" data-dfn-type="constructor" data-export="" id="dom-privilege-privilege">Privilege()<a class="self-link" href="#dom-privilege-privilege"></a></dfn>
@@ -2826,28 +2835,21 @@ Content-Type: application/labeled-json;
 flag ensures that the browsing context cannot access content
 of (what was previously) the same origin. It also prevents <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and
 blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#biblio-webstorage">[WEBSTORAGE]</a></p>
-       <div class="note" role="note">
-         The user agent MUST ensure that if content has access
+       <div class="note" role="note"> The user agent MUST ensure that if content has access
   to another content from the same origin, but either ends
   up enabling <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> and has a
   non-<a data-link-type="dfn" href="#empty-label">empty label</a>, access must be revoked and
   the two must be considered as if they are of different
   origins.  The current version of this document specifies
   this requirement in terms of the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin
-  browsing context flag</a>. 
-        <p class="issue" id="issue-64db3753"><a class="self-link" href="#issue-64db3753"></a> Implementation-wise, this may pose a challenge
-  for certain browsers. An alternative design may disallow
-  enabling confinement mode if the browsing context has
-  any references to or from another same-origin content.
-  Feedback on this would be very welcome.</p>
-       </div>
+  browsing context flag</a>. </div>
       <li data-md="">
        <p>The <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-navigation-browsing-context-flag">sandboxed navigation browsing context flag</a>.</p>
      </ul>
-     <p class="issue" id="issue-100c577e"><a class="self-link" href="#issue-100c577e"></a> Should COWL restrict communication via less overt
-      channels (e.g., height/width of an iframe, URL fragment, or
-      even)index in <code>window.top.frames</code>)? Maybe as optional
-      modifications to HTML? Feedback on this would be very welcome.</p>
+     <div class="issue no-marker" id="issue-d6b68f03">
+      <a class="self-link" href="#issue-d6b68f03"></a><a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/33">Issue #33 on GitHub: “Disallow communication via obvious covert channels”</a>
+      <p>Specify changes to HTML that will disallow arbitrary communication via less overt channels (e.g., iframe height/width, URL fragments, etc.). This can be marked as at-risk for now.</p>
+     </div>
     </section>
    </section>
    <section>
@@ -2996,11 +2998,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> object
  that was constructed with the <a data-link-type="functionish" href="#dom-privilege-freshprivilege">FreshPrivilege()</a> constructor, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> object with the same <a data-link-type="dfn" href="#internal-privilege-label">internal
  privilege label</a> as that of <var>input</var>.</p>
-       <div class="note" role="note">
-         To prevent attacks that launder page privileges, the current
- version of COWL only allows transferring fresh privileges. 
-        <p class="issue" id="issue-eb38f690"><a class="self-link" href="#issue-eb38f690"></a> We can be more permissive and allow transferring all but <a data-link-type="dfn" href="#default-privilege">default privileges</a>. Feedback on this would be welcome.</p>
-       </div>
+       <div class="note" role="note"> To prevent attacks that launder page privileges, the current
+ version of COWL only allows transferring fresh privileges. </div>
       <li data-md="">
        <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object whose
  confidentiality and integrity labels are the same as that of <var>input</var>, and whose internal <a data-link-type="dfn" href="#protected-object">protected object</a> is
@@ -3311,9 +3310,9 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
     <h2 class="heading settled" data-level="6" id="acknowledgements"><span class="secno">6. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
     <p>Thanks to Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill, Dave
   Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
-  David Mazières, Devon Rifkin, Alejandro Russo, and Brian Smith for
-  influencing (directly or otherwise) the design of COWL and/or their
-  comments on this document.</p>
+  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the
+  W3C WebAppSec team for influencing (directly or otherwise) the
+  design of COWL and/or their comments on this document.</p>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -3740,23 +3739,29 @@ enum <a class="idl-code" data-link-type="enum" href="https://xhr.spec.whatwg.org
 </pre>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> Current WebIDL implementation requires an underscore for
-    certain identifiers. Can we rename <code>_or</code> to <code>or</code>?<a href="#issue-afa876b4"> ↵ </a></div>
-   <div class="issue"> Bikeshed does not allow WebIDL’s NamedConstructor. For now,
-    inlining the constructor as a static method.<a href="#issue-56e73af5"> ↵ </a></div>
+   <div class="issue no-marker">
+    <a class="marker" href="https://github.com/tabatkins/bikeshed/issues/517">Issue #517 on GitHub: “Support for escaped identifies”</a>
+    <p>Based on the <a href="http://www.w3.org/TR/WebIDL/#idl-names">WebIDL names</a>:</p>
+    <blockquote>
+     <p>A leading "_" is used to escape an identifier from looking like a reserved word so that, for example, an interface named “interface” can be defined. The leading "_" is dropped to unescape the identifier.</p>
+    </blockquote>
+    <p>In COWL, we have an interface that has a method named <code>or</code> (see <a href="https://w3c.github.io/webappsec-cowl/#dom-label-_or-label-or-domstring-other">this</a>). In the idl section it makes sense to use <code>_or</code>, but it would be nice to refer to the method as <code>or</code> elsewhere (e.g., in examples or other algorithms) while retaining links to the definition. Any thoughts on this?</p>
+    <a href="#issue-b6694352"> ↵ </a>
+   </div>
+   <div class="issue no-marker">
+    <a class="marker" href="https://github.com/tabatkins/bikeshed/issues/516">Issue #516 on GitHub: “Support for NamedConstructor”</a>
+    <p>Bikeshed currently does not have support for named constructors. COWL is currently using static methods to bypass this, but it would be great if we didn't have to. While digging around, I believe there were a few other specs that were doing the same.</p>
+    <p>Thanks! <br> Ref: <a href="https://w3c.github.io/webappsec-cowl/#issue-56e73af5">https://w3c.github.io/webappsec-cowl/#issue-56e73af5</a></p>
+    <a href="#issue-bf105aae"> ↵ </a>
+   </div>
    <div class="issue"> Should the user agent warn the user if the
   server provided an integrity label that it is not
   allowed to provide?<a href="#issue-1b65ed95"> ↵ </a></div>
-   <div class="issue"> Implementation-wise, this may pose a challenge
-  for certain browsers. An alternative design may disallow
-  enabling confinement mode if the browsing context has
-  any references to or from another same-origin content.
-  Feedback on this would be very welcome.<a href="#issue-64db3753"> ↵ </a></div>
-   <div class="issue"> Should COWL restrict communication via less overt
-      channels (e.g., height/width of an iframe, URL fragment, or
-      even)index in <code>window.top.frames</code>)? Maybe as optional
-      modifications to HTML? Feedback on this would be very welcome.<a href="#issue-100c577e"> ↵ </a></div>
-   <div class="issue"> We can be more permissive and allow transferring all but <a data-link-type="dfn" href="#default-privilege">default privileges</a>. Feedback on this would be welcome.<a href="#issue-eb38f690"> ↵ </a></div>
+   <div class="issue no-marker">
+    <a class="marker" href="https://github.com/w3c/webappsec-cowl/issues/33">Issue #33 on GitHub: “Disallow communication via obvious covert channels”</a>
+    <p>Specify changes to HTML that will disallow arbitrary communication via less overt channels (e.g., iframe height/width, URL fragments, etc.). This can be marked as at-risk for now.</p>
+    <a href="#issue-d6b68f03"> ↵ </a>
+   </div>
    <div class="issue"> We can simply disallow leaks via top-level
  navigation at the cost of potentially forcing users to
  navigate away by closing tabs or inputting another URL via

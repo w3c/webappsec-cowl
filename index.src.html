@@ -19,6 +19,7 @@ Indent: 2
 Version History: https://github.com/w3c/webappsec-cowl/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
 !Participate: <a href="https://github.com/w3c/webappsec-cowl/issues/new">File an issue</a> (<a href="https://github.com/w3c/webappsec-cowl/issues">open issues</a>)
+Inline Github Issues: true
 </pre>
 <pre class="anchors">
 spec: CORS; urlPrefix: http://www.w3.org/TR/cors/
@@ -831,9 +832,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       };
     </pre>
 
-    ISSUE: Current WebIDL implementation requires an underscore for
-    certain identifiers. Can we rename <code>_or</code> to
-    <code>or</code>?
+    ISSUE(tabatkins/bikeshed#517): Current WebIDL implementation
+    requires an underscore for certain identifiers. Can we rename
+    <code>_or</code> to <code>or</code>?
 
     <h4 id="label-constructors">Constructors</h4>
     <dl dfn-for="Label">
@@ -1126,8 +1127,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       };
     </pre>
 
-    ISSUE: Bikeshed does not allow WebIDL's NamedConstructor. For now,
-    inlining the constructor as a static method.
+    ISSUE(tabatkins/bikeshed#516): Bikeshed does not allow WebIDL's
+    NamedConstructor. For now, inlining the constructor as a static
+    method.
 
     <h4 id="privilege-constructors">Constructors</h4>
     <dl dfn-for="Privilege">
@@ -2379,20 +2381,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
               origins.  The current version of this document specifies
               this requirement in terms of the <a>sandboxed origin
               browsing context flag</a>.
-
-              ISSUE: Implementation-wise, this may pose a challenge
-              for certain browsers. An alternative design may disallow
-              enabling confinement mode if the browsing context has
-              any references to or from another same-origin content.
-              Feedback on this would be very welcome.
             </div>
 
           * The <a>sandboxed navigation browsing context flag</a>.
 
-      ISSUE: Should COWL restrict communication via less overt
-      channels (e.g., height/width of an iframe, URL fragment, or
-      even)index in <code>window.top.frames</code>)? Maybe as optional
-      modifications to HTML? Feedback on this would be very welcome.
+      ISSUE(w3c/webappsec-cowl#33): COWL should restrict communication
+      via less overt channels (e.g., height/width of an iframe, URL
+      fragment, or even)index in <code>window.top.frames</code>)?
     </section>
 
 </section>
@@ -2591,10 +2586,6 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        <div class="note">
        To prevent attacks that launder page privileges, the current
        version of COWL only allows transferring fresh privileges.
-
-       ISSUE: We can be more permissive and allow transferring all but
-       <a>default privileges</a>. Feedback on this would be welcome.
-       </div>
 
     4. If <var>input</var> is a <a interface>LabeledObject</a> object, let
        <var>output</var> be a newly constructed
@@ -3021,7 +3012,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
   Thanks to Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill, Dave
   Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
-  David Mazières, Devon Rifkin, Alejandro Russo, and Brian Smith for
-  influencing (directly or otherwise) the design of COWL and/or their
-  comments on this document.
+  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the
+  W3C WebAppSec team for influencing (directly or otherwise) the
+  design of COWL and/or their comments on this document.
 </section>
