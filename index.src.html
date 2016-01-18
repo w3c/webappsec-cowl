@@ -2,11 +2,11 @@
 <pre class="metadata">
 Status: ED
 Group: WebAppSec
-TR: http://www.w3.org/TR/COWL/
+TR: https://www.w3.org/TR/COWL/
 ED: https://w3c.github.io/webappsec-cowl/
 Shortname: COWL
 Level: 1
-Editor: Deian Stefan, Stanford University, deian@cs.stanford.edu
+Editor: Deian Stefan, GitStar Inc., deian@gitstar.com
 Abstract:
   This specification defines an API for specifying privacy and
   integrity policies on data, in the form of origin labels, and a
@@ -20,13 +20,14 @@ Version History: https://github.com/w3c/webappsec-cowl/commits/master/index.src.
 Boilerplate: omit conformance, omit feedback-header
 !Participate: <a href="https://github.com/w3c/webappsec-cowl/issues/new">File an issue</a> (<a href="https://github.com/w3c/webappsec-cowl/issues">open issues</a>)
 Inline Github Issues: true
+Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
-spec: CORS; urlPrefix: http://www.w3.org/TR/cors/
+spec: CORS; urlPrefix: https://www.w3.org/TR/cors/
   type: dfn
     text: CORS
     text: Access-Control-Allow-Origin; url: access-control-allow-origin-response-header
-spec: WEBMESSAGING; urlPrefix: http://www.w3.org/TR/webmessaging/
+spec: WEBMESSAGING; urlPrefix: https://www.w3.org/TR/webmessaging/
   type: method
     text: postMessage(); url: dom-window-postmessage
   type: dfn
@@ -35,7 +36,7 @@ spec: WEBMESSAGING; urlPrefix: http://www.w3.org/TR/webmessaging/
     text: Message Port; url: messageport
     text: MessagePort postMessage(); url: dom-messageport-postmessage
     text: cross-document messaging; url: web-messaging
-spec: WORKERS; urlPrefix: http://www.w3.org/TR/workers/
+spec: WORKERS; urlPrefix: https://www.w3.org/TR/workers/
   type: dfn
     text: Worker
     text: Web Worker; url: infrastructure
@@ -43,8 +44,8 @@ spec: CSP2; urlPrefix: https://www.w3.org/TR/CSP2/
   type: dfn
     text: content-security-policy
   type: dfn
-    text: host-source; url: source-list-syntax
-spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
+    text: host-source; url: host_source
+spec: HTML5; urlPrefix: https://www.w3.org/TR/html5/
   type: element-attr
     urlPrefix: embedded-content-0.html
       text: sandbox; for: iframe; url: attr-iframe-sandbox
@@ -74,6 +75,9 @@ spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
       text: strictly split a string
       text: skip whitespace
       text: collect a sequence of characters
+      text: strip leading and trailing whitespace
+      text: strip and collapse whitespace
+      text: ASCII case-insensitive
       text: space characters; url: space-character
     urlPrefix: dom.html
       text: script from reading from or writing to the document.cookie IDL attribute; url: sandboxCookies
@@ -86,7 +90,10 @@ spec: RFC6454; urlPrefix: https://tools.ietf.org/html/rfc6454
   type: dfn
     text: origin; url: section-3.2
     text: globally unique identifier; url: section-2.3
-spec: URL; urlPrefix: http://www.w3.org/TR/url/
+spec: RFC4122; urlPrefix: https://tools.ietf.org/html/rfc4122
+  type: dfn
+    text: UUID; url: section-3
+spec: URL; urlPrefix: https://www.w3.org/TR/url/
   type: interface
     text: URL; url: concept-url
   type: dfn
@@ -137,7 +144,7 @@ spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
 spec: ENCODING; urlPrefix: https://encoding.spec.whatwg.org/
   type: dfn
     text: utf-8 decode; url: utf-8-decode
-spec: WEBSTORAGE; urlPrefix: http://www.w3.org/TR/webstorage/
+spec: WEBSTORAGE; urlPrefix: https://www.w3.org/TR/webstorage/
   type: attribute
     text: localStorage; url: the-localstorage-attribute
 spec: RFC5234; urlPrefix: https://tools.ietf.org/html/rfc5234
@@ -173,7 +180,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   "URL": {
     "authors": [ "Anne van Kesteren", "Sam Ruby" ],
     "title": "URL",
-    "href": "http://www.w3.org/TR/url",
+    "href": "https://www.w3.org/TR/url",
     "status": "WD",
     "publisher": "W3C"
   },
@@ -245,19 +252,18 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   privilege for <code>https://example.com</code>. This gives the page
   the authority to arbitrarily disseminate data sensitive to
   <code>https://example.com</code>; to be backwards-compatible,
-  the page is not confined when reading data sensitive to
+  COWL does not confine the page when reading data sensitive to
   <code>https://example.com</code>.  However, COWL allows the author
   to run the page with "weaker" <a>delegated privileges</a> (e.g., one
   corresponding the current user at <code>https://example.com</code>)
   or to drop the privilege altogether.
 
-  COWL is intended to be used as a defense-in-depth mechanism that can
-  restrict how untrusted&mdash;buggy but not malicious&mdash;code
-  handles sensitive data. Given the complexities of browser
-  implementations and presence of covert channels, malicious code may
-  be able to exfiltrate data. Authors should still use discretionary
-  access control mechanisms, such as CSP and CORS, to restrict access
-  to the data in the first place.
+  COWL is intended to be used as a defense-in-depth mechanism that can restrict
+  how untrusted&mdash;buggy but not malicious&mdash;code handles sensitive
+  data. Given the complexities of browser implementations and the presence of
+  covert channels, malicious code may be able to exfiltrate data. Authors
+  should still use discretionary access control mechanisms, such as CSP and
+  CORS, to restrict access to the data in the first place.
 
   <section>
   <h3 id="goals">Goals</h3>
@@ -327,7 +333,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     var policy = new <a interface>Label</a>(window.location.origin);
 
     // Associate the label with the password:
-    var labeledPassword = new <a interface>LabeledObject</a>(password, {confidentiality: policy});
+    var labeledPassword = new <a interface>LabeledObject</a>(password, { confidentiality: policy });
 
     // Send the labeled password to the checker iframe:
     checker.postMessage(labeledPassword, "https://untrusted.com");
@@ -335,19 +341,18 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     // Register listener to receive a response from checker, etc.
     </code></pre>
 
-    Once the checker inspects the <a>protected object</a>, i.e., the
-    password, COWL limits the iframe to communicating with origins
-    that preserve the password's confidentiality (in this case,
-    <code>https://example.com</code>).  This policy is
-    enforced mandatorily, even if the
-    <code>https://untrusted.com</code> iframe sends the password to
+    Once the checker inspects the label-<a>protected object</a>, i.e., the
+    password, COWL limits the iframe to communicating with origins that
+    preserve the password's confidentiality (in this case,
+    <code>https://example.com</code>).  This policy is enforced mandatorily,
+    even if the <code>https://untrusted.com</code> iframe sends the password to
     yet another iframe.
 
     Note, until the checker actually inspects the labeled password, it
     can freely communicate with any origins, e.g., with
     <code>https://untrusted.com</code>.  This is important since the
     checker may need to fetch resources (e.g., regular expressions) to
-    check the password strength.  This is also safe&mdash;the checker has
+    check the password strength.  It's also safe&mdash;the checker has
     not inspected the sensitive password, and thus need not be
     confined.
   </div>
@@ -360,16 +365,15 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
   <h4 id="examples-mashup">Sharing data with third-party mashups</h4>
 
-  A server operator wishes to provide third-party mashups access to
-  user data. In addition to using CORS response headers to restrict the
-  <a>origins</a> that can access the data [[!CORS]], the operator
-  wishes to restrict how the data is further disseminated by these
-  origins. To do so, the operator sends a response header
-  field named <a href="#response-header"><code>Sec-COWL</code></a>
-  (described in [[#response-header]]) whose value contains the
-  sensitivity of the data in the form of a serialized confidentiality
-  <a>label</a>.  In turn, COWL enforces the label restrictions on the
-  third-party code.
+  A server operator wishes to provide third-party mashups access to user data.
+  In addition to using CORS response headers to restrict the <a>origins</a>
+  that can access the data [[!CORS]], the operator wishes to restrict how the
+  data is further disseminated by these origins once they have access to it, in
+  the browser. To do so, the perator sends a response header field named 
+  <a href="#response-header"><code>Sec-COWL</code></a> (described in 
+  [[#response-header]]) whose value contains the sensitivity of the data in the
+  form of a serialized confidentiality <a>label</a>.  In turn, COWL enforces
+  the label restrictions on the third-party code.
 
   <div class="example">
     The server operator of <code>https://provider.com</code> uses a
@@ -381,7 +385,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     <pre><code>
      <a>Access-Control-Allow-Origin</a>: https://mashup.com
-     <a href="#response-header">Sec-COWL</a>: <a>data-confidentiality</a> [ ["https://provider.com"] ]
+     <a href="#response-header">Sec-COWL</a>: <a>data-confidentiality</a> https://provider.com
     </code></pre>
 
     COWL only allows a <code>https://mashup.com</code> context to read
@@ -389,14 +393,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     are respected, i.e., if the code can only communicate with
     <code>https://provider.com</code>.
 
-    Note, COWL only allows the code to inspect the response if the
-    <a>context labels</a>, which dictate the context's ability to
-    communicate, are more
-    restricting than the labels of the response. A more permissive
-    approach, which does not require the context give up its ability
-    to communicate arbitrarily is to use <a>labeled JSON response</a>.
-    The <a href="#mashup-example-xhr">mashup XHR example</a> shows how
-    authors can accomplish this.
+    Note, COWL only allows the code to inspect the response if the <a>context
+    labels</a>, which dictate the context's ability to communicate, are more
+    restricting than the labels of the response. A more permissive approach,
+    which does not require the context give up its ability to communicate
+    arbitrarily is to use a <a>labeled JSON response</a>.  The <a
+    href="#mashup-example-xhr">mashup XHR example</a> shows how authors can
+    accomplish this.
   </div>
 
   <h4 id="examples-isolation">Content isolation via privilege separation</h4>
@@ -405,7 +408,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   users) while serving it from a single physical <a>origin</a>.  The
   operator can leverage <a>privileges</a> to ensure that content of
   one part of the site has different authority from another and,
-  importantly, does not have authority of the physical origin.
+  importantly, does not have the authority of the physical origin.
   Concretely, when serving content, the operator can set the
   content's <a>context privilege</a> to a weaker, <a>delegated
   privilege</a>. This ensures that the content are privilege
@@ -423,27 +426,26 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     following header is set:
 
     <pre><code>
-     <a href="#response-header">Sec-COWL</a>: <a>ctx-privilege</a> [ ['self', 'cowl://user1'] ]
+     <a href="#response-header">Sec-COWL</a>: <a>ctx-privilege</a> 'self' OR app:user1
     </code></pre>
 
     Having this privilege can be understood as having the authority of
-    <code>user1</code>'s part of the
-    <code>https://university.edu</code> origin.  COWL ensures that the
-    content of this user cannot interfere with the content of
-    <code>https://university.edu</code> or another user
-    e.g.,  <code>user2</code>.  For example, the content cannot modify
+    <code>user1</code>'s part of the application's origin.  COWL ensures that
+    the content of this page cannot interfere with the content of
+    <code>https://university.edu</code> or that of another user e.g.,
+    <code>user2</code>.  For example, the content cannot modify
     <code>https://university.edu</code> cookies or the DOM of another
-    <code>http://university.edu</code> page.
+    <code>https://university.edu</code> page.
 
     This <a>delegated privilege</a> also ensures that the
     content cannot disseminate data sensitive to another user (e.g.,
-    <code>user2</code>) arbitrarily&mdash; without being confined,
+    <code>user2</code>) arbitrarily&mdash;without being confined,
     it can only disseminate <code>user1</code>'s data on
-    <code>http://university.edu</code>.
+    <code>https://university.edu</code>.
     Of course, this requires the server operator to label
     sensitive data (e.g., when sending it to the user agent) appropriately
     (e.g., <code>user2</code>'s data is labeled
-    <code><a>Label</a>("https://university.edu")._or("user2")</code>).
+    <code><a>Label</a>("https://university.edu").or("app:user2")</code>).
 
     The <a  href="#university-example-js">sub-origin isolation in
     JavaScript</a> example shows how this can be implemented using the
@@ -458,13 +460,12 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
   <h4 id="examples-leastpriv">Running content with least-privileges</h4>
 
-  An author wishes to use a library that is tightly coupled with the
-  page (e.g., jQuery), but not trust it to protect the user's
-  confidentiality and integrity. With COWL, the author can do this by
-  loading the untrusted library after <a>dropping privileges</a> (from
-  the context's <a>default privilege</a>).  In doing so, the content
-  (and thus the library) loses its implicit authority over the
-  content's origin.
+  An author wishes to use a library that is tightly coupled with the page
+  (e.g., jQuery), but not trust it to protect the user's confidentiality and
+  integrity. With COWL, the author can do this by <a>dropping privileges</a>
+  (from the context's <a>default privilege</a>) and then loading the untrusted
+  library.  In dropping privileges, the content (and untrusted library) loses
+  its implicit authority over the content's origin.
 
   <div class="example">
     The author of <code>https://example.com</code> can drop privileges
@@ -482,7 +483,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     <a href="#response-header"><code>Sec-COWL</code></a> response header:
 
     <pre><code>
-     <a href="#response-header">Sec-COWL</a>: <a>ctx-privilege</a> [ [] ]
+     <a href="#response-header">Sec-COWL</a>: <a>ctx-privilege</a> 'none'
     </code></pre>
 
     <div class="note">
@@ -543,8 +544,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   1.  An <dfn>origin label</dfn>, or more succinctly a
       <dfn>label</dfn>, encodes either a confidentiality or integrity
       security policy as conjunctive normal form (AND's and OR's)
-      formulae over <a>origin</a>s.  Labels can be associated with
-      <a>contexts</a> or with <a>structurally clonable</a> objects.
+      formulae over <a>principals</a> (typically <a>origin</a>s.)  Labels can
+      be associated with <a>contexts</a> or with <a>structurally clonable</a>
+      objects.
 
       When associated with a <a>context</a>, the label restricts the
       origins that the context can communicate with, as detailed in
@@ -552,7 +554,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
       <div class="example">
         The confidentiality label
-        <code><a interface>Label</a>("https://a.com")._or("https://b.com")</code>,
+        <code><a interface>Label</a>("https://a.com").or("https://b.com")</code>,
         when associated with a context,
         restricts the context to sending data to
         <code>https://a.com</code> or <code>https://b.com</code>, but
@@ -608,8 +610,26 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
           <code>https://a.com</code>) was not tampered.
       </div>
 
-  2.  Mathematically, a label is a <em>conjunctive normal form</em>
-      formula over origins [[DCLabels]].
+  2.  A <dfn>principal</dfn> is a string that represents an authoritative
+      entity. There are three kind of principals:
+      
+      - An <dfn>origin principal</dfn> is the stringified <a>URL</a>
+        (scheme/host/port triple) of an origin.
+
+      - A <dfn>unique principal</dfn> is a stringified <a>globally unique
+        identifier</a> that contains the <code>"unique:"</code> string as a
+        prefix to a <a>UUID</a> (see <a>unique-principal-expression</a>).
+
+      - An <dfn>application-specific principal</dfn> is used by authors to
+        encode application-specific security entities (e.g., users, services);
+        they are strings prefixed by the <code>"app:"</code> string (see
+        <a>app-principal-expression</a>).  Such principals, when used in
+        <a>labels</a>, typically only make sense if combined (e.g., as a
+        disjunction) with <a>origin principals</a> or <a>unique principals</a>.
+
+
+  3.  Mathematically, a label is a <em>conjunctive normal form</em>
+      formula over principals [[DCLabels]].
 
       A label is in <dfn>normal form</dfn> if reducing it according to
       the <a>label normal form reduction</a> algorithm produces the
@@ -638,19 +658,18 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       When reading a <a>labeled object</a>, a context gets
       <dfn>tainted</dfn>, i.e., its <a>context labels</a> are updated by
       invoking <a>context tainting</a> algorithm, to reflect that it
-      has read sensitive (of potentially different trustworthiness)
-      data and should be confined accordingly.
+      has read sensitive data, or data of potentially different
+      trustworthiness, and should be confined accordingly.
 
   <h3 id="key-concepts-privileges">Privileges</h3>
   1.  A <dfn>privilege</dfn> is an unforgeable object that corresponds
       to a <a>label</a>. Privileges are associated with contexts and
       reflect their authority.
 
-      Privileges can be used to bypass confinement restrictions
-      imposed by confidentiality labels.  In particular, a privilege
-      can be used to bypass the restrictions imposed by any label
-      its corresponding label&mdash;the
-      <a>internal privilege label</a>&mdash;subsumes.
+      Privileges can be used to bypass confinement restrictions imposed by
+      confidentiality labels.  In particular, a privilege can be used to bypass
+      the restrictions imposed by any label that is subsumed by the privilege's
+      corresponding label&mdash;the <a>internal privilege label</a>.
 
       <div class="example">
         Consider a context from <code>https://a.com</code> whose
@@ -701,7 +720,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       <div class="example">
         Consider an <code>https://a.com</code> context whose
         <a>current integrity label</a> is
-        <code><a interface>Label</a>("https://a.com")._or("https://b.com")</code>.
+        <code><a interface>Label</a>("https://a.com").or("https://b.com")</code>.
         This label confines the context to only communicating with
         entities that are at most as trustworthy as this
         label. For example, it restricts the context from
@@ -727,7 +746,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         Note, the privilege cannot be used to bypass any integrity
         restrictions.  For example, it does not allow the context to
         communicate with a context whose integrity label is <code><a
-        interface>Label</a>(https://b.com)</code>.
+        interface>Label</a>("https://b.com")</code>.
       </div>
 
       Note, <a>browsing contexts</a> have a <a>current privilege</a>
@@ -773,14 +792,14 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     In a nut-shell, the COWL framework provides:
     <dl>
-      <dt>Policy specification via <a>origin labels</a></dt>
+      <dt>Policy specification via <a>labels</a></dt>
       <dd>
         COWL provides a <a interface>Label</a> interface for specifying
         confidentiality and integrity policies in terms of
-        <a>origins</a>. <a>Labels</a> can be associated with data and
-        content using the JavaScript <a interface>LabeledObject</a> and
-        <a interface>COWL</a> interfaces or the <code>Sec-COWL</code>
-        HTTP header field.
+        <a>principals</a> (typically, <a>origins</a>). <a>Labels</a> can be
+        associated with data and content using the JavaScript <a
+        interface>LabeledObject</a> and <a interface>COWL</a> interfaces or the
+        <code>Sec-COWL</code> HTTP header field.
       </dd>
       <dt>Explicit authority via <a>privileges</a></dt>
       <dd>
@@ -812,14 +831,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     A <a interface>Label</a> MUST have an internal <dfn>label set</dfn>, which is
     a non-empty set of <a>disjunction set</a>s.
 
-    A <dfn>disjunction set</dfn> is a set of <a>origin</a>
-    <a>URL</a>s.
+    A <dfn>disjunction set</dfn> is a set of <a>principals</a>.
 
     A label is said to be an <dfn>empty label</dfn> if its <a>label
       set</a> contains a single, empty <a>disjunction set</a>.
 
     <pre class="idl">
-      [Constructor, Constructor(DOMString origin), Exposed=Window, Worker]
+      [Constructor, Constructor(DOMString principal), Exposed=Window, Worker]
       interface Label {
         boolean equals(Label other);
         boolean subsumes(Label other, optional Privilege priv);
@@ -827,14 +845,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         Label and((Label or DOMString) other);
         Label _or((Label or DOMString) other);
 
-        object toJSON();
-        [Throws] static Label fromJSON(object obj, optional DOMString self);
+        stringifier;
       };
     </pre>
-
-    ISSUE(tabatkins/bikeshed#517): Current WebIDL implementation
-    requires an underscore for certain identifiers. Can we rename
-    <code>_or</code> to <code>or</code>?
 
     <h4 id="label-constructors">Constructors</h4>
     <dl dfn-for="Label">
@@ -843,27 +856,24 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         When invoking the <a>Label()</a> constructor, the user agent
         MUST return a new <a>empty label</a>.
       </dd>
-      <dt><dfn constructor>Label(DOMString origin)</dfn></dt>
+      <dt><dfn constructor>Label(DOMString principal)</dfn></dt>
       <dd>
-        When invoking the <a>Label(origin)</a> constructor, the user agent
+        When invoking the <a>Label(principal)</a> constructor, the user agent
         MUST use an algorithm equivalent to the following:
 
-        1. If the <a argument for="Label/Label(origin)">origin</a>
-           argument is not a <a>URL</a>, the constructor MUST throw a
+        1. If the <a argument for="Label/Label(principal)">principal</a>
+           argument is not a <a>principal</a>, the constructor MUST throw a
            <code>TypeError</code> exception [[!ECMA-262]] and
            terminate this algorithm.
 
         2. Else, it MUST return a new <a>Label</a> that contains a
            <a>label set</a> of a single <a>disjunction set</a>, which
-           itself MUST contain the <a>URL</a> corresponding to the
-           <a>origin</a> of the parameter.
+           itself MUST contain the <a>principal</a> corresponding to the
+           <a argument for="Label/Label(principal)">principal</a> argument.
       </dd>
-
-      ISSUE(w3c/webappsec-cowl#38): Change definition to not force
-      "origins".
     </dl>
 
-    <h4 id="labe-methods">Methods</h4>
+    <h4 id="label-methods">Methods</h4>
     <dl dfn-for="Label">
       <dt><dfn method title="equals(other)">equals(Label other)</dfn></dt>
       <dd>
@@ -911,7 +921,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
            <var>O</var> and the <a interface>Label</a> on which
            the method was invoked.
       </dd>
-      <dt><dfn method title="_or(other)">_or((Label or DOMString) other)</dfn></dt>
+      <dt><dfn method title="or(other)">or((Label or DOMString) other)</dfn></dt>
       <dd>
         The user agent MUST use an algorithm equivalent to the following:
 
@@ -934,73 +944,41 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
            each <a>disjunction set</a> of the <a>label set</a> of the
            <a interface>Label</a> on which the method was called.
       </dd>
-      <dt><dfn method title="toJSON()">toJSON()</dfn></dt>
-      <dd>
-        The user agent MUST use an algorithm equivalent to the following:
+    </dl>
+      <h4 id="label-stringifer">Serializing labels</h4>
 
-        1. Let <var>JSON lset</var> be a new <a>JSON array</a>.
+      The <dfn dfn for="Label">stringification behavior</dfn> MUST return the
+      serialization of the label, which adheres to the <a>label-expression</a>
+      grammar, using an algorithm equivalent to the following:
 
-        2. For each <a>disjunction set</a> <var>dset</var> in the
-           <a>label set</a> of the <a>label</a>, this method was invoked on:
+      1. Let <var>label</var> be the label being serialized.
 
-           1. Let <var>JSON dset</var> be a JSON array of strings,
-              each corresponding to an origin in <var>dset</var>.
+      2. If <var>label</var> is the <a>empty label</a>, return `"'none'"` and
+         terminate this algorithm.
 
-           2. Append <var>JSON dset</var> to the <var>JSON lset</var> array.
+      3. Let <var>result</var> be the empty string.
 
-        3. Return <var>JSON lset</var>.
-      </dd>
-      <dt><dfn method title="fromJSON(object obj, optional DOMString self)">fromJSON(obj, self)</dfn></dt>
-      <dd>
-        The user agent MUST use an algorithm equivalent to the following:
+      3. For each element <var>dset</var> in the <var>label</var>'s <a>label set</a>:
 
-        1. If <a argument for="Label/fromJSON(obj, self)">obj</a> is not
-           a <a>JSON array</a> of entries, each of which is a <a>JSON
-           array</a> of strings, throw a <code>TypeError</code>
-           exception [[!ECMA-262]] and terminate this algorithm.
+         1. If <var>result</var> is not the empty string, append the characters `" AND "` to it.
 
-        2. Let <var>self</var> be null.
+         1. Append the character "(" (U+0028) to <var>result</var>.
 
-        3. If the <a argument for="Label/fromJSON(obj, self)">self</a>
-           argument is provided:
+         2. Append the character  " " (U+0020) to <var>result</var>.
 
-           1. If the argument is not a <a>URL</a>, the function
-              MUST throw a <code>TypeError</code> exception [[!ECMA-262]] and
-              terminate this algorithm.
+         3. Let <var>o</var> be the empty string.
 
-           2. Else, set <var>self</var> to the <a argument for="Label/fromJSON(obj, self)">self</a> argument.
+         4. For each element <var>prin</var> in the <a>disjunction set</a> <var>dset</var>:
 
-        4. Let <var>lab</var> be a new <a>empty label</a>.
+            1. If <var>o</var> is not the empty string, append the characters `" OR "` to it.
 
-        5. For each array element <var>dset</var> of <a argument for="Label/fromJSON(obj, self)">obj</a>:
+            2. Append <var>prin</var> to <var>o</var>.
 
-           1. Let <var>dset label</var> be a new empty label.
+         5. Append <var>o</var> to <var>result</var>.
 
-           2. For each string <var>str</var> of <var>dset</var>:
+         6. Append the character  " " (U+0020) to <var>result</var>.
 
-              1. If <var>str</var> is <code>"unique"</code>,
-                 let <var>origin</var> be a <a>globally unique identifier</a>.
-
-                 <div class="note">
-                   Much like <a>FreshPrivilege()</a>,
-                   <code>"unique"</code> is used to create a label
-                   component that is globally unique.
-                 </div>
-
-              2. Else, if <var>str</var> is <code>"self"</code> and <var>self</var> is not null,
-                 let <var>origin</var> be <var>self</var>.
-
-              3. Else, if <var>str</var> is a <a>URL</a>,
-                 let <var>origin</var> be <var>str</var>.
-
-              4. Else, throw a <code>TypeError</code> exception [[!ECMA-262]] and
-                 terminate this algorithm.
-
-              5. Let <var>dset label</var> be <code><var>dset label</var>.<a>_or(<var>origin</var>)</a></code>
-
-           3. Let <var>lab</var> be <code><var>lab</var>.<a>and(<var>dset label</var>)</a></code>
-
-      </dd>
+         7. Append the character  ")" (U+0029) to <var>result</var>.
     </dl>
 
     <h4 id="label-examples">Examples</h4>
@@ -1028,7 +1006,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
       // C: Data confidential to either a.com or b.com.
       // I: Data endorsed/trusted by either a.com or b.com.
-      var aORb = new <a interface>Label</a>("https://a.com")._or("https://b.com");
+      var aORb = new <a interface>Label</a>("https://a.com").or("https://b.com");
       </code></pre>
       Examples of label comparisons with intuition for the semantics.
       <pre><code>
@@ -1063,30 +1041,19 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     </div>
 
     <div class="example">
-      Using the labels defined in the above example, this example
-      shows how labels are serialized/deserialized. We only define an
-      additional label:
+      Using the labels defined in the above example, this example shows how
+      labels are serialized. We only define an additional label:
       <pre><code>
       var aORbANDc = aORb.and(new <a interface>Label</a>("https://c.com");
       </code></pre>
 
-      Converting to JSON:
+      Converting to string:
       <pre><code>
-      JSON.stringify(empty)    === '[[]]';
-      JSON.stringify(a)        === '[["https://a.com"]]';
-      JSON.stringify(aANDb)    === '[["https://a.com"], ["https://b.com"]]';
-      JSON.stringify(aORb)     === '[["https://a.com", "https://b.com"]]';
-      JSON.stringify(aORbANDc) === '[["https://a.com", "https://b.com"], ["https://c.com"]]';
-      </code></pre>
-      Converting from JSON:
-      <pre><code>
-      <a interface>Label</a>.fromJSON([[]]).equals(empty) === true;
-      <a interface>Label</a>.fromJSON([["https://a.com"]]).equals(a) === true;
-      <a interface>Label</a>.fromJSON([["https://a.com"], ["https://b.com"]]).equals(aANDb) === true;
-      <a interface>Label</a>.fromJSON([["https://a.com", "https://b.com"]]).equals(aORb) === true;
-      <a interface>Label</a>.fromJSON([["https://a.com", "https://b.com"], ["https://c.com"]]).equals(aORbANDc) === true;
-      <a interface>Label</a>.fromJSON([["self"]], "https://a.com").equals(a) === true;
-      <a interface>Label</a>.fromJSON([["unique"]]).equals(<a interface>Label</a>.fromJSON([["unique"]])) === false;
+      empty.toString()    === "'none'";
+      a.toString()        === "https://a.com";
+      aANDb.toString()    === "(https://a.com) AND (https://b.com)";
+      aORb.toString()     === "https://a.com OR https://b.com";
+      aORbANDc.toString() === "(https://a.com OR https://b.com) AND (https://c.com)";
       </code></pre>
     </div>
   </section>
@@ -1130,18 +1097,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       };
     </pre>
 
-    ISSUE(tabatkins/bikeshed#516): Bikeshed does not allow WebIDL's
-    NamedConstructor. For now, inlining the constructor as a static
-    method.
-
     <h4 id="privilege-constructors">Constructors</h4>
     <dl dfn-for="Privilege">
       <dt><dfn constructor>Privilege()</dfn></dt>
       <dd>
         When invoking the <a>Privilege()</a> constructor, the user
-        agent MUST return a new <a interface>Privilege</a> that has an
-      <a>internal privilege label</a> set to
-      <code><a>Label()</a></code>.
+        agent MUST return a new <a interface>Privilege</a> that has its
+        <a>internal privilege label</a> set to the <a>empty-label</a>.
       </dd>
       <dt><dfn method title="FreshPrivilege()">FreshPrivilege()</dfn></dt>
       <dd>
@@ -1149,12 +1111,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         When invoking the <a>FreshPrivilege()</a> constructor, the user
         agent MUST use an algorithm equivalent to the following:
 
-        1. Let <var>unique Label</var> be the label produced by invoking the
-           <a>Label(other)</a> constructor with a <a>globally unique
-           identifier</a>.
+        1. Let <var>unique principal</var> be a freshly generated <a>unique principal</a>.
+        
+        2. Let <var>unique label</var> be the label produced by invoking the
+           <a>Label(principal)</a> constructor with <var>unique principal</var>.
 
-        2. Return a new <a interface>Privilege</a> that has an
-           <a>internal privilege label</a> set to <var>unique Label</var>.
+        3. Return a new <a interface>Privilege</a> that has an
+           <a>internal privilege label</a> set to <var>unique label</var>.
 
       </dd>
     </dl>
@@ -1286,7 +1249,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         // Create a label corresponding to the university origin:
         var uni = new <a interface>Label</a>(window.location.origin);
         // Create a new label that corresponds to user1's data on university.edu:
-        var user1 = uni._or("cowl://user1"); // Here the cowl:// is an arbitrary <a>scheme</a>
+        var user1 = uni.or("app:user1"); // Here the app:user1 is an application-specific princial
 
         // Originally, COWL.privilege.asLabel().equals(uni).
         // Drop the current <a>context privilege</a> to a delegated privilege:
@@ -1295,13 +1258,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
       At this point, the context can only arbitrarily disseminate data
       that is labeled
-      <code><a interface>Label</a>("https://university.edu")._or("cowl://user1")</code>;
+      <code><a interface>Label</a>("https://university.edu").or("app:user1")</code>;
       it cannot disseminate data that is
       sensitive to the university (e.g., which is labeled
       <code><a interface>Label</a>("https://university.edu")</code>)
       or to another user (e.g., <code>user2</code>'s data is
       labeled
-      <code><a interface>Label</a>("https://university.edu")._or("cowl://user2")</code>).
+      <code><a interface>Label</a>("https://university.edu").or("app:user2")</code>).
     </div>
   </section>
 
@@ -1370,6 +1333,25 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         sensitivity (and integrity) of the data they are sharing.
     </div>
 
+    When confinement mode is enabled, COWL restricts the code running in the
+    context from communicating with other contexts or remote servers in a way
+    that preserves confidentiality and integrity (see [[#enforcement]]). Since
+    navigation is a form of communication channel, COWL naturally disallows
+    code from navigating to certain <a>origins</a> if doing so would result in
+    a leak.
+
+    We say that a context is <dfn>stuck</dfn> if it cannot navigate to
+    <em>any</em> origin. This occurs when the <a>label set</a> of the context's
+    <a>effective confidentiality label</a> either contains more than one
+    <a>disjunction set</a>, or it contains a single <a>disjunction set</a> with
+    no <a>origin principals</a>.
+
+    <div class="note">
+      To avoid scenarios wherein a top-level page cannot be navigated, COWL has
+      the invariant that <a>top-level browsing contexts</a> never get
+      <a>stuck</a>.
+    </div>
+
     Each context's <a>COWL state</a> is made available via the <a
     interface>COWL</a> interface defined below.
 
@@ -1397,19 +1379,35 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         * On setting, the user agent MUST use an algorithm equivalent
           to the following:
 
-          0. Enable <a>confinement mode</a>.
+          1. Enable <a>confinement mode</a>.
 
-          1. Let <var>conf</var> be the set confidentiality label.
+          2. Let <var>conf</var> be the set confidentiality label.
 
-          2. Let <var>canWrite</var> be the result of invoking
+          3. Let <var>canWrite</var> be the result of invoking
              the <a>write check</a> algorithm with <var>conf</var>
              and the <a>current integrity label</a>.
 
-          3. If <var>canWrite</var> is <code>false</code>, throw a
+          4. If <var>canWrite</var> is <code>false</code>, throw a
              <code>SecurityError</code> exception and terminate this
              algorithm.
 
-          4. Else, set the <a>current confidentiality label</a> to <var>conf</var>.
+          5. If the current context is a <a>top-level browsing context</a> and
+             setting the <a>current confidentiality label</a> to
+             <var>conf</var> would result in a <a>stuck</a> context, throw a
+             <code>SecurityError</code> exception and terminate this algorithm.
+
+             <div class="note">
+               To make it easier for developers to debug applications, the user
+               agent SHOULD report a message to inform developers that they can
+               create a child context (e.g., an iframe) for which this
+               restriction does not apply.
+             </div>
+
+             Note, this step ensures that top-level pages never raise the
+             context confidentiality labels in a way that would prevent the
+             page from being able to navigate.
+
+          6. Else, set the <a>current confidentiality label</a> to <var>conf</var>.
 
       </dd>
       <dt><dfn attribute title="COWL/integrity">integrity</dfn></dt>
@@ -1421,19 +1419,19 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         * On setting, the user agent MUST use an algorithm equivalent
           to the following:
 
-          0. Enable <a>confinement mode</a>.
+          1. Enable <a>confinement mode</a>.
 
-          1. Let <var>int</var> be the set integrity label.
+          2. Let <var>int</var> be the set integrity label.
 
-          2. Let <var>canWrite</var> be the result of invoking the
+          3. Let <var>canWrite</var> be the result of invoking the
              <a>write check</a> algorithm with the <a>current
              confidentiality label</a> and <var>int</var>.
 
-          3. If <var>canWrite</var> is <code>false</code>,
+          4. If <var>canWrite</var> is <code>false</code>,
              throw a <code>SecurityError</code>
              exception and terminate this algorithm.
 
-          4. Else, set the <a>current integrity label</a> to <var>int</var>.
+          5. Else, set the <a>current integrity label</a> to <var>int</var>.
 
       </dd>
       <dt><dfn attribute title="COWL/privilege">privilege</dfn></dt>
@@ -1442,8 +1440,29 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         * On getting, the user agent MUST return the <a>current
           privilege</a>.
 
-        * On setting, the user agent MUST enable <a>confinement mode</a>
-          and set the <a>current privilege</a> to the set privilege.
+        * On setting, the user agent MUST use an algorithm equivalent to the following:
+        
+          1. Enable <a>confinement mode</a>.
+
+          2. Let <var>priv</var> be the set privilege.
+
+          3. If the current context is a <a>top-level browsing context</a> and
+             setting the <a>current privilege</a> to <var>priv</var>
+             would result in a <a>stuck</a> context, throw a
+             <code>SecurityError</code> exception and terminate this algorithm.
+
+             <div class="note">
+               To make it easier for developers to debug applications, the user
+               agent SHOULD report a message to inform developers that they can
+               create a child context (e.g., an iframe) for which this
+               restriction does not apply.
+             </div>
+
+             Note, this step ensures that top-level pages never raise the
+             context confidentiality label and then drop privilege in a way
+             that would prevent the page from being able to navigate.
+          
+          4. Set the <a>current privilege</a> to <var>priv</var>.
 
       </dd>
     </dl>
@@ -1616,7 +1635,20 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         1. Invoke the <a>context tainting</a> algorithm with the <a
            interface>LabeledObject</a>'s confidentiality and integrity labels.
 
-        3. Return <a interface>LabeledObject</a>'s <a>protected object</a>.
+        2. If the tainting algorithm raised an exception, re-throw the
+           exception and terminate this algorithm.
+
+           <div class="note">
+             The tainting algorithm fails if code in a <a>top-level browsing
+             context</a> tries to read overly-sensitive data, i.e., data that
+             would result in it getting <a>stuck</a>.  To make it easier for
+             developers to debug such cases, the user agent SHOULD report a
+             message to inform developers that they can create child contexts
+             (e.g., iframes) wherein they can inspect such sensitive objects
+             instead.
+           </div>
+
+        3. Else, return the <a interface>LabeledObject</a>'s <a>protected object</a>.
 
       </dd>
     </dl>
@@ -1661,13 +1693,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       3. Let <var>newConf</var> be the <a dict-member
          for="CILabel">confidentiality</a> member of the <a argument
          for="LabeledObject/clone(labels)">labels</a> argument, if it is
-         set.  Otherwise, let <var>newConf</var> be <var>conf</conf>.
+         set.  Otherwise, let <var>newConf</var> be <var>conf</var>.
 
       4. Let <var>newInt</var> be the <a dict-member
           for="CILabel">integrity</a> member of the <a argument
           for="LabeledObject/clone(labels)">labels</a>
           parameter, if it is set.  Otherwise, let <var>newInt</var> be
-          <var>int</conf>.
+          <var>int</var>.
 
       5. Let <var>privs</var> be the <a>internal privilege
          label</a> of the current <a>context privileges</a>.
@@ -1705,10 +1737,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       The author of <code>https://police.gov</code> wishes to plot the
       location of police cars on a map provided by
       <code>https://maps.biz</code> without revealing the individual
-      car locations. After revealing the general area to
+      car locations (to the map provider). After revealing the general area to
       <code>https://maps.biz</code>, the author of
-      <code>https://police.gov</code> labels the police car
-      coordinates and sends them to the mapping service:
+      <code>https://police.gov</code> labels the police car coordinates and
+      sends them to the mapping service:
 
       <pre><code>
 
@@ -1717,13 +1749,14 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
         var locations = ... // Array of police-car coordinates
 
-        // Label the locations:
+        // Label the locations (as being sensitive to the police origin):
         var labeledLocations = new <a interface>LabeledObject</a>(locations,
                                      { confidentiality: new <a interface>Label</a>(window.location.origin) });
 
-        // Send the labeled locations and plot them
+        // Send the labeled locations to the map iframe to plot them
         mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin);
       </code></pre>
+
       When receiving a <code>draw</code> message, the author of
       <code>https://maps.biz</code> navigates the iframe map (a nested
       context) to draw the map; otherwise, it simply forwards messages
@@ -1760,21 +1793,22 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     <div class="example">
       The author of <code>https://example.com</code> wishes to ensure
       that a particular JSON object conforms to a set of validation
-      filters before submitting it to a remote server.  (Consider, for
+      filters before submitting it to a remote server.  Consider, for
       example, a form validator that checks if an email address is
-      valid.) To this end, it labels the JSON and sends the <a>labeled
+      valid. To this end, it labels the JSON and sends the <a>labeled
       object</a> to (e.g., a Worker or iframe) that performs the
       validation.
 
       The validation author inspects the object, but only endorses it
-      if it conforms to the spec:
+      if it it is an email:
       <pre><code>
       function handler(lObj) {
-        if (validateA(lObj.<a attribute>protectedObject</a>)) {
-          var origin = ... ; // current origin (e.g., window.location.origin)
-          var endorsement = new <a interface>Label</a>(origin)._or('cowl://validate-A');
+        if (isValidEmail(lObj.<a attribute>protectedObject</a>)) {
+          var origin = window.location.origin;
+          // Endorse with application-specific label: '<validator-origin> OR app:isValidEmail'
+          var endorsement = new <a interface>Label</a>(origin).or('app:isValidEmail');
           // Return a clone of the labeled object that is additionally
-          // endorsed by the current (sub-)origin.
+          // endorsed by the validator's (sub-)origin.
           return lObj.clone({ integrity: lObj.integrity.and(endorsement) });
         } else {
           return null;
@@ -1782,9 +1816,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       }
       </code></pre>
       The author of <code>https://example.com</code> can then pass the
-      endorsed object to other validators or end-point (e.g., a
-      server), who can, in turn, further endorse the object or verify
-      the origins that have endorsed it.
+      endorsed object to other validators (e.g., a validator that checks emails
+      against a black-list) or end-point (e.g., a server), who can, in turn,
+      further endorse the object or verify the origins that have endorsed it.
     </div>
 
   </section>
@@ -1809,7 +1843,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     <pre>
       <dfn>ctx-metadata</dfn>        = <a>ctx-directive</a> *( ";" [ <a>ctx-directive</a> ] )
-      <dfn>ctx-directive</dfn>       = *<a>WSP</a> <a>ctx-directive-name</a> 1*<a>WSP</a> <a>label-set</a>
+      <dfn>ctx-directive</dfn>       = *<a>WSP</a> <a>ctx-directive-name</a> 1*<a>WSP</a> <a>label-expression</a>
       <dfn>ctx-directive-name</dfn>  = "<dfn>ctx-confidentiality</dfn>" / "<dfn>ctx-integrity</dfn>" / "<dfn>ctx-privilege</dfn>"
     </pre>
 
@@ -1820,18 +1854,34 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     <pre>
       <dfn>data-metadata</dfn>       = <a>data-directive</a> *( ";" [ <a>data-directive</a> ] )
-      <dfn>data-directive</dfn>      = *<a>WSP</a> <a>data-directive-name</a> 1*<a>WSP</a> <a>label-set</a>
+      <dfn>data-directive</dfn>      = *<a>WSP</a> <a>data-directive-name</a> 1*<a>WSP</a> <a>label-expression</a>
       <dfn>data-directive-name</dfn> = "<dfn>data-confidentiality</dfn>" / "<dfn>data-integrity</dfn>"
     </pre>
 
     The ABNF for <dfn>serialized labels</dfn> is:
 
     <pre>
-      <dfn>label-set</dfn>           = "[" <a>disjunction-set</a> *( "," [ <a>disjunction-set</a> ] ) "]" / <a>empty-label</a>
-      <dfn>disjunction-set</dfn>     = "[" [ <a>source-expression</a> *( "," [ <a>source-expression</a> ] ) ] "]"
-      <dfn>source-expression</dfn>   = "'self'" / <a>host-source</a>
-      <dfn>empty-label</dfn>         = "[" *<a>WSP</a> "[" *<a>WSP</a> "]" *<a>WSP</a> "]"
+      <dfn>label-expression</dfn>   = <a>empty-label</a> / <a>and-expression</a> / <a>or-expression</a> / <a>principal-expression</a>
+      <dfn>and-expression</dfn>     = *<a>WSP</a> "(" <a>or-expression</a> *<a>WSP</a> ")" *( 1*<a>WSP</a> "AND" <a>WSP</a> <a>and-expression</a> )
+      <dfn>or-expression</dfn>      = *<a>WSP</a> <a>principal-expression</a> *( 1*<a>WSP</a> "OR" <a>WSP</a> <a>or-expression</a> ) 
+      <dfn>empty-label</dfn>        = "<dfn>'none'</dfn>"
     </pre>
+
+    Note, the ABNF grammar limits the expression of labels to conjunctions of
+    disjunctions, even though the JavaScript API allows AND's and OR's to be
+    used interchangably. This is done to simplify auditing of declarative
+    (header) labels, but may be changed in future versions to be more flexible.
+
+    The ABNF for serialized <a>principals</a> is:
+    <pre>
+      <dfn>principal-expression</dfn>        = <a>origin-principal-expression</a> 
+                                  / <a>app-principal-expression</a> 
+                                  / <a>unique-principal-expression</a>
+      <dfn>origin-principal-expression</dfn> = "<dfn>'self'</dfn>" / <a>host-source</a>
+      <dfn>app-principal-expression</dfn>    = "app:" 1*( <a>ALPHA</a> / <a>DIGIT</a> / "-" )
+      <dfn>unique-principal-expression</dfn> = "unique:" <a>UUID</a>
+    </pre>
+
 
     The parsing algorithms for <a>label metadata</a> are given in
     [[#parse-labeled-metadata-data]] and [[#parse-labeled-metadata-ctx]].
@@ -1842,8 +1892,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       The ABNF for <code>Sec-COWL</code> HTTP requests is:
 
       <pre>
-        "Sec-COWL:" ( <a>ctx-metadata</a> [ "," <a>data-metadata</a> ] ) /
-                    ( <a>data-metadata</a> [ "," <a>ctx-metadata</a> ] )
+        "Sec-COWL:" ( <a>ctx-metadata</a> [ "," <a>data-metadata</a> ] ) / ( <a>data-metadata</a> [ "," <a>ctx-metadata</a> ] )
       </pre>
 
       The user agent MUST send a header field named <code>Sec-COWL</code>
@@ -1863,23 +1912,23 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
 
       <div class="example">
-        Request header from a <code>http://a.com</code> page that has
-        read data sensitive to <code>http://b.com</code>.
+        Request header from a <code>https://a.com</code> page that has
+        read data sensitive to <code>https://b.com</code>.
         <pre><code>
-        Sec-COWL: <a>ctx-confidentiality</a> [ ['https://b.com'] ];
-                  <a>ctx-integrity</a> [ [] ];
-                  <a>ctx-privilege</a> [ ['https://a.com'] ];
+        Sec-COWL: <a>ctx-confidentiality</a> https://b.com;
+                  <a>ctx-integrity</a> 'none';
+                  <a>ctx-privilege</a> https://a.com
         </code></pre>
       </div>
       <div class="example">
         A request sent from a public, untrustworthy
-        <code>http://university.edu</code> context that <a>owns</a> a
-        <a>delegated privilege</a> and a <a>FreshPrivilege()</a>.
+        <code>https://university.edu</code> context that <a>owns</a> a
+        <a>delegated privilege</a> and a <a>FreshPrivilege()</a>:
 
         <pre><code>
-        Sec-COWL: <a>ctx-confidentiality</a> [ [] ];
-                  <a>ctx-integrity</a> [ [] ];
-                  <a>ctx-privilege</a> [ ['http://university.edu', 'cowl://user1'], ['cowl://a0281e1f-8412-4068-a7ed-e3f234d7fd5a'] ];
+        Sec-COWL: <a>ctx-confidentiality</a> 'none';
+                  <a>ctx-integrity</a> 'none';
+                  <a>ctx-privilege</a> (https://university.edu OR app:user1) AND (unique:a0281e1f-8412-4068-a7ed-e3f234d7fd5a)
         </code></pre>
       </div>
 
@@ -1910,20 +1959,20 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         An author may wish to specify that the
         <code>https://university.edu/~user1</code> page should run with
         a delegated privilege&mdash;namely,
-        <code><a interface>Label</a>("https://university.edu/")._or("cowl://user1")</code>&mdash;from
+        <code><a interface>Label</a>("https://university.edu/").or("app:user1")</code>&mdash;from
          the start:
         <pre><code>
-        Sec-COWL: <a>ctx-privilege</a> [ ['self', 'cowl://user1'] ];
+        Sec-COWL: <a>ctx-privilege</a> 'self' OR app:user1;
         </code></pre>
       </div>
       <div class="example">
-        The author of <code>http://a.com</code> may wish to respond to a
+        The author of <code>https://a.com</code> may wish to respond to a
         request with data that is sensitive to both <code>https://a.com</code> and
         <code>https://b.com</code>, while simultaneously indicating that
         it endorses the response data:
         <pre><code>
-        Sec-COWL: <a>data-confidentiality</a> [ ['https://a.com'], ['https://b.com'] ];
-                  <a>data-integrity</a> [ ['https://a.com'] ];
+        Sec-COWL: <a>data-confidentiality</a> 'self' AND https://b.com;
+                  <a>data-integrity</a> 'self'
         </code></pre>
         COWL blocks the response unless the current context's labels
         are at least as restricting.
@@ -1969,25 +2018,23 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       4. Let <var>privs</var> be the current <a>context privileges</a>.
 
       5. Let <var>remoteConf</var> be the <a>label</a>
-         returned by the <a>Label(origin)</a> constructor
-         called with the
+         returned by the <a>Label(principal)</a> constructor
+         called with the stringified origin
          <a href="https://fetch.spec.whatwg.org/#concept-request-url">url</a>
          associated with the <a>request</a>.
 
-      6. If <code><var>responseConf</var>.subsumes(<var>conf</var>,
+      6. If <code><var>remoteConf</var>.subsumes(<var>conf</var>,
          <var>privs</var>)</code> returns <code>false</code>, throw
          a <code>SecurityError</code> and terminate this algorithm.
 
-         <div class="note">
-           The user agent SHOULD warn the user that the script
-           attempted to leak data to a remote server.
-         </div>
+         The user agent SHOULD report a warning that the context
+         attempted to leak data to a remote server.
 
       7. Let <var>json</var> be a new <a>JSON</a> object with the
          following entries:
 
-         * <code>"confidentiality"</code> set to <var>conf</var>.<a>toJSON()</a>.
-         * <code>"integrity"</code> set to <var>int</var>.<a>toJSON()</a></code>.
+         * <code>"confidentiality"</code> set to the serialized <var>conf</var>.
+         * <code>"integrity"</code> set to the the serialized <var>int</var>.
          * <code>"object"</code> set to <var>obj</var>.
 
       8. Set the <code>Content-Type</code> <a>header</a> to <code>`application/labeled-json`</code>.
@@ -2024,12 +2071,12 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       endorsed by <code>https://validator.com</code>:
       <pre><code>
       // Suppose that labeledObject is a public, high-integrity value:
-      JSON.stringify(labeledObject.confidentiality) === '[[]]';
-      JSON.stringify(labeledObject.integrity) === '[["https://validator.com"]]';
+      labeledObject.confidentiality.toString() === "'none'";
+      labeledObject.integrity.toString() === "https://validator.com";
 
       // Create an XHR request:
       var req = new XMLHttpRequest()
-      req.open("POST", "https://example.com/...");
+      req.open("POST", "https://example.com/");
 
       // Send the labeled object:
       req.send(labeledObject);
@@ -2038,17 +2085,17 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       <code><a>send()</a></code> would make an HTTP request of the form:
 
       <pre><code>
-      Sec-COWL: <a>ctx-confidentiality</a> [[]];
-                <a>ctx-integrity</a> [[]];
-                <a>ctx-privilege</a> [["https://example.com"]];
-      Sec-COWL: <a>data-confidentiality</a> [[]];
-                <a>data-integrity</a> [["https://validator.com"]];
+      Sec-COWL: <a>ctx-confidentiality</a> 'none';
+                <a>ctx-integrity</a> 'none';
+                <a>ctx-privilege</a> https://example.com
+      Sec-COWL: <a>data-confidentiality</a> 'none';
+                <a>data-integrity</a> https://validator.com
       Content-Type: application/labeled-json;
 
       {
-        "confidentiality": [[]],
-        "integrity": [["https://validator.com"]],
-        "object": ...
+        "confidentiality": "'none'",
+        "integrity": "https://validator.com",
+        "object": ... JSON object ...
       }
       </code></pre>
       The server can then verify the integrity label of the request
@@ -2110,36 +2157,34 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
                 <a href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>
                 associated with the <a>response</a>.
 
-            9. Let <var>conf</var> be the <a>label</a>
-               returned by calling the <a>fromJSON()</a> function with
-               the <code>"confidentiality"</code> entry of the
-               <var>JSON object</var> and <var>self</var>.  If the
-               function threw an exception, return null.
+            9. Let <var>conf</var> be the <a>label</a> returned by invoking the 
+               [[#parse-label-expression]] algorithm with the
+               <code>"confidentiality"</code> entry of the <var>JSON object</var>
+               and <var>self</var>.  If parsing failed, return null.
 
-            10. Let <var>int</var> be the <a>label</a>
-                returned by calling the <a>fromJSON()</a> function
-                with the <code>"integrity"</code> entry of the
-                <var>JSON object</var> and <var>self</var>.  If the
-                function threw an exception, return null.
+            10. Let <var>int</var> be the <a>label</a> returned by invoking the
+                [[#parse-label-expression]] algorithm with the
+                <code>"integrity"</code> entry of the <var>JSON object</var>
+                and <var>self</var>.  If parsing failed, return null.
 
             11. Let <var>responseInt</var> be the <a>label</a>
-                returned by the <a>Label(origin)</a> constructor
+                returned by the <a>Label(principal)</a> constructor
                 called with <var>self</var>.
 
             12. If <var>responseInt</var> does not subsume
                 <var>int</var>, return null.
 
-                ISSUE: Should the user agent warn the user if the
-                server provided an integrity label that it is not
-                allowed to provide?
+                The user agent SHOULD report a warning message indicating that
+                the server provided an integrity label that it is not allowed
+                to provide.
 
-            13. Set the <a>labeled JSON response</a> to a newly
+            13. Set the <a>response LabeledObject object</a> to a newly
                 created <a interface>LabeledObject</a> whose
                 <a>protected object</a> is <var>protected object</var>,
-                confidentiality label is <var>conf</var>, and
-                integrity label is <var>int</var>.
+                whose confidentiality label is <var>conf</var>, and
+                whose integrity label is <var>int</var>.
 
-            14. Return the <a>labeled JSON response</a>.
+            14. Return the <a>response LabeledObject object</a>.
 
       3. Modify the <a attribute>response</a> attribute by
          adding the following clause to step 2 of the
@@ -2152,6 +2197,7 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
          following sub-step:
 
          * Set <a>response LabeledObject object</a> to null.
+
 
     <h5 id="labeledobject-xhr-receive-example">Examples</h5>
     <div class="example" id="mashup-example-xhr">
@@ -2175,15 +2221,20 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        Content-Type: application/labeled-json;
 
        {
-         "confidentiality": [[]],
-         "integrity": [["https://provider.com"]],
-         "object": ...
+         "confidentiality": "'self'",
+         "integrity": "'self'",
+         "object": ... JSON object ...
        }
       </code></pre>
 
       The confidentiality label specifies that the object is
       confidential to <code>https://provider.com</code> and should
       not be disseminated arbitrarily.
+
+      Note, the server operator can also set a <a
+      href="#response-header"><code>Sec-COWL</code></a> response header if it
+      wished to ensure that the context is already confined according to some
+      label.
 
       The author of <code>https://mashup.com</code> can read such
       labeled responses by simply setting the <a
@@ -2198,8 +2249,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         var labeledObject = req.response; // is a <a interface>LabeledObject</a>
 
         // At this point, the context is still untainted, but:
-        JSON.stringify(labeledObject.confidentiality) === '[[]]';
-        JSON.stringify(labeledObject.integrity) === '[["https://provider.com"]]';
+        labeledObject.confidentiality.toString() === "https://provider.com";
+        labeledObject.integrity.toString() ===  "https://provider.com";
       };
       req.send();
       </code></pre>
@@ -2221,14 +2272,19 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        Content-Type: application/labeled-json;
 
        {
-         "confidentiality": [["'unique'"]],
-         "integrity": [[]],
+         "confidentiality": app:too-secret,
+         "integrity": 'none',
          "object": ... base64-encoded image ...
        }
       </code></pre>
       Once the receiver inspects the <a attribute>protectedObject</a>
       of the response, COWL <a>taint</a>s the context and ensures that
       it cannot communicate with anybody.
+
+      Note, to read the protected object, one must do so in a context that is
+      not a <a>top-level browsing context</a> (e.g., an iframe), since reading
+      such a sensitive data would disable navigation (i.e., the context is
+      <a>stuck</a>).
     </div>
 
     </section>
@@ -2253,14 +2309,14 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
           modifications in order to enable the rest of this
           specification's work [[FETCH]]:
 
-          1. Perform the following step between step 4 and 5 in the
+          1. Perform the following step between step 5 and 6 in the
              "<a>main fetch</a>" algorithm:
 
              1. If <a href="#should-block-fetch">should fetching <var>request</var> be blocked as
                 COWL</a> returns <strong>blocked</strong>, set
                 <var>response</var> to a <a>network error</a>.
 
-          2. Perform the following step between step 12 and 13 in the
+          2. Perform the following step between step 13 and 14 in the
              "<a>main fetch</a>" algorithm:
 
              1. If <a href="#process-response">process
@@ -2322,8 +2378,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
                 integrity label</a>.
 
              3. Let <var>dstState</var> be the <a>COWL state</a>
-                associated with the <a>owner</a> of the <var>target
-                port</var> the <a>Message Port</a>
+                associated with the <a>owner</a> of the <code>target
+                port</code> the <a>Message Port</a>
                 <code>postMessage()</code> was called on.
 
              4. If <a>confinement mode</a> for <var>dstState</var> is
@@ -2388,9 +2444,6 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
           * The <a>sandboxed navigation browsing context flag</a>.
 
-      ISSUE(w3c/webappsec-cowl#33): COWL should restrict communication
-      via less overt channels (e.g., height/width of an iframe, URL
-      fragment, or even)index in <code>window.top.frames</code>)?
     </section>
 
 </section>
@@ -2437,15 +2490,15 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       following labels:
       <pre><code>
         var a    = <a>Label("https://a.com")</a>;  // https://a.com
-        var aORb = <a>Label("https://a.com")</a>.<a>_or("https://b.com")</a>; // https://a.com OR https://b.com
-        var a2   = a.<a>and(aORb)</a>; // https://a.com AND (https://a.com OR https://b.com) &equiv; https://a.com
+        var aORb = <a>Label("https://a.com")</a>.<a>or("https://b.com")</a>; // https://a.com OR https://b.com
+        var a2   = a.<a>and(aORb)</a>; // (https://a.com) AND (https://a.com OR https://b.com) &equiv; https://a.com
       </code></pre>
 
       The label <code>a2</code> is equivalent to <code>a</code> (since
       <code>a.<a>subsumes(aORb)</a></code>):
 
       <pre><code>
-        JSON.stringify(a2) === '[["https://a.com"]]';
+        a2.toString() === "https://a.com";
         a2.<a>equals(a)</a>;
       </code></pre>
     </div>
@@ -2462,8 +2515,6 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
         <a>disjunction set</a> <var>a</var> in the <a>label set</a> of
         <var>A</var> such that <var>a</var> is a <em>subset</em> of
         <var>b</var>, return <code>true</code>.
-
-    <!-- TODO: link subset -->
 
     2. Else, return <code>false</code>.
 
@@ -2521,10 +2572,11 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   <section>
     <h3 id="taint-context">Context Tainting</h3>
     The <dfn>context tainting</dfn> algorithm takes a two labels,
-    <var>confidentiality</var> and <var>integrity</var>, and updates
-    the <a>context labels</a> to allow for reading data labeled with
-    these labels. The user agent MUST use an algorithm whose behavior
-    is as follows:
+    <var>confidentiality</var> and <var>integrity</var>, and updates the
+    <a>context labels</a> to allow for reading data labeled with these labels,
+    as long as doing so does not result in the context getting <a>stuck</a>.
+    Otherwise the algorithm throws a <code>SecurityError</code> exception. The
+    user agent MUST use an algorithm whose behavior is as follows:
 
     1. Let <var>currentConf</var> be the current <a>context
        confidentiality label</a>.
@@ -2532,20 +2584,22 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     2. Let <var>currentInt</var> be the current <a>context
        integrity label</a>.
 
-    3. Set the <a>context confidentiality label</a> to the
-       <a>Label</a> returned by the by the <a>label downgrade</a>
-       algorithm when invoked with
+    3. Let <var>newConf</var> be the <a>Label</a> returned by the by
+       the <a>label downgrade</a> algorithm when invoked with
        <var>currentConf</var>.<a>and(<var>confidentiality</var>)</a>
        and <a>current privilege</a>.
 
-    4. Set the <a>context integrity label</a> to the
+    4. If setting the <a>context confidentiality label</a> to
+       <var>newConf</var> results in a <a>stuck</a> context, throw
+       a <code>SecurityError</code> exception and terminate this algorithm.
+
+    5. Set the <a>context confidentiality label</a> to <var>newConf</var>.
+
+    5. Set the <a>context integrity label</a> to the
        <a>Label</a> returned by the by the <a>label downgrade</a>
        algorithm when invoked with
-       <var>currentInt</var>.<a>_or(<var>integrity</var>)</a>
+       <var>currentInt</var>.<a>or(<var>integrity</var>)</a>
        and <a>current privilege</a>.
-
-    ISSUE(w3c/webappsec-cowl#34): Current algorithm allows tainting
-    any context, disallow "over tainting" a top-level context.
 
   </section>
 
@@ -2584,15 +2638,21 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        object with the same <a>label set</a> as that of
        <var>input</var>.
 
-    3. If <var>input</var> is a <a interface>Privilege</a> object
-       that was constructed with the <a>FreshPrivilege()</a>
-       constructor, let <var>output</var> be a newly constructed <a
-       interface>Privilege</a> object with the same <a>internal
-       privilege label</a> as that of <var>input</var>.
+    3. If <var>input</var> is a <a interface>Privilege</a> object, then:
+
+        1. If the <var>input</var>'s <a>internal privilege label</a> does not
+           <a>subsume</a> any label whose <a>label set</a> is a singleton 
+           <a>origin principal</a>, let <var>output</var> be a newly constructed
+           <a interface>Privilege</a> object with the same <a>internal privilege
+           label</a> as that of <var>input</var>.
+
+       2. Else, let <var>output</var> be <code>null</code>.
 
        <div class="note">
-       To prevent attacks that launder page privileges, the current
-       version of COWL only allows transferring fresh privileges.
+         To prevent attacks that launder <a>default privileges</a>, the current
+         version of COWL only allows transferring weaker <a>delegated
+         privileges</a> or privileges constructed with <a>FreshPrivilege()</a>.
+       </div>
 
     4. If <var>input</var> is a <a interface>LabeledObject</a> object, let
        <var>output</var> be a newly constructed
@@ -2646,7 +2706,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     4. Let <var>conf</var> be the <var>state</var> <a>effective confidentiality label</a>.
 
     6. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
-       the <a>Label(origin)</a> constructor with the
+       the <a>Label(principal)</a> constructor with the stringified
+       <a>origin</a> of the 
        <a href="https://fetch.spec.whatwg.org/#concept-request-url">url</a>
        associated with the <var>request</var>.
 
@@ -2654,6 +2715,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        <strong>allowed</strong>.
 
     8. Else, return <strong>blocked</strong>.
+
+       The user agent SHOULD report a warning that the context
+       attempted to leak data to a remote server.
 
     Note, the integrity label of the current context is not used in
     this algorithm since, conceptually, the integrity label of a
@@ -2695,15 +2759,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
 
     2. Let <var>destination</var> be the <var>request</var>'s <a>destination</a>.
 
-    3. Let <var>type</var> be the <var>request</var>'s <a>type</a>.
-
-    4. Let <var>MIMEType</var> be the result of <a>extracting a MIME
-       type</a> from <var>response</var>'s <a>header list</a>.
-
-    5. Let <var>context</var> be the <a>client</a>
+    3. Let <var>context</var> be the <a>client</a>
        associated with the <var>request</var>.
 
-    6. If <var>context</var> is null, let <var>context</var> be the
+    4. If <var>context</var> is null, let <var>context</var> be the
        <a>incumbent settings object</a>.
 
        Note, the <a>client</a> associated with the
@@ -2711,14 +2770,14 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        the <a>incumbent settings object</a> to get or set the <a>COWL
        state</a> of the <a>context</a> that initiated the request.
 
-    7. Let <var>state</var> be the <a>COWL state</a> retrieved via the
+    5. Let <var>state</var> be the <a>COWL state</a> retrieved via the
        <a>environment settings object</a> <var>context</var>.
 
-    8. Let <var>metadata</var> be
+    6. Let <var>metadata</var> be
        the <em>first</em> <a>header</a> whose <a>name</a>
        is <code>Sec-COWL</code> in the <a>response</a>'s <a>header list</a>.
 
-    9. If <var>destination</var> is <code>"document"</code>,
+    7. If <var>destination</var> is <code>"document"</code>,
        <code>"worker"</code> or <code>"serviceworker"</code>:
 
          0. Let <var>self</var> be the serialization of the
@@ -2732,64 +2791,84 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
          2. If either <var>conf</var>, <var>int</var>, or
             <var>priv</var> are null, return <strong>blocked</strong>.
 
+            The user agent SHOULD report a warning that the server supplied a
+            malformed <code>Sec-COWL</code> header.
+
          3. Else:
 
-            1. Set the <var>state</var> <a>context confidentiality label</a>
+            1. If <var>priv</var> is not a <a>delegated privilege</a> of the
+               <var>state</var> <a>context privilege</a>, return
+               <strong>blocked</strong> and terminate this algorithm.
+
+               The user agent SHOULD report a warning that the server supplied
+               a privilege that it is not trusted for.
+
+
+            2. If <var>context</var> is a <a>top-level browsing context</a> and
+               setting the <var>state</var> <a>context confidentiality label</a>
+               to <var>conf</var> and <a>context privilege</a> to <var>priv</var> 
+               results in <var>context</var> being <a>stuck</a>,
+               return <strong>blocked</strong> and terminate this algorithm.
+
+               The user agent SHOULD report a warning that the server supplied
+               a confidentiality label and privilege pair that would have led
+               to a top-level <a>stuck</a> context.
+
+            3. If the <var>state</var> <a>effective integrity label</a> does
+               not <a>subsume</a> <var>int</var>, return <strong>blocked</strong>
+               and terminate this algorithm.
+
+               The user agent SHOULD report a warning that the server supplied
+               an integrity label that it is not trusted for.
+
+            4. Set the <var>state</var> <a>context confidentiality label</a>
                to <var>conf</var>.
 
-            2. Set the <var>state</var> <a>context integrity label</a>
-               to <var>int</var>, if the <var>state</var>
-               <a>effective integrity label</a> subsumes <var>int</var>.
+            5. Set the <var>state</var> <a>context integrity label</a>
+               to <var>int</var>.
 
-               Note, by performing the <a>label subsumption</a> check before
-               setting the <a>context privilege</a> (next step), the
-               <a>context integrity label</a> can be upgraded from
-               the <a>empty label</a>, while allowing the <a>context
-               privilege</a> to also be dropped.
+               Note, by performing the <a>label subsumption</a> check (step 3
+               above) before setting the <a>context privilege</a> (next step),
+               the <a>context integrity label</a> can be upgraded from the
+               <a>empty label</a>, while allowing the <a>context privilege</a>
+               to also be dropped.
 
-               ISSUE: Should the user agent warn the user if the
-               server provided an integrity label that it is not
-               allowed to provide?
+            6. Set the <var>state</var> <a>context privilege</a> to
+               <var>priv</var>.
 
-            3. Set the <var>state</var> <a>context privilege</a>
-               to <var>priv</var>, if <var>priv</var>
-               is a <a>delegated privilege</a> of the <var>state</var>
-               <a>context privilege</a>.
+            7. Enable <a>confinement mode</a> for <var>state</var>.
 
-               ISSUE: Should the user agent warn the user if the
-               server provided a privilege that it is not allowed to
-               provide?
+            8. Return <strong>allowed</strong>.
 
-            4. Enable <a>confinement mode</a> for <var>state</var>.
+    8. Else:
 
-            5. Return <strong>allowed</strong>.
+        1. Let <var>self</var> be the origin of the
+           <a href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>
+           associated with the <a>response</a>.
 
-    10. Else:
+        2. Let <var>conf</var> and <var>int</var> be the
+           results of calling the <a>parse labeled data metadata</a>
+           with <var>metadata</var> and <var>self</var>.
 
-         0. Let <var>self</var> be the
-            <a href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>
-            associated with the <a>response</a>.
+        3. If either <var>conf</var> or <var>int</var> is null,
+           return <strong>blocked</strong> and terminate this algorithm.
 
-         1. Let <var>conf</var> and <var>int</var> be the
-            results of calling the <a>parse labeled data metadata</a>
-            with <var>metadata</var> and <var>self</var>.
+           The user agent SHOULD report a warning that the server supplied a
+           malformed <code>Sec-COWL</code> header.
 
-         2. If either <var>conf</var> or <var>int</var> is null,
-            return <strong>blocked</strong> and terminate this algorithm.
+        4. If the <var>state</var> <a>effective confidentiality
+           label</a> subsumes <var>conf</var> and <var>int</var>
+           subsumes the <var>state</var> <a>effective integrity
+           label</a>, return <strong>allowed</strong>.
 
-         3. If the <var>state</var> <a>effective confidentiality
-            label</a> subsumes <var>conf</var> and <var>int</var>
-            subsumes the <var>state</var> <a>effective integrity
-            label</a>, return <strong>allowed</strong>.
+        5. Else, return <strong>blocked</strong>.
 
-         4. Else, return <strong>blocked</strong>.
-
-            Note, COWL conservatively blocks a response that is
-            potentially more confidential or less trustworthy than the
-            context making the request. In future versions of COWL,
-            certain responses (e.g., images) which are only not as
-            trustworthy as the <a>context integrity label</a>
-            may be allowed by the user agent.
+           Note, COWL conservatively blocks a response that is
+           potentially more confidential or less trustworthy than the
+           context making the request. In future versions of COWL,
+           certain responses (e.g., images) which are only not as
+           trustworthy as the <a>context integrity label</a>
+           may be allowed by the user agent.
   </section>
 
   <section>
@@ -2822,11 +2901,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        4. The remaining characters in <var>token</var> (if any) are
           the <var>directive value</var>.
 
-       5.  Let <var>label value</var> be the <a>label</a> returned by
-           calling the <a>fromJSON()</a> function with the
-           <var>directive value</var> and <var>self</var>.  If the
-           function threw an exception, ignore this instance of the
-           directive and continue to the next token.
+       5. Let <var>label value</var> be the <a>label</a> returned by
+          invoking the <a>parse label-expression</a> algorithm with the
+          <var>directive value</var> and <var>self</var>.  If parsing
+          failed, terminate the rest of these sub-steps.
+
+          The user agent SHOULD report a warning that the server provided a
+          malformed label directive.
 
        6. If <var>directive name</var> is <a><code>data-confidentiality</code></a>
           and <var>conf</var> is null, let <var>conf</var> be <var>label
@@ -2836,9 +2917,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
           <a><code>data-integrity</code></a> and <var>int</var> is null,
           let <var>int</var> be <var>label value</var>.
 
-       8. Else, ignore this instance of the directive and continue to
-          the next token.
+       8. Else, terminate the rest of these sub-steps.
 
+          The user agent SHOULD report a warning that the server provided a
+          malformed label directive.
     4. Return <var>conf</var> and <var>int</var>.
 
     <div class="note">
@@ -2879,11 +2961,13 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
        4. The remaining characters in <var>token</var> (if any) are
           the <var>directive value</var>.
 
-       5.  Let <var>label value</var> be the <a>label</a>
-           returned by calling the <a>fromJSON()</a> function with the
-           <var>directive value</var> and <var>self</var>.  If the
-           function threw an exception, ignore this instance of the
-           directive and continue to the next token.
+       5. Let <var>label value</var> be the <a>label</a> returned by
+          invoking the <a>parse label-expression</a> algorithm with the
+          <var>directive value</var> and <var>self</var>.  If parsing
+          failed, terminate the rest of these sub-steps.
+
+          The user agent SHOULD report a warning that the server provided a
+          malformed label directive.
 
        6. If <var>directive name</var> is
           <a><code>ctx-confidentiality</code></a> and <var>conf</var> is
@@ -2899,8 +2983,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
           <a>internal privilege label</a> is set to <var>label
           value</var>.
 
-       9. Else, ignore this instance of the directive and continue to
-          the next token.
+       9. Else, terminate the rest of these sub-steps.
+
+          The user agent SHOULD report a warning that the server provided a
+          malformed label directive.
 
     5. Return <var>conf</var>, <var>int</var>, and <var>priv</var>.
 
@@ -2909,6 +2995,118 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       agents SHOULD report the directives that were ignored.
     </div>
   </section>
+
+  <section>
+    <h3 id="parse-label-expression">
+      Parse label expression
+    </h3>
+
+    The <dfn>parse <a>label-expression</a></dfn> algorithm takes a
+    <var>input</var> representing a <a>label-expression</a> and a
+    stringified origin URL <var>self</var> and returns the parsed <a
+    interface>Label</a>. If at any point the algorithm says that it "fails",
+    this means that it is aborted at that point and returns nothing.
+    The user agent MUST use an algorithm equivalent to the following:
+
+    1. Let <var>label</var> be a new <a>empty label</a>.
+
+    2. If <var>input</var> is not a string, fail.
+
+    3. <a spec="HTML5">Strip and collapse whitespace</a> from <var>input</var>.
+
+    4. Let <var>AND expr</var> be the remaining characters in <var>input</var>.
+
+    5. If <var>AND expr</var> is the string `"'none'"`, return
+       <var>label</var> and terminate this algorithm.
+
+    6. <a>Split</a> the <var>AND expr</var> string on `"AND"`. Let <var>AND
+       tokens</var> be the resulting list of tokens, if the splitting didn't
+       fail. Otherwise, fail.
+
+    7. For each token in <var>AND tokens</var>, run the following sub-steps:
+
+       1. Let <var>input</var> be the token.
+
+       2. If first character of <var>input</var> is not `"("` (UA+0028), fail.
+
+       3. If last character of <var>input</var> is not `")"` (UA+0029), fail.
+
+       4. Remove the first and last characters from <var>input</var>.
+
+       5. Let <var>OR expr</var> be the remaining characters in <var>input</var>.
+
+       6. Let <var>orExp</var> be a new <a>empty label</a>.
+
+       7. <a>Split</a> the string <var>OR expr</var> on `"OR"`. Let <var>OR
+          tokens</var> be the resulting list of tokens, if the splitting didn't
+          fail. Otherwise, fail.
+
+       8. For each token in <var>OR tokens</var>, run the following sub-steps:
+
+          1. Let <var>prin</var> be the token.
+
+          2. If <var>prin</var> is the string `"'self'"`, set <var>prin</var> be <var>self</var>.
+
+          3. Set <var>orExp</var> to <code><var>orExp</var>.or(<var>prin</var>)</code>,
+             if calling the <code>or</code> method didn't throw an exception. Otherwise, fail.
+            
+             Note, the method throws an exception if <var>prin</var> is not a
+             <a>principal</a>. Hence, this algorithm should fail.
+
+       8. Set <var>label</var> to <code><var>label</var>.and(<var>orExp</var>)</code>.
+
+    8. Return <var>label</var>.
+
+    When a user agent has to <dfn>split</dfn> a string on particular
+    delimiter characters <var>delimiter</var>, it MUST use an algorithm
+    equivalent to the following:
+
+    1. Let <var>input</var> be the string being split.
+
+    2. Let <var>position</var> be a pointer into <var>input</var>, initially
+       pointing at the start of the string.
+
+    3. Let <var>delimiter length</var> be the number of characters in <var>delimiter</var>.
+
+    4. Let <var>tokens</var> be the resulting list of tokens.
+
+    5. <a spec="HTML5">Strip leading and trailing whitespace</a>.
+
+    6. If <var>input</var> is the empty string, fail.
+
+    7. While <var>position</var> is not past the end of <var>input</var>:
+
+       1. Let <var>s</var> be the empty string.
+
+       2. <a>Skip whitespace</a>.
+
+       3. Let <var>done</var> be `false`.
+
+       4. While <var>done</var> is `false` and <var>position</var> is not past
+          the end of <var>input</var>:
+       
+          1. <a spec="HTML5">Collect a sequence of characters</a> that are not <a>space
+              characters</a>. Append the resulting sequence to <var>s</var>.
+          
+          3. If <var>position</var> points past the end of <var>input</var>,
+             set <var>done</var> to `true` and end these sub-steps.
+          
+          4. <a spec="HTML5">Collect a sequence of characters</a> that are <a>space
+             characters</a>. Let <var>ws</var> be the resulting sequence.
+          
+          5. If the next <var>delimiter length</var> characters are an
+             <a spec="HTML5">ASCII case-insensitive</a> match for the string 
+             <var>delimiter</var>, then set <var>done</var> to `true` and advance
+             <var>position</var> by <var>delimiter length</var> characters.
+
+          6. Else, append <var>ws</var> to <var>s</var>.
+
+       5. Append <var>s</var> to <var>tokens</var>.
+
+    8. Return <var>tokens</var>.
+
+  </section>
+
 </section>
 
 <!--
@@ -2977,10 +3175,8 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
     Labeling a resource with the <code>application/labeled-json</code>
     type asserts that the resource is a JSON text that consists of an
     object with a single entry called <code>"confidentiality"</code>
-    consisting of an array of entries, each of which consists of an
-    array of strings, a single entry called <code>"integrity"</code>
-    consisting of an array of entries, each of which consists of an
-    array of strings, and a single entry called <code>"object"</code>
+    consisting of a string, a single entry called <code>"integrity"</code>
+    consisting of string, and a single entry called <code>"object"</code>
     consisting of a JSON object.  The relevant specifications are the
     JSON specification and this specification. [[JSON]]
     </dd>
