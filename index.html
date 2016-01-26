@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-22">22 January 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-26">26 January 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1367,7 +1367,18 @@ further.</p>
         <li><a href="#examples-isolation"><span class="secno">1.2.3</span> <span class="content">Content isolation via privilege separation</span></a>
         <li><a href="#examples-leastpriv"><span class="secno">1.2.4</span> <span class="content">Running content with least-privileges</span></a>
        </ol>
-      <li><a href="#trust-model"><span class="secno">1.3</span> <span class="content">Trust Model</span></a>
+      <li>
+       <a href="#security-considerations"><span class="secno">1.3</span> <span class="content">Security Considerations</span></a>
+       <ol class="toc">
+        <li><a href="#covert-channels"><span class="secno">1.3.1</span> <span class="content">Information leakage via covert channels</span></a>
+        <li><a href="#defense-in-depth"><span class="secno">1.3.2</span> <span class="content">Defense in depth</span></a>
+       </ol>
+      <li>
+       <a href="#privacy-considerations"><span class="secno">1.4</span> <span class="content">Privacy Considerations</span></a>
+       <ol class="toc">
+        <li><a href="#privacy-request-header"><span class="secno">1.4.1</span> <span class="content">Encoding information in labels</span></a>
+        <li><a href="#privacy-protect"><span class="secno">1.4.2</span> <span class="content">Using labels to enhance privacy</span></a>
+       </ol>
      </ol>
     <li>
      <a href="#key-concepts"><span class="secno">2</span> <span class="content">Key Concepts and Terminology</span></a>
@@ -1701,22 +1712,44 @@ COWL.privilege = new <a data-link-type="functionish" href="#dom-privilege-privil
   one such example.</p>
     </section>
     <section>
-     <h3 class="heading settled" data-level="1.3" id="trust-model"><span class="secno">1.3. </span><span class="content">Trust Model</span><a class="self-link" href="#trust-model"></a></h3>
-      COWL provides developers with a way of imposing restrictions on
-    how untrusted code can disseminate sensitive data.  However,
-    authors should avoid sharing sensitive data with malicious code,
-    since such code may be able to exploit covert channels, which are
-    present in most browsers, to leak the data.  COWL can only prevent
-    information leakage from code that (e.g., is buggy and) uses overt
-    communication channels. 
-     <p>Similarly, COWL provides no guarantees against attacks wherein
-    users are manipulated into leaking sensitive data via out-of-band
-    channels.  For example, an attacker may be able to convince a
-    user to navigate their user agent to an attacker-owned origin by
-    entering a URL that contains sensitive information into the user
-    agent’s address bar.</p>
-     <div class="note" role="note"> COWL should always be used as an additional layer of defense to
-      other security mechanisms such as CSP, SRI, CORS, and iframe <code><a data-link-type="element-attr" href="https://www.w3.org/TR/html5/embedded-content-0.html#attr-iframe-sandbox">sandbox</a></code>. </div>
+     <h3 class="heading settled" data-level="1.3" id="security-considerations"><span class="secno">1.3. </span><span class="content">Security Considerations</span><a class="self-link" href="#security-considerations"></a></h3>
+     <h4 class="heading settled" data-level="1.3.1" id="covert-channels"><span class="secno">1.3.1. </span><span class="content">Information leakage via covert channels</span><a class="self-link" href="#covert-channels"></a></h4>
+      COWL provides developers with a way of imposing restrictions on how
+      untrusted code can disseminate sensitive data.  However, authors should
+      avoid sharing sensitive data with malicious code, since such code may be
+      able to exploit covert channels to leak the data.  Covert channels are
+      prevalent in most browsers.  COWL can only prevent information leakage from
+      code that uses overt communication channels. 
+     <p>Similarly, COWL provides no guarantees against attacks wherein users are
+      manipulated into leaking sensitive data via out-of-band channels.  For
+      example, an attacker may be able to convince a user to navigate their
+      user agent to an attacker-owned origin by entering a URL that contains
+      sensitive information into the user agent’s address bar.</p>
+     <h4 class="heading settled" data-level="1.3.2" id="defense-in-depth"><span class="secno">1.3.2. </span><span class="content">Defense in depth</span><a class="self-link" href="#defense-in-depth"></a></h4>
+      COWL has been defined within the context of existing security mechanisms
+      (CSP, SRI, CORS, and iframe <code><a data-link-type="element-attr" href="https://www.w3.org/TR/html5/embedded-content-0.html#attr-iframe-sandbox">sandbox</a></code>)
+      and SHOULD be used as an additional layer of defense. The goal of this
+      specification is not to replace existing discretionary access control
+      mechanisms. 
+    </section>
+    <section>
+     <h3 class="heading settled" data-level="1.4" id="privacy-considerations"><span class="secno">1.4. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy-considerations"></a></h3>
+     <h4 class="heading settled" data-level="1.4.1" id="privacy-request-header"><span class="secno">1.4.1. </span><span class="content">Encoding information in labels</span><a class="self-link" href="#privacy-request-header"></a></h4>
+      This specification introduces the <a href="#request-header"><code>Sec-COWL</code> HTTP request header</a> to
+      provide server operators with information about the context that made the
+      request (e.g., the <a data-link-type="dfn" href="#context-privilege">context privilege</a>). This header is sent in
+      accordance to the<a data-link-type="dfn" href="https://w3c.github.io/webappsec-referrer-policy/#referrer-policy">referrer policy</a> <a data-link-type="biblio" href="#biblio-referrer-policy">[REFERRER-POLICY]</a>. However,
+      since the request header may contain serialized <a data-link-type="dfn" href="#application-specific-principal">application-specific
+      principals</a>, this can have privacy implications when the principals
+      encode private user information.  It is RECOMMENDED that authors and
+      server operators not include any private information in
+      labels—labels SHOULD be treated as public data. 
+     <h4 class="heading settled" data-level="1.4.2" id="privacy-protect"><span class="secno">1.4.2. </span><span class="content">Using labels to enhance privacy</span><a class="self-link" href="#privacy-protect"></a></h4>
+      COWL provides mechanisms for restricting how information flows from
+      within the confines of the user agent. Thus, from a privacy perspective,
+      application developers, server operators, and specification authors are
+      encouraged to consider using these mechanisms (namely, <a data-link-type="dfn" href="#label">labels</a>) to
+      prevent unwanted or accidental information leaks. 
     </section>
    </section>
    <section>
@@ -2745,12 +2778,11 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
       <p>The ABNF for <code>Sec-COWL</code> HTTP requests is:</p>
 <pre>"Sec-COWL:" ( <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> [ "," <a data-link-type="dfn" href="#data-metadata">data-metadata</a> ] ) / ( <a data-link-type="dfn" href="#data-metadata">data-metadata</a> [ "," <a data-link-type="dfn" href="#ctx-metadata">ctx-metadata</a> ] )
 </pre>
-      <p>The user agent MUST send a header field named <code>Sec-COWL</code> along with requests if <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> is enabled.
-      The value of this header MUST contain the <a data-link-type="dfn" href="#labeled-context-metadata">labeled context
-      metadata</a> of the context that performed the request. This <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a> MUST include the current <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a>, <a data-link-type="dfn" href="#context-integrity-label">context integrity
-      label</a>, and <a data-link-type="dfn" href="#context-privilege">context privileges</a>. The user agent MAY
-      send another header with this field name whose value is <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> (e.g., when sending <a data-link-type="dfn" href="#labeled-objects">labeled
-      objects</a> with <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a>).</p>
+      <p>The user agent MUST send a header field named <code>Sec-COWL</code> along with requests if <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> is enabled and calling <a data-link-type="dfn" href="https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer">determine request’s referrer algorithm</a> does not return <code>none</code>. The value of this header MUST contain the <a data-link-type="dfn" href="#labeled-context-metadata">labeled
+      context metadata</a> of the context that performed the request. This <a data-link-type="dfn" href="#labeled-context-metadata">labeled context metadata</a> MUST include the current <a data-link-type="dfn" href="#context-confidentiality-label">context
+      confidentiality label</a>, <a data-link-type="dfn" href="#context-integrity-label">context integrity label</a>, and <a data-link-type="dfn" href="#context-privilege">context privileges</a>. The user agent MAY send another header with
+      this field name whose value is <a data-link-type="dfn" href="#labeled-data-metadata">labeled data metadata</a> (e.g., when
+      sending <a data-link-type="dfn" href="#labeled-objects">labeled objects</a> with <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest">XMLHttpRequest</a>).</p>
       <p class="note" role="note">Note, according to <a data-link-type="biblio" href="#biblio-rfc2616">[RFC2616]</a>, the user agent MAY combine
       multiple header field values into a single, comma-separated
       value.</p>
@@ -3985,6 +4017,12 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <li><a href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a>
     </ul>
    <li>
+    <a data-link-type="biblio" href="#biblio-referrer-policy">[referrer-policy]</a> defines the following terms:
+    <ul>
+     <li><a href="https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer">determine request's referrer algorithm</a>
+     <li><a href="https://w3c.github.io/webappsec-referrer-policy/#referrer-policy">referrer policy</a>
+    </ul>
+   <li>
     <a data-link-type="biblio" href="#biblio-rfc4122">[rfc4122]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc4122#section-3">uuid</a>
@@ -4070,6 +4108,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    <dd>Anne van Kesteren; Joshua Bell; Addison Phillips. <a href="http://www.w3.org/TR/encoding/">Encoding</a>. 20 October 2015. CR. URL: <a href="http://www.w3.org/TR/encoding/">http://www.w3.org/TR/encoding/</a>
    <dt id="biblio-html5"><a class="self-link" href="#biblio-html5"></a>[HTML5]
    <dd>Ian Hickson; et al. <a href="http://www.w3.org/TR/html5/">HTML5</a>. 28 October 2014. REC. URL: <a href="http://www.w3.org/TR/html5/">http://www.w3.org/TR/html5/</a>
+   <dt id="biblio-referrer-policy"><a class="self-link" href="#biblio-referrer-policy"></a>[REFERRER-POLICY]
+   <dd>Jochen Eisinger; Mike West. <a href="http://www.w3.org/TR/referrer-policy/">Referrer Policy</a>. 7 August 2014. WD. URL: <a href="http://www.w3.org/TR/referrer-policy/">http://www.w3.org/TR/referrer-policy/</a>
    <dt id="biblio-rfc2119"><a class="self-link" href="#biblio-rfc2119"></a>[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc2616"><a class="self-link" href="#biblio-rfc2616"></a>[RFC2616]

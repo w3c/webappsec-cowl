@@ -160,6 +160,10 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   type: interface
     text: object; url: idl-object
     text: DOMString; url: idl-DOMString
+spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-policy/
+  type: dfn
+    text: determine request's referrer algorithm; url: determine-requests-referrer
+    text: referrer policy; url: referrer-policy
 </pre>
 
 <!-- BIBLIOGRAPHY -->
@@ -504,27 +508,48 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   </section>
 
   <section>
-  <h3 id="trust-model">Trust Model</h3>
-    COWL provides developers with a way of imposing restrictions on
-    how untrusted code can disseminate sensitive data.  However,
-    authors should avoid sharing sensitive data with malicious code,
-    since such code may be able to exploit covert channels, which are
-    present in most browsers, to leak the data.  COWL can only prevent
-    information leakage from code that (e.g., is buggy and) uses overt
-    communication channels.
+  <h3 id="security-considerations">Security Considerations</h3>
+    <h4 id="covert-channels">Information leakage via covert channels</h4>
+      COWL provides developers with a way of imposing restrictions on how
+      untrusted code can disseminate sensitive data.  However, authors should
+      avoid sharing sensitive data with malicious code, since such code may be
+      able to exploit covert channels to leak the data.  Covert channels are
+      prevalent in most browsers.  COWL can only prevent information leakage from
+      code that uses overt communication channels.
 
-    Similarly, COWL provides no guarantees against attacks wherein
-    users are manipulated into leaking sensitive data via out-of-band
-    channels.  For example, an attacker may be able to convince a
-    user to navigate their user agent to an attacker-owned origin by
-    entering a URL that contains sensitive information into the user
-    agent's address bar.
+      Similarly, COWL provides no guarantees against attacks wherein users are
+      manipulated into leaking sensitive data via out-of-band channels.  For
+      example, an attacker may be able to convince a user to navigate their
+      user agent to an attacker-owned origin by entering a URL that contains
+      sensitive information into the user agent's address bar.
 
-    <div class="note">
-      COWL should always be used as an additional layer of defense to
-      other security mechanisms such as CSP, SRI, CORS, and iframe
-      <code><a element-attr>sandbox</a></code>.
-    </div>
+    <h4 id="defense-in-depth">Defense in depth</h4>
+      COWL has been defined within the context of existing security mechanisms
+      (CSP, SRI, CORS, and iframe <code><a element-attr>sandbox</a></code>)
+      and SHOULD be used as an additional layer of defense. The goal of this
+      specification is not to replace existing discretionary access control
+      mechanisms.
+  </section>
+  <section>
+  <h3 id="privacy-considerations">Privacy Considerations</h3>
+    <h4 id="privacy-request-header">Encoding information in labels</h4>
+      This specification introduces the
+      <a href="#request-header"><code>Sec-COWL</code> HTTP request header</a> to
+      provide server operators with information about the context that made the
+      request (e.g., the <a>context privilege</a>). This header is sent in
+      accordance to the<a>referrer policy</a> [[REFERRER-POLICY]]. However,
+      since the request header may contain serialized <a>application-specific
+      principals</a>, this can have privacy implications when the principals
+      encode private user information.  It is RECOMMENDED that authors and
+      server operators not include any private information in
+      labels&mdash;labels SHOULD be treated as public data.
+
+    <h4 id="privacy-protect">Using labels to enhance privacy</h4>
+      COWL provides mechanisms for restricting how information flows from
+      within the confines of the user agent. Thus, from a privacy perspective,
+      application developers, server operators, and specification authors are
+      encouraged to consider using these mechanisms (namely, <a>labels</a>) to
+      prevent unwanted or accidental information leaks.
   </section>
 </section>
 
@@ -1896,15 +1921,15 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
       </pre>
 
       The user agent MUST send a header field named <code>Sec-COWL</code>
-      along with requests if <a>confinement mode</a> is enabled.
-      The value of this header MUST contain the <a>labeled context
-      metadata</a> of the context that performed the request. This
-      <a>labeled context metadata</a> MUST include the current
-      <a>context confidentiality label</a>, <a>context integrity
-      label</a>, and <a>context privileges</a>. The user agent MAY
-      send another header with this field name whose value is
-      <a>labeled data metadata</a> (e.g., when sending <a>labeled
-      objects</a> with <a>XMLHttpRequest</a>).
+      along with requests if <a>confinement mode</a> is enabled and calling
+      <a>determine request's referrer algorithm</a> does not return
+      <code>none</code>. The value of this header MUST contain the <a>labeled
+      context metadata</a> of the context that performed the request. This
+      <a>labeled context metadata</a> MUST include the current <a>context
+      confidentiality label</a>, <a>context integrity label</a>, and
+      <a>context privileges</a>. The user agent MAY send another header with
+      this field name whose value is <a>labeled data metadata</a> (e.g., when
+      sending <a>labeled objects</a> with <a>XMLHttpRequest</a>).
 
       Note, according to [[!RFC2616]], the user agent MAY combine
       multiple header field values into a single, comma-separated
