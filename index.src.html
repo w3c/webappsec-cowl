@@ -862,7 +862,7 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
       set</a> contains a single, empty <a>disjunction set</a>.
 
     <pre class="idl">
-      [Constructor, Constructor(DOMString principal), Exposed=Window, Worker]
+      [Constructor, Constructor(DOMString principal), Exposed=(Window, Worker)]
       interface Label {
         boolean equals(Label other);
         boolean subsumes(Label other, optional Privilege priv);
@@ -1112,7 +1112,7 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
     privilege label</a>.
 
     <pre class="idl">
-      [Constructor, Exposed=Window, Worker]
+      [Constructor, Exposed=(Window, Worker)]
       interface Privilege {
         static Privilege FreshPrivilege(); // Named constructor
         Label asLabel();
@@ -1381,7 +1381,7 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
     interface>COWL</a> interface defined below.
 
     <pre class="idl">
-      [Exposed=Window, Worker]
+      [Exposed=(Window, Worker)]
       interface COWL {
         static void enable();
         static boolean isEnabled();
