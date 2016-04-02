@@ -1365,16 +1365,14 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
     code from navigating to certain <a>origins</a> if doing so would result in
     a leak.
 
-    We say that a context is <dfn>stuck</dfn> if it cannot navigate to
-    <em>any</em> origin. This occurs when the <a>label set</a> of the context's
-    <a>effective confidentiality label</a> either contains more than one
-    <a>disjunction set</a>, or it contains a single <a>disjunction set</a> with
-    no <a>origin principals</a>.
+    We say that a context is <dfn>stuck</dfn> if it cannot navigate
+    arbitrarily.  This occurs when the <a>effective confidentiality label</a>
+    of the context is not the <a>empty label</a>.
 
     <div class="note">
-      To avoid scenarios wherein a top-level page cannot be navigated, COWL has
-      the invariant that <a>top-level browsing contexts</a> never get
-      <a>stuck</a>.
+      To avoid scenarios wherein a top-level page cannot be arbitrarily
+      navigated, COWL has the invariant that <a>top-level browsing contexts</a>
+      never get <a>stuck</a>.
     </div>
 
     Each context's <a>COWL state</a> is made available via the <a
@@ -1665,12 +1663,12 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 
            <div class="note">
              The tainting algorithm fails if code in a <a>top-level browsing
-             context</a> tries to read overly-sensitive data, i.e., data that
-             would result in it getting <a>stuck</a>.  To make it easier for
-             developers to debug such cases, the user agent SHOULD report a
-             message to inform developers that they can create child contexts
-             (e.g., iframes) wherein they can inspect such sensitive objects
-             instead.
+             context</a> tries to read data that would confine the context,
+             i.e., data that would result in it getting <a>stuck</a>.  To make
+             it easier for developers to debug such cases, the user agent
+             SHOULD report a message to inform developers that they can create
+             child contexts (e.g., iframes) wherein they can inspect such
+             sensitive objects instead.
            </div>
 
         3. Else, return the <a interface>LabeledObject</a>'s <a>protected object</a>.

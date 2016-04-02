@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-28">28 January 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-04-02">2 April 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2357,10 +2357,10 @@ sensitivity (and integrity) of the data they are sharing.</p>
     navigation is a form of communication channel, COWL naturally disallows
     code from navigating to certain <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origins</a> if doing so would result in
     a leak.</p>
-     <p>We say that a context is <dfn data-dfn-type="dfn" data-noexport="" id="stuck">stuck<a class="self-link" href="#stuck"></a></dfn> if it cannot navigate to <em>any</em> origin. This occurs when the <a data-link-type="dfn" href="#label-set">label set</a> of the context’s <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a> either contains more than one <a data-link-type="dfn" href="#disjunction-set">disjunction set</a>, or it contains a single <a data-link-type="dfn" href="#disjunction-set">disjunction set</a> with
-    no <a data-link-type="dfn" href="#origin-principal">origin principals</a>.</p>
-     <div class="note" role="note"> To avoid scenarios wherein a top-level page cannot be navigated, COWL has
-      the invariant that <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing contexts</a> never get <a data-link-type="dfn" href="#stuck">stuck</a>. </div>
+     <p>We say that a context is <dfn data-dfn-type="dfn" data-noexport="" id="stuck">stuck<a class="self-link" href="#stuck"></a></dfn> if it cannot navigate
+    arbitrarily.  This occurs when the <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a> of the context is not the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
+     <div class="note" role="note"> To avoid scenarios wherein a top-level page cannot be arbitrarily
+      navigated, COWL has the invariant that <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing contexts</a> never get <a data-link-type="dfn" href="#stuck">stuck</a>. </div>
      <p>Each context’s <a data-link-type="dfn" href="#cowl-state">COWL state</a> is made available via the <a class="idl-code" data-link-type="interface" href="#cowl">COWL</a> interface defined below.</p>
 <pre class="idl">[Exposed=(Window, Worker)]
 interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="cowl">COWL<a class="self-link" href="#cowl"></a></dfn> {
@@ -2582,12 +2582,12 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
          <p>If the tainting algorithm raised an exception, re-throw the
  exception and terminate this algorithm.</p>
          <div class="note" role="note"> The tainting algorithm fails if code in a <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing
-   context</a> tries to read overly-sensitive data, i.e., data that
-   would result in it getting <a data-link-type="dfn" href="#stuck">stuck</a>.  To make it easier for
-   developers to debug such cases, the user agent SHOULD report a
-   message to inform developers that they can create child contexts
-   (e.g., iframes) wherein they can inspect such sensitive objects
-   instead. </div>
+   context</a> tries to read data that would confine the context,
+   i.e., data that would result in it getting <a data-link-type="dfn" href="#stuck">stuck</a>.  To make
+   it easier for developers to debug such cases, the user agent
+   SHOULD report a message to inform developers that they can create
+   child contexts (e.g., iframes) wherein they can inspect such
+   sensitive objects instead. </div>
         <li data-md="">
          <p>Else, return the <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>’s <a data-link-type="dfn" href="#protected-object">protected object</a>.</p>
        </ol>
