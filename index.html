@@ -2577,6 +2577,8 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
         the following:</p>
        <ol>
         <li data-md="">
+         <p>Enable <a data-link-type="dfn" href="#confinement-mode">confinement mode</a>.</p>
+        <li data-md="">
          <p>Invoke the <a data-link-type="dfn" href="#context-tainting">context tainting</a> algorithm with the <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a>’s confidentiality and integrity labels.</p>
         <li data-md="">
          <p>If the tainting algorithm raised an exception, re-throw the
@@ -3299,11 +3301,13 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
     </section>
     <section>
      <h3 class="heading settled" data-level="4.5" id="taint-context"><span class="secno">4.5. </span><span class="content">Context Tainting</span><a class="self-link" href="#taint-context"></a></h3>
-      The <dfn data-dfn-type="dfn" data-noexport="" id="context-tainting">context tainting<a class="self-link" href="#context-tainting"></a></dfn> algorithm takes a two labels, <var>confidentiality</var> and <var>integrity</var>, and updates the <a data-link-type="dfn" href="#context-labels">context labels</a> to allow for reading data labeled with these labels,
-    as long as doing so does not result in the context getting <a data-link-type="dfn" href="#stuck">stuck</a>.
-    Otherwise the algorithm throws a <code>SecurityError</code> exception. The
-    user agent MUST use an algorithm whose behavior is as follows: 
+      The <dfn data-dfn-type="dfn" data-noexport="" id="context-tainting">context tainting<a class="self-link" href="#context-tainting"></a></dfn> algorithm takes a two labels, <var>confidentiality</var> and <var>integrity</var>, and updates the <a data-link-type="dfn" href="#context-labels">context labels</a> to allow for reading data labeled with these labels.
+    If the context is a <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a> and tainting the
+    context would result in it getting <a data-link-type="dfn" href="#stuck">stuck</a>, the algorithm throws a <code>SecurityError</code> exception. The user agent MUST use an algorithm
+    whose behavior is as follows: 
      <ol>
+      <li data-md="">
+       <p>Enable <a data-link-type="dfn" href="#confinement-mode">confinement mode</a>.</p>
       <li data-md="">
        <p>Let <var>currentConf</var> be the current <a data-link-type="dfn" href="#context-confidentiality-label">context
  confidentiality label</a>.</p>
@@ -3314,8 +3318,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>Let <var>newConf</var> be the <a data-link-type="dfn" href="#label">Label</a> returned by the by
  the <a data-link-type="dfn" href="#label-downgrade">label downgrade</a> algorithm when invoked with <var>currentConf</var>.<a data-link-type="functionish" href="#dom-label-and">and(<var>confidentiality</var>)</a> and <a data-link-type="dfn" href="#current-privilege">current privilege</a>.</p>
       <li data-md="">
-       <p>If setting the <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> to <var>newConf</var> results in a <a data-link-type="dfn" href="#stuck">stuck</a> context, throw
- a <code>SecurityError</code> exception and terminate this algorithm.</p>
+       <p>If the current context is a <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a> and
+ setting the <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> to <var>newConf</var> results in a <a data-link-type="dfn" href="#stuck">stuck</a> context, throw a <code>SecurityError</code> exception and terminate this algorithm.</p>
       <li data-md="">
        <p>Set the <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> to <var>newConf</var>.</p>
       <li data-md="">

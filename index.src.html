@@ -1655,10 +1655,12 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
         On getting, the user agent MUST use an algorithm equivalent to
         the following:
 
-        1. Invoke the <a>context tainting</a> algorithm with the <a
+        1. Enable <a>confinement mode</a>.
+
+        2. Invoke the <a>context tainting</a> algorithm with the <a
            interface>LabeledObject</a>'s confidentiality and integrity labels.
 
-        2. If the tainting algorithm raised an exception, re-throw the
+        3. If the tainting algorithm raised an exception, re-throw the
            exception and terminate this algorithm.
 
            <div class="note">
@@ -2596,29 +2598,33 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
     <h3 id="taint-context">Context Tainting</h3>
     The <dfn>context tainting</dfn> algorithm takes a two labels,
     <var>confidentiality</var> and <var>integrity</var>, and updates the
-    <a>context labels</a> to allow for reading data labeled with these labels,
-    as long as doing so does not result in the context getting <a>stuck</a>.
-    Otherwise the algorithm throws a <code>SecurityError</code> exception. The
-    user agent MUST use an algorithm whose behavior is as follows:
+    <a>context labels</a> to allow for reading data labeled with these labels.
+    If the context is a <a>top-level browsing context</a> and tainting the
+    context would result in it getting <a>stuck</a>, the algorithm throws a
+    <code>SecurityError</code> exception. The user agent MUST use an algorithm
+    whose behavior is as follows:
 
-    1. Let <var>currentConf</var> be the current <a>context
+    1. Enable <a>confinement mode</a>.
+
+    2. Let <var>currentConf</var> be the current <a>context
        confidentiality label</a>.
 
-    2. Let <var>currentInt</var> be the current <a>context
+    3. Let <var>currentInt</var> be the current <a>context
        integrity label</a>.
 
-    3. Let <var>newConf</var> be the <a>Label</a> returned by the by
+    4. Let <var>newConf</var> be the <a>Label</a> returned by the by
        the <a>label downgrade</a> algorithm when invoked with
        <var>currentConf</var>.<a>and(<var>confidentiality</var>)</a>
        and <a>current privilege</a>.
 
-    4. If setting the <a>context confidentiality label</a> to
-       <var>newConf</var> results in a <a>stuck</a> context, throw
-       a <code>SecurityError</code> exception and terminate this algorithm.
+    5. If the current context is a <a>top-level browsing context</a> and
+       setting the <a>context confidentiality label</a> to <var>newConf</var>
+       results in a <a>stuck</a> context, throw a <code>SecurityError</code>
+       exception and terminate this algorithm.
 
-    5. Set the <a>context confidentiality label</a> to <var>newConf</var>.
+    6. Set the <a>context confidentiality label</a> to <var>newConf</var>.
 
-    5. Set the <a>context integrity label</a> to the
+    7. Set the <a>context integrity label</a> to the
        <a>Label</a> returned by the by the <a>label downgrade</a>
        algorithm when invoked with
        <var>currentInt</var>.<a>or(<var>integrity</var>)</a>
