@@ -2061,9 +2061,13 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
         <li data-md="">
          <p>If <var>result</var> is not the empty string, append the characters <code>" AND "</code> to it.</p>
         <li data-md="">
-         <p>Append the character "(" (U+0028) to <var>result</var>.</p>
-        <li data-md="">
-         <p>Append the character  " " (U+0020) to <var>result</var>.</p>
+         <p>If the number of elements in <var>dset</var> is greater than 1:</p>
+         <ol>
+          <li data-md="">
+           <p>Append the character "(" (U+0028) to <var>result</var>.</p>
+          <li data-md="">
+           <p>Append the character  " " (U+0020) to <var>result</var>.</p>
+         </ol>
         <li data-md="">
          <p>Let <var>o</var> be the empty string.</p>
         <li data-md="">
@@ -2077,9 +2081,13 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
         <li data-md="">
          <p>Append <var>o</var> to <var>result</var>.</p>
         <li data-md="">
-         <p>Append the character  " " (U+0020) to <var>result</var>.</p>
-        <li data-md="">
-         <p>Append the character  ")" (U+0029) to <var>result</var>.</p>
+         <p>If the number of elements in <var>dset</var> is greater than 1:</p>
+         <ol>
+          <li data-md="">
+           <p>Append the character  " " (U+0020) to <var>result</var>.</p>
+          <li data-md="">
+           <p>Append the character  ")" (U+0029) to <var>result</var>.</p>
+         </ol>
        </ol>
      </ol>
      <h4 class="heading settled" data-level="3.1.4" id="label-examples"><span class="secno">3.1.4. </span><span class="content">Examples</span><a class="self-link" href="#label-examples"></a></h4>
@@ -3672,11 +3680,26 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
         <li data-md="">
          <p>Let <var>input</var> be the token.</p>
         <li data-md="">
-         <p>If first character of <var>input</var> is not <code>"("</code> (UA+0028), fail.</p>
+         <p>If the number of elements in <var>AND tokens</var> is greater than 1:</p>
+         <ol>
+          <li data-md="">
+           <p>If first character of <var>input</var> is not <code>"("</code> (UA+0028), fail.</p>
+          <li data-md="">
+           <p>If last character of <var>input</var> is not <code>")"</code> (UA+0029), fail.</p>
+          <li data-md="">
+           <p>Remove the first and last characters from <var>input</var>.</p>
+         </ol>
         <li data-md="">
-         <p>If last character of <var>input</var> is not <code>")"</code> (UA+0029), fail.</p>
-        <li data-md="">
-         <p>Remove the first and last characters from <var>input</var>.</p>
+         <p>Else, if first character of <var>input</var> is <code>"("</code> (UA+0028) or if
+  last character of <var>input</var> is <code>")"</code> (UA+0029):</p>
+         <ol>
+          <li data-md="">
+           <p>If first character of <var>input</var> is not <code>"("</code> (UA+0028), fail.</p>
+          <li data-md="">
+           <p>If last character of <var>input</var> is not <code>")"</code> (UA+0029), fail.</p>
+          <li data-md="">
+           <p>Remove the first and last characters from <var>input</var>.</p>
+         </ol>
         <li data-md="">
          <p>Let <var>OR expr</var> be the remaining characters in <var>input</var>.</p>
         <li data-md="">
