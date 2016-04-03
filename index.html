@@ -2359,8 +2359,17 @@ sensitivity (and integrity) of the data they are sharing.</p>
     a leak.</p>
      <p>We say that a context is <dfn data-dfn-type="dfn" data-noexport="" id="stuck">stuck<a class="self-link" href="#stuck"></a></dfn> if it cannot navigate
     arbitrarily.  This occurs when the <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a> of the context is not the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
-     <div class="note" role="note"> To avoid scenarios wherein a top-level page cannot be arbitrarily
-      navigated, COWL has the invariant that <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing contexts</a> never get <a data-link-type="dfn" href="#stuck">stuck</a>. </div>
+     <div class="note" role="note">
+       To avoid scenarios wherein a top-level page cannot be arbitrarily
+      navigated, COWL has the invariant that <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing contexts</a> never get <a data-link-type="dfn" href="#stuck">stuck</a>. 
+      <p class="note" role="note">Note, this design decision was not made due to security, but rather due
+      to usability: it prevents applications from accidentally (or
+      deliberately) reaching a state where users must intervene (e.g., by
+      typing in a new URL) to navigate the top-level page.</p>
+      <p class="note" role="note">Note, this invariant does not mean that code in top-level contexts cannot
+      read <a data-link-type="dfn" href="#labeled-objects">labeled objects</a>. Code can always read <a data-link-type="dfn" href="#labeled-objects">labeled objects</a> that do not raise the <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and all others
+      in a nested context.</p>
+     </div>
      <p>Each context’s <a data-link-type="dfn" href="#cowl-state">COWL state</a> is made available via the <a class="idl-code" data-link-type="interface" href="#cowl">COWL</a> interface defined below.</p>
 <pre class="idl">[Exposed=(Window, Worker)]
 interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="cowl">COWL<a class="self-link" href="#cowl"></a></dfn> {

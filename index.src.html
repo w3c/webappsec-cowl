@@ -1373,6 +1373,16 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
       To avoid scenarios wherein a top-level page cannot be arbitrarily
       navigated, COWL has the invariant that <a>top-level browsing contexts</a>
       never get <a>stuck</a>.
+
+      Note, this design decision was not made due to security, but rather due
+      to usability: it prevents applications from accidentally (or
+      deliberately) reaching a state where users must intervene (e.g., by
+      typing in a new URL) to navigate the top-level page.
+
+      Note, this invariant does not mean that code in top-level contexts cannot
+      read <a>labeled objects</a>. Code can always read <a>labeled objects</a>
+      that do not raise the <a>context confidentiality label</a> and all others
+      in a nested context.
     </div>
 
     Each context's <a>COWL state</a> is made available via the <a
