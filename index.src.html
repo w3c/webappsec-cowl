@@ -1603,30 +1603,32 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
       When invoking the <a>LabeledObject()</a> constructor, the user
       agent MUST use an algorithm equivalent to the following:
 
-      1. Let <var>obj clone</var> be the result of obtaining a
+      1. Enable <a>confinement mode</a>.
+
+      2. Let <var>obj clone</var> be the result of obtaining a
         <a>structured clone</a> of the <a argument
         for="LabeledObject/LabeledObject(obj, labels)">obj</a> argument.
 
-      2. Let <var>conf</var> be the <a dict-member
+      3. Let <var>conf</var> be the <a dict-member
          for="CILabel">confidentiality</a> member of the <a argument
          for="LabeledObject/LabeledObject(obj, labels)">labels</a>
          argument, if it is set.  Otherwise, let <var>conf</var> be
          the <a>current confidentiality label</a>.
 
-      3. Let <var>int</var> be the <a dict-member
+      4. Let <var>int</var> be the <a dict-member
          for="CILabel">integrity</a> member of the <a argument
          for="LabeledObject/LabeledObject(obj, labels)">labels</a>
          parameter, if it is set.  Otherwise, let <var>int</var> be the
          <a>current integrity label</a>.
 
-      4. Let <var>canWrite</var> be the result of invoking the <a>write
+      5. Let <var>canWrite</var> be the result of invoking the <a>write
          check</a> algorithm with the <var>conf</var> and <var>int</var> labels.
 
-      5. If <var>canWrite</var> is <code>false</code>, the constructor
+      6. If <var>canWrite</var> is <code>false</code>, the constructor
          MUST throw a <code>SecurityError</code> exception
          and terminate this algorithm.
 
-      6. Else, the user agent MUST return a new
+      7. Else, the user agent MUST return a new
          <a interface>LabeledObject</a>, with the <a>protected object</a>
          set to <var>obj clone</var>, the confidentiality label set to
          <var>conf</var>, and the integrity
