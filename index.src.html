@@ -1584,7 +1584,7 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
       Label? integrity;
     };
 
-    [Constructor(object obj, CILabel labels), Exposed=Window, Worker]
+    [Constructor(object obj, CILabel? labels), Exposed=Window, Worker]
     interface LabeledObject {
       readonly attribute Label confidentiality;
       readonly attribute Label integrity;
@@ -1609,26 +1609,27 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
         <a>structured clone</a> of the <a argument
         for="LabeledObject/LabeledObject(obj, labels)">obj</a> argument.
 
-      3. Let <var>conf</var> be the <a dict-member
-         for="CILabel">confidentiality</a> member of the <a argument
+      3. Let <var>labels</var> be the <a argument
          for="LabeledObject/LabeledObject(obj, labels)">labels</a>
-         argument, if it is set.  Otherwise, let <var>conf</var> be
-         the <a>current confidentiality label</a>.
+         argument if it provided, otherwise an empty object with no members.
 
-      4. Let <var>int</var> be the <a dict-member
-         for="CILabel">integrity</a> member of the <a argument
-         for="LabeledObject/LabeledObject(obj, labels)">labels</a>
-         parameter, if it is set.  Otherwise, let <var>int</var> be the
-         <a>current integrity label</a>.
+      4. Let <var>conf</var> be the <a dict-member
+         for="CILabel">confidentiality</a> member of <var>labels</var>, if it
+         is set.  Otherwise, let <var>conf</var> be the <a>current
+         confidentiality label</a>.
 
-      5. Let <var>canWrite</var> be the result of invoking the <a>write
+      5. Let <var>int</var> be the <a dict-member
+         for="CILabel">integrity</a> member of <var>labels</var>, if it is set.
+         Otherwise, let <var>int</var> be the <a>current integrity label</a>.
+
+      6. Let <var>canWrite</var> be the result of invoking the <a>write
          check</a> algorithm with the <var>conf</var> and <var>int</var> labels.
 
-      6. If <var>canWrite</var> is <code>false</code>, the constructor
+      7. If <var>canWrite</var> is <code>false</code>, the constructor
          MUST throw a <code>SecurityError</code> exception
          and terminate this algorithm.
 
-      7. Else, the user agent MUST return a new
+      8. Else, the user agent MUST return a new
          <a interface>LabeledObject</a>, with the <a>protected object</a>
          set to <var>obj clone</var>, the confidentiality label set to
          <var>conf</var>, and the integrity

@@ -2530,7 +2530,7 @@ privilege</a>.</p>
   <a data-link-type="idl-name" href="#label0">Label</a>? <dfn class="idl-code" data-dfn-for="CILabel" data-dfn-type="dict-member" data-export="" data-type="Label? " id="dom-cilabel-integrity">integrity<a class="self-link" href="#dom-cilabel-integrity"></a></dfn>;
 };
 
-[<a class="idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject">Constructor</a>(object <dfn class="idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj">obj<a class="self-link" href="#dom-labeledobject-labeledobject-obj-labels-obj"></a></dfn>, <a data-link-type="idl-name" href="#dictdef-cilabel">CILabel</a> <dfn class="idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels">labels<a class="self-link" href="#dom-labeledobject-labeledobject-obj-labels-labels"></a></dfn>), Exposed=Window, Worker]
+[<a class="idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject">Constructor</a>(object <dfn class="idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj">obj<a class="self-link" href="#dom-labeledobject-labeledobject-obj-labels-obj"></a></dfn>, <a data-link-type="idl-name" href="#dictdef-cilabel">CILabel</a>? <dfn class="idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels">labels<a class="self-link" href="#dom-labeledobject-labeledobject-obj-labels-labels"></a></dfn>), Exposed=Window, Worker]
 interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="labeledobject">LabeledObject<a class="self-link" href="#labeledobject"></a></dfn> {
   readonly attribute <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="attribute" data-readonly="" data-type="Label " href="#dom-labeledobject-confidentiality">confidentiality</a>;
   readonly attribute <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="attribute" data-readonly="" data-type="Label " href="#dom-labeledobject-integrity">integrity</a>;
@@ -2552,10 +2552,14 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="lab
         <li data-md="">
          <p>Let <var>obj clone</var> be the result of obtaining a <a data-link-type="dfn" href="https://www.w3.org/TR/html5/infrastructure.html#structured-clone">structured clone</a> of the <a class="idl-code" data-link-type="argument" href="#dom-labeledobject-labeledobject-obj-labels-obj">obj</a> argument.</p>
         <li data-md="">
-         <p>Let <var>conf</var> be the <a class="idl-code" data-link-type="dict-member" href="#dom-cilabel-confidentiality">confidentiality</a> member of the <a class="idl-code" data-link-type="argument" href="#dom-labeledobject-labeledobject-obj-labels-labels">labels</a> argument, if it is set.  Otherwise, let <var>conf</var> be
- the <a data-link-type="dfn" href="#current-confidentiality-label">current confidentiality label</a>.</p>
+         <p>Let <var>labels</var> be the <a class="idl-code" data-link-type="argument" href="#dom-labeledobject-labeledobject-obj-labels-labels">labels</a> argument if it provided, otherwise an empty object with no members.</p>
         <li data-md="">
-         <p>Let <var>int</var> be the <a class="idl-code" data-link-type="dict-member" href="#dom-cilabel-integrity">integrity</a> member of the <a class="idl-code" data-link-type="argument" href="#dom-labeledobject-labeledobject-obj-labels-labels">labels</a> parameter, if it is set.  Otherwise, let <var>int</var> be the <a data-link-type="dfn" href="#current-integrity-label">current integrity label</a>.</p>
+         <p>Let <var>conf</var> be the <a class="idl-code" data-link-type="dict-member" href="#dom-cilabel-confidentiality">confidentiality</a> member of <var>labels</var>, if it
+ is set.  Otherwise, let <var>conf</var> be the <a data-link-type="dfn" href="#current-confidentiality-label">current
+ confidentiality label</a>.</p>
+        <li data-md="">
+         <p>Let <var>int</var> be the <a class="idl-code" data-link-type="dict-member" href="#dom-cilabel-integrity">integrity</a> member of <var>labels</var>, if it is set.
+ Otherwise, let <var>int</var> be the <a data-link-type="dfn" href="#current-integrity-label">current integrity label</a>.</p>
         <li data-md="">
          <p>Let <var>canWrite</var> be the result of invoking the <a data-link-type="dfn" href="#write-check">write
  check</a> algorithm with the <var>conf</var> and <var>int</var> labels.</p>
@@ -4192,7 +4196,7 @@ dictionary <a href="#dictdef-cilabel">CILabel</a> {
   <a data-link-type="idl-name" href="#label0">Label</a>? <a data-type="Label? " href="#dom-cilabel-integrity">integrity</a>;
 };
 
-[<a class="idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject">Constructor</a>(object <a href="#dom-labeledobject-labeledobject-obj-labels-obj">obj</a>, <a data-link-type="idl-name" href="#dictdef-cilabel">CILabel</a> <a href="#dom-labeledobject-labeledobject-obj-labels-labels">labels</a>), Exposed=Window, Worker]
+[<a class="idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject">Constructor</a>(object <a href="#dom-labeledobject-labeledobject-obj-labels-obj">obj</a>, <a data-link-type="idl-name" href="#dictdef-cilabel">CILabel</a>? <a href="#dom-labeledobject-labeledobject-obj-labels-labels">labels</a>), Exposed=Window, Worker]
 interface <a href="#labeledobject">LabeledObject</a> {
   readonly attribute <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="attribute" data-readonly="" data-type="Label " href="#dom-labeledobject-confidentiality">confidentiality</a>;
   readonly attribute <a data-link-type="idl-name" href="#label0">Label</a> <a class="idl-code" data-link-type="attribute" data-readonly="" data-type="Label " href="#dom-labeledobject-integrity">integrity</a>;
