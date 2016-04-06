@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-04-02">2 April 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-04-05">5 April 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3146,17 +3146,13 @@ Content-Type: application/labeled-json;
          <p>Let <var>dstState</var> be the <a data-link-type="dfn" href="#cowl-state">COWL state</a> associated with the <code><a class="idl-code" data-link-type="interface" href="https://www.w3.org/TR/html5/dom.html#the-document-object">Document</a></code> of the <code><a class="idl-code" data-link-type="interface" href="https://www.w3.org/TR/html5/browsers.html#window">Window</a></code> object on which the
   method was invoked.</p>
         <li data-md="">
-         <p>If <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> for <var>dstState</var> is
-  enabled, let <var>dstConf</var> be the <var>dstState</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
+         <p>Let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned
+  by the <a data-link-type="dfn" href="#label-upgrade">label upgrade</a> algorithm when invoked with the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
+         <p class="note" role="note">Note, in using the <a data-link-type="dfn" href="#label-upgrade">label upgrade</a> COWL flexibly assumes
+  that receivers wish to receive data potentially sensitive to
+  their origin (really data they can declassify with their <a data-link-type="dfn" href="#privilege">privileges</a>).</p>
         <li data-md="">
-         <p>Else, let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
-  upgrade</a> algorithm when invoked with the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
-         <p class="note" role="note">Note, if the receiver has not enabled <a data-link-type="dfn" href="#confinement-mode">confinement
-  mode</a>, COWL flexibly assumes that it can receive
-  data sensitive to its origin (in using the <a data-link-type="dfn" href="#label-upgrade">label
-  upgrade</a>).</p>
-        <li data-md="">
-         <p>Let <var>dstInt</var> be the <var>dstState</var> <a data-link-type="dfn" href="#effective-integrity-label">effective
+         <p>Let <var>dstInt</var> be the <var>dstState</var> <a data-link-type="dfn" href="#context-integrity-label">context
   integrity label</a>.</p>
         <li data-md="">
          <p>If <var>dstConf</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>conf</var> or if <var>int</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>dstInt</var>, then abort the
@@ -3175,17 +3171,13 @@ Content-Type: application/labeled-json;
          <p>Let <var>dstState</var> be the <a data-link-type="dfn" href="#cowl-state">COWL state</a> associated with the <a data-link-type="dfn" href="https://www.w3.org/TR/webmessaging/#concept-port-owner">owner</a> of the <code>target
   port</code> the <a data-link-type="dfn" href="https://www.w3.org/TR/webmessaging/#messageport">Message Port</a> <code>postMessage()</code> was called on.</p>
         <li data-md="">
-         <p>If <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> for <var>dstState</var> is
-  enabled, let <var>dstConf</var> be the <var>dstState</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a>.</p>
+         <p>Else, let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label upgrade</a> algorithm when invoked with
+  the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
+         <p class="note" role="note">Note, in using the <a data-link-type="dfn" href="#label-upgrade">label upgrade</a> COWL flexibly assumes
+  that receivers wish to receive data potentially sensitive to
+  their origin (really data they can declassify with their <a data-link-type="dfn" href="#privilege">privileges</a>).</p>
         <li data-md="">
-         <p>Else, let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-upgrade">label
-  upgrade</a> algorithm when invoked with the <var>dstState</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality label</a> and <a data-link-type="dfn" href="#context-privilege">context privilege</a>.</p>
-         <p class="note" role="note">Note, if the receiver has not enabled <a data-link-type="dfn" href="#confinement-mode">confinement
-  mode</a>, COWL flexibly assumes that it can receive
-  data sensitive to its origin (in using the <a data-link-type="dfn" href="#label-upgrade">label
-  upgrade</a>).</p>
-        <li data-md="">
-         <p>Let <var>dstInt</var> be the <var>state</var> <a data-link-type="dfn" href="#effective-integrity-label">effective
+         <p>Let <var>dstInt</var> be the <var>dstState</var> <a data-link-type="dfn" href="#context-integrity-label">context
   integrity label</a>.</p>
         <li data-md="">
          <p>If <var>dstConf</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>conf</var> or if <var>int</var> does not <a data-link-type="dfn" href="#subsumes">subsume</a> <var>dstInt</var>, then abort the
@@ -3283,10 +3275,9 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
     </section>
     <section>
      <h3 class="heading settled" data-level="4.3" id="alg-label-downgrade"><span class="secno">4.3. </span><span class="content">Label Downgrade</span><a class="self-link" href="#alg-label-downgrade"></a></h3>
-      The <dfn data-dfn-type="dfn" data-noexport="" id="label-downgrade">label downgrade<a class="self-link" href="#label-downgrade"></a></dfn> algorithm takes a confidentiality
-    label <var>label</var> and a privilege <var>priv</var>, and
-    returns the least restricting label according to the following
-    steps: 
+      The <dfn data-dfn-type="dfn" data-noexport="" id="label-downgrade">label downgrade<a class="self-link" href="#label-downgrade"></a></dfn> algorithm takes a label <var>label</var> and
+    a privilege <var>priv</var>, and returns the least restricting label
+    according to the following steps: 
      <ol>
       <li data-md="">
        <p>Let <var>privLabel</var> be the <a data-link-type="dfn" href="#internal-privilege-label">internal privilege label</a> of <var>priv</var>.</p>
@@ -3309,10 +3300,9 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
     </section>
     <section>
      <h3 class="heading settled" data-level="4.4" id="alg-label-upgrade"><span class="secno">4.4. </span><span class="content">Label Upgrade</span><a class="self-link" href="#alg-label-upgrade"></a></h3>
-      The <dfn data-dfn-type="dfn" data-noexport="" id="label-upgrade">label upgrade<a class="self-link" href="#label-upgrade"></a></dfn> algorithm takes an integrity
-    label <var>label</var> and a privilege <var>priv</var>, and
-    returns the most permissive label according to the following
-    steps: 
+      The <dfn data-dfn-type="dfn" data-noexport="" id="label-upgrade">label upgrade<a class="self-link" href="#label-upgrade"></a></dfn> algorithm takes a label <var>label</var> and a
+    privilege <var>priv</var>, and returns the most permissive label according
+    to the following steps: 
      <ol>
       <li data-md="">
        <p>Let <var>privLabel</var> be the <a data-link-type="dfn" href="#internal-privilege-label">internal privilege label</a> of <var>priv</var>.</p>
@@ -3821,11 +3811,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="acknowledgements"><span class="secno">6. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
-    <p>Thanks to Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill, Dave
-  Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
-  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the
-  W3C WebAppSec team for influencing (directly or otherwise) the
-  design of COWL and/or their comments on this document.</p>
+    <p>Thanks to Niklas Andreasson, Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill,
+  Dave Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
+  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the W3C
+  WebAppSec team for influencing (directly or otherwise) the design of COWL
+  and/or their comments on this document.</p>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>

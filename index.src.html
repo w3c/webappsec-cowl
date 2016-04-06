@@ -2387,25 +2387,20 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
                 <code><a interface>Window</a></code> object on which the
                 method was invoked.
 
-             4. If <a>confinement mode</a> for <var>dstState</var> is
-                enabled, let <var>dstConf</var> be the <var>dstState</var>
-                <a>effective confidentiality label</a>.
+             4. Let <var>dstConf</var> be the <a interface>Label</a> returned
+                by the <a>label upgrade</a> algorithm when invoked with the
+                <var>dstState</var> <a>context confidentiality label</a> and
+                <a>context privilege</a>.
 
-             5. Else, let <var>dstConf</var> be the <a interface>Label</a> returned by the <a>label
-                upgrade</a> algorithm when invoked with the
-                <var>dstState</var> <a>context confidentiality label</a>
-                and <a>context privilege</a>.
+                Note, in using the <a>label upgrade</a> COWL flexibly assumes
+                that receivers wish to receive data potentially sensitive to
+                their origin (really data they can declassify with their
+                <a>privileges</a>).
 
-                Note, if the receiver has not enabled <a>confinement
-                mode</a>, COWL flexibly assumes that it can receive
-                data sensitive to its origin (in using the <a>label
-                upgrade</a>).
-
-             6. Let <var>dstInt</var> be the <var>dstState</var> <a>effective
+             5. Let <var>dstInt</var> be the <var>dstState</var> <a>context
                 integrity label</a>.
 
-
-             7. If <var>dstConf</var> does not <a>subsume</a>
+             6. If <var>dstConf</var> does not <a>subsume</a>
                 <var>conf</var> or if <var>int</var> does not
                 <a>subsume</a> <var>dstInt</var>, then abort the
                 remaining steps silently.
@@ -2421,27 +2416,23 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 
              3. Let <var>dstState</var> be the <a>COWL state</a>
                 associated with the <a>owner</a> of the <code>target
-                port</code> the <a>Message Port</a>
+                port</code> the <a>Message Port</a> 
                 <code>postMessage()</code> was called on.
 
-             4. If <a>confinement mode</a> for <var>dstState</var> is
-                enabled, let <var>dstConf</var> be the <var>dstState</var>
-                <a>effective confidentiality label</a>.
+             4. Else, let <var>dstConf</var> be the <a interface>Label</a>
+                returned by the <a>label upgrade</a> algorithm when invoked with
+                the <var>dstState</var> <a>context confidentiality label</a> and
+                <a>context privilege</a>.
 
-             5. Else, let <var>dstConf</var> be the <a interface>Label</a> returned by the <a>label
-                upgrade</a> algorithm when invoked with the
-                <var>dstState</var> <a>context confidentiality label</a>
-                and <a>context privilege</a>.
+                Note, in using the <a>label upgrade</a> COWL flexibly assumes
+                that receivers wish to receive data potentially sensitive to
+                their origin (really data they can declassify with their
+                <a>privileges</a>).
 
-                Note, if the receiver has not enabled <a>confinement
-                mode</a>, COWL flexibly assumes that it can receive
-                data sensitive to its origin (in using the <a>label
-                upgrade</a>).
-
-             6. Let <var>dstInt</var> be the <var>state</var> <a>effective
+             5. Let <var>dstInt</var> be the <var>dstState</var> <a>context
                 integrity label</a>.
 
-             7. If <var>dstConf</var> does not <a>subsume</a>
+             6. If <var>dstConf</var> does not <a>subsume</a>
                 <var>conf</var> or if <var>int</var> does not
                 <a>subsume</a> <var>dstInt</var>, then abort the
                 remaining steps.
@@ -2568,10 +2559,9 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 
   <section>
     <h3 id="alg-label-downgrade">Label Downgrade</h3>
-    The <dfn>label downgrade</dfn> algorithm takes a confidentiality
-    label <var>label</var> and a privilege <var>priv</var>, and
-    returns the least restricting label according to the following
-    steps:
+    The <dfn>label downgrade</dfn> algorithm takes a label <var>label</var> and
+    a privilege <var>priv</var>, and returns the least restricting label
+    according to the following steps:
 
     1. Let <var>privLabel</var> be the <a>internal privilege label</a>
        of <var>priv</var>.
@@ -2596,10 +2586,9 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 
   <section>
     <h3 id="alg-label-upgrade">Label Upgrade</h3>
-    The <dfn>label upgrade</dfn> algorithm takes an integrity
-    label <var>label</var> and a privilege <var>priv</var>, and
-    returns the most permissive label according to the following
-    steps:
+    The <dfn>label upgrade</dfn> algorithm takes a label <var>label</var> and a
+    privilege <var>priv</var>, and returns the most permissive label according
+    to the following steps:
 
     1. Let <var>privLabel</var> be the <a>internal privilege label</a>
        of <var>priv</var>.
@@ -3255,9 +3244,9 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 <section>
   <h2 id="acknowledgements">Acknowledgements</h2>
 
-  Thanks to Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill, Dave
-  Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
-  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the
-  W3C WebAppSec team for influencing (directly or otherwise) the
-  design of COWL and/or their comments on this document.
+  Thanks to Niklas Andreasson, Dan Boneh, Brendan Eich, Lon Ingram, Brad Hill,
+  Dave Herman, Bobby Holley, Brad Karp, Jonathan Kingston, Petr Marchenko,
+  David Mazières, Devon Rifkin, Alejandro Russo, Brian Smith, and the W3C
+  WebAppSec team for influencing (directly or otherwise) the design of COWL
+  and/or their comments on this document.
 </section>
