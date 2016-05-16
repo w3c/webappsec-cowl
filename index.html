@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-04-05">5 April 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-05-16">16 May 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3370,16 +3370,16 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
        <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> object, then:</p>
        <ol>
         <li data-md="">
-         <p>If the <var>input</var>’s <a data-link-type="dfn" href="#internal-privilege-label">internal privilege label</a> does not <a data-link-type="dfn" href="#subsumes">subsume</a> any label whose <a data-link-type="dfn" href="#label-set">label set</a> is a singleton <a data-link-type="dfn" href="#origin-principal">origin principal</a>, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> object with the same <a data-link-type="dfn" href="#internal-privilege-label">internal privilege
- label</a> as that of <var>input</var>.</p>
-       </ol>
-       <ol start="2">
+         <p>If the <var>input</var>’s <a data-link-type="dfn" href="#internal-privilege-label">internal privilege label</a> <a data-link-type="dfn" href="#subsumes">subsumes</a> any label whose <a data-link-type="dfn" href="#label-set">label set</a> is a singleton <a data-link-type="dfn" href="#origin-principal">origin principal</a>, let <var>output</var> be <code>null</code>.</p>
         <li data-md="">
-         <p>Else, let <var>output</var> be <code>null</code>.</p>
+         <p>Else, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#privilege0">Privilege</a> object with the same <a data-link-type="dfn" href="#internal-privilege-label">internal privilege
+ label</a> as that of <var>input</var>.</p>
        </ol>
        <div class="note" role="note"> To prevent attacks that launder <a data-link-type="dfn" href="#default-privilege">default privileges</a>, the current
    version of COWL only allows transferring weaker <a data-link-type="dfn" href="#delegated-privilege">delegated
-   privileges</a> or privileges constructed with <a data-link-type="functionish" href="#dom-privilege-freshprivilege">FreshPrivilege()</a>. </div>
+   privileges</a> or privileges constructed with <a data-link-type="functionish" href="#dom-privilege-freshprivilege">FreshPrivilege()</a>.
+   The first step above ensures this by setting the <var>output</var> to <code>null</code> if the privilege subsumes any privilege
+   corresponding to an <a data-link-type="dfn" href="#origin-principal">origin principal</a>. </div>
       <li data-md="">
        <p>If <var>input</var> is a <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object, let <var>output</var> be a newly constructed <a class="idl-code" data-link-type="interface" href="#labeledobject">LabeledObject</a> object whose
  confidentiality and integrity labels are the same as that of <var>input</var>, and whose internal <a data-link-type="dfn" href="#protected-object">protected object</a> is

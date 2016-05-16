@@ -2675,18 +2675,22 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
 
     3. If <var>input</var> is a <a interface>Privilege</a> object, then:
 
-        1. If the <var>input</var>'s <a>internal privilege label</a> does not
-           <a>subsume</a> any label whose <a>label set</a> is a singleton 
-           <a>origin principal</a>, let <var>output</var> be a newly constructed
+        1. If the <var>input</var>'s <a>internal privilege label</a> 
+           <a>subsumes</a> any label whose <a>label set</a> is a singleton 
+           <a>origin principal</a>, let <var>output</var> be <code>null</code>.
+
+        2.  Else, let <var>output</var> be a newly constructed
            <a interface>Privilege</a> object with the same <a>internal privilege
            label</a> as that of <var>input</var>.
 
-       2. Else, let <var>output</var> be <code>null</code>.
 
        <div class="note">
          To prevent attacks that launder <a>default privileges</a>, the current
          version of COWL only allows transferring weaker <a>delegated
          privileges</a> or privileges constructed with <a>FreshPrivilege()</a>.
+         The first step above ensures this by setting the <var>output</var> to
+         <code>null</code> if the privilege subsumes any privilege
+         corresponding to an <a>origin principal</a>.
        </div>
 
     4. If <var>input</var> is a <a interface>LabeledObject</a> object, let
