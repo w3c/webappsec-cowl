@@ -165,6 +165,11 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
   type: dfn
     text: determine request's referrer algorithm; url: determine-requests-referrer
     text: referrer policy; url: referrer-policy
+spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
+  type: method
+    text: WebSocket(); url: dom-websocket
+  type: dfn
+    text: make disappear; url: make-disappear
 </pre>
 
 <!-- BIBLIOGRAPHY -->
@@ -2479,6 +2484,70 @@ spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-polic
           * The <a>sandboxed navigation browsing context flag</a>.
 
           * The <a>sandboxed auxiliary navigation browsing context flag</a>.
+
+        <h4 id="modifications-fetch">Modifications to WebSockets</h4>
+
+          When <a>confinement mode</a> is enabled the user agent MUST ensure
+          that code cannot leak information by either creating a new WebSocket
+          or writing to an existing (otherwise disallowed) WebSocket. To this
+          end, the WebSockets specification SHOULD contain the following
+          modification in order to enable the rest of this specification's
+          work [[WEBSOCKETS]]:
+
+          * Perform the following steps between step 6 and 7 in the
+            <a>WebSocket()</a> constructor:
+
+            1. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
+               the <a>Label(principal)</a> with the <var>url</var> argument
+               that was passed to the constructor.
+
+            2. Let <var>canWrite</var> be the result of invoking
+               the <a>write check</a> algorithm with <var>conf</var>
+               and the <a>empty label</a>.
+            
+            3. If <var>canWrite</var> is <code>false</code>, throw a
+               <code>SecurityError</code> exception.
+               
+               The user agent SHOULD report a warning that the current context
+               may have attempted to leak data to a remote server.
+
+             Note, only the confidentiality label plays a role in this step
+             since conceptually, the integrity label of a server is the
+             <a>empty label</a> and, thus, always subsumed.
+
+          To prevent leaks via already established WebSockets, if the
+          <a>effective confidentiality label</a> or integrity label of the 
+          current context are not the <a>empty label</a> the user agent MUST
+          additionally perform the following step:
+
+            * For each created WebSocket <var>ws</var> associated with the current execution context:
+
+              1. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
+                the <a>Label(principal)</a> with the <a
+                  href="https://www.w3.org/TR/websockets/#dom-websocket-url">url</a>
+                attribute of the <var>ws</var> object.
+
+              2. Let <var>canWrite</var> be the result of invoking
+                the <a>write check</a> algorithm with <var>conf</var>
+                and the <a>empty label</a>.
+              
+              3. If <var>canWrite</var> is <code>false</code> or the <a>current integrity label</a>
+                is not the <a>empty label</a>, the user agent is to <a>make
+                disappear</a> the <var>ws</var> object.
+
+            Note, it is sufficient for user agents to perform this step when the
+            context enables <a>confinement mode</a> and whenever it gets
+            <a>tainted</a>.
+
+          <div class="note">
+             This step closes any WebSockets that are deemed unsafe for
+             the current context to communicate with. This may be because it
+             may be possible for the context to leak overly-confidential data
+             to the remote server; or, it may be because the <a>context
+             integrity label</a> is set and thus the (high integrity) context
+             should not be affected by reading potentially less trustworthy
+             data from the remote server.
+          </div>
 
     </section>
 

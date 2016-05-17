@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-05-16">16 May 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-05-17">17 May 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1445,6 +1445,7 @@ further.</p>
         <li><a href="#modifications-fetch"><span class="secno">3.7.1</span> <span class="content">Modifications to Fetch</span></a>
         <li><a href="#modifications-to-web-messaging"><span class="secno">3.7.2</span> <span class="content">Modifications to Web Messaging</span></a>
         <li><a href="#modifications-to-html5"><span class="secno">3.7.3</span> <span class="content">Modifications to HTML5</span></a>
+        <li><a href="#modifications-fetch0"><span class="secno">3.7.4</span> <span class="content">Modifications to WebSockets</span></a>
        </ol>
      </ol>
     <li>
@@ -3220,6 +3221,59 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-auxiliary-navigation-browsing-context-flag">sandboxed auxiliary navigation browsing context flag</a>.</p>
      </ul>
+     <h4 class="heading settled" data-level="3.7.4" id="modifications-fetch0"><span class="secno">3.7.4. </span><span class="content">Modifications to WebSockets</span><a class="self-link" href="#modifications-fetch0"></a></h4>
+     <p>When <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> is enabled the user agent MUST ensure
+          that code cannot leak information by either creating a new WebSocket
+          or writing to an existing (otherwise disallowed) WebSocket. To this
+          end, the WebSockets specification SHOULD contain the following
+          modification in order to enable the rest of this specification’s
+          work <a data-link-type="biblio" href="#biblio-websockets">[WEBSOCKETS]</a>:</p>
+     <ul>
+      <li data-md="">
+       <p>Perform the following steps between step 6 and 7 in the <a data-link-type="functionish" href="https://www.w3.org/TR/websockets/#dom-websocket">WebSocket()</a> constructor:</p>
+       <ol>
+        <li data-md="">
+         <p>Let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> created by invoking
+ the <a data-link-type="functionish" href="#dom-label-label">Label(principal)</a> with the <var>url</var> argument
+ that was passed to the constructor.</p>
+        <li data-md="">
+         <p>Let <var>canWrite</var> be the result of invoking
+ the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>conf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
+        <li data-md="">
+         <p>If <var>canWrite</var> is <code>false</code>, throw a <code>SecurityError</code> exception.</p>
+         <p>The user agent SHOULD report a warning that the current context
+ may have attempted to leak data to a remote server.</p>
+       </ol>
+       <p class="note" role="note">Note, only the confidentiality label plays a role in this step
+ since conceptually, the integrity label of a server is the <a data-link-type="dfn" href="#empty-label">empty label</a> and, thus, always subsumed.</p>
+     </ul>
+     <p>To prevent leaks via already established WebSockets, if the <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality label</a> or integrity label of the 
+          current context are not the <a data-link-type="dfn" href="#empty-label">empty label</a> the user agent MUST
+          additionally perform the following step:</p>
+     <ul>
+      <li data-md="">
+       <p>For each created WebSocket <var>ws</var> associated with the current execution context:</p>
+       <ol>
+        <li data-md="">
+         <p>Let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> created by invoking
+the <a data-link-type="functionish" href="#dom-label-label">Label(principal)</a> with the <a href="https://www.w3.org/TR/websockets/#dom-websocket-url">url</a> attribute of the <var>ws</var> object.</p>
+        <li data-md="">
+         <p>Let <var>canWrite</var> be the result of invoking
+the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>conf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
+        <li data-md="">
+         <p>If <var>canWrite</var> is <code>false</code> or the <a data-link-type="dfn" href="#current-integrity-label">current integrity label</a> is not the <a data-link-type="dfn" href="#empty-label">empty label</a>, the user agent is to <a data-link-type="dfn" href="https://www.w3.org/TR/websockets/#make-disappear">make
+disappear</a> the <var>ws</var> object.</p>
+       </ol>
+     </ul>
+     <p class="note" role="note">Note, it is sufficient for user agents to perform this step when the
+            context enables <a data-link-type="dfn" href="#confinement-mode">confinement mode</a> and whenever it gets <a data-link-type="dfn" href="#tainted">tainted</a>.</p>
+     <div class="note" role="note"> This step closes any WebSockets that are deemed unsafe for
+             the current context to communicate with. This may be because it
+             may be possible for the context to leak overly-confidential data
+             to the remote server; or, it may be because the <a data-link-type="dfn" href="#context-integrity-label">context
+             integrity label</a> is set and thus the (high integrity) context
+             should not be affected by reading potentially less trustworthy
+             data from the remote server. </div>
     </section>
    </section>
    <section>
@@ -4096,6 +4150,12 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
      <li><a href="https://www.w3.org/TR/webmessaging/#posting-messages">posting messages</a>
     </ul>
    <li>
+    <a data-link-type="biblio" href="#biblio-websockets">[websockets]</a> defines the following terms:
+    <ul>
+     <li><a href="https://www.w3.org/TR/websockets/#dom-websocket">WebSocket()</a>
+     <li><a href="https://www.w3.org/TR/websockets/#make-disappear">make disappear</a>
+    </ul>
+   <li>
     <a data-link-type="biblio" href="#biblio-workers">[workers]</a> defines the following terms:
     <ul>
      <li><a href="https://www.w3.org/TR/workers/#infrastructure">web worker</a>
@@ -4161,6 +4221,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
    <dt id="biblio-webmessaging"><a class="self-link" href="#biblio-webmessaging"></a>[WEBMESSAGING]
    <dd>Ian Hickson. <a href="http://www.w3.org/TR/webmessaging/">HTML5 Web Messaging</a>. 19 May 2015. REC. URL: <a href="http://www.w3.org/TR/webmessaging/">http://www.w3.org/TR/webmessaging/</a>
+   <dt id="biblio-websockets"><a class="self-link" href="#biblio-websockets"></a>[WEBSOCKETS]
+   <dd>Ian Hickson. <a href="http://www.w3.org/TR/websockets/">The WebSocket API</a>. 20 September 2012. CR. URL: <a href="http://www.w3.org/TR/websockets/">http://www.w3.org/TR/websockets/</a>
    <dt id="biblio-workers"><a class="self-link" href="#biblio-workers"></a>[WORKERS]
    <dd>Ian Hickson. <a href="http://www.w3.org/TR/workers/">Web Workers</a>. 24 September 2015. WD. URL: <a href="http://www.w3.org/TR/workers/">http://www.w3.org/TR/workers/</a>
   </dl>
