@@ -2502,7 +2502,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
                that was passed to the constructor.
 
             2. Let <var>canWrite</var> be the result of invoking
-               the <a>write check</a> algorithm with <var>conf</var>
+               the <a>write check</a> algorithm with <var>dstConf</var>
                and the <a>empty label</a>.
             
             3. If <var>canWrite</var> is <code>false</code>, throw a
@@ -2528,7 +2528,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
                 attribute of the <var>ws</var> object.
 
               2. Let <var>canWrite</var> be the result of invoking
-                the <a>write check</a> algorithm with <var>conf</var>
+                the <a>write check</a> algorithm with <var>dstConf</var>
                 and the <a>empty label</a>.
               
               3. If <var>canWrite</var> is <code>false</code> or the <a>current integrity label</a>

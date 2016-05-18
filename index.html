@@ -1297,7 +1297,7 @@
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-05-17">17 May 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-05-18">18 May 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3238,7 +3238,7 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
  that was passed to the constructor.</p>
         <li data-md="">
          <p>Let <var>canWrite</var> be the result of invoking
- the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>conf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
+ the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
         <li data-md="">
          <p>If <var>canWrite</var> is <code>false</code>, throw a <code>SecurityError</code> exception.</p>
          <p>The user agent SHOULD report a warning that the current context
@@ -3259,7 +3259,7 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
 the <a data-link-type="functionish" href="#dom-label-label">Label(principal)</a> with the <a href="https://www.w3.org/TR/websockets/#dom-websocket-url">url</a> attribute of the <var>ws</var> object.</p>
         <li data-md="">
          <p>Let <var>canWrite</var> be the result of invoking
-the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>conf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
+the <a data-link-type="dfn" href="#write-check">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label">empty label</a>.</p>
         <li data-md="">
          <p>If <var>canWrite</var> is <code>false</code> or the <a data-link-type="dfn" href="#current-integrity-label">current integrity label</a> is not the <a data-link-type="dfn" href="#empty-label">empty label</a>, the user agent is to <a data-link-type="dfn" href="https://www.w3.org/TR/websockets/#make-disappear">make
 disappear</a> the <var>ws</var> object.</p>
