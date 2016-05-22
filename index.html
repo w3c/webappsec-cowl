@@ -3586,8 +3586,14 @@ a2.<a data-link-type="functionish" href="#dom-label-equals">equals(a)</a>;
          <p>The user agent SHOULD report a warning that the server supplied a
  malformed <code>Sec-COWL</code> header.</p>
         <li data-md="">
-         <p>If the <var>state</var> <a data-link-type="dfn" href="#effective-confidentiality-label">effective confidentiality
- label</a> subsumes <var>conf</var> and <var>int</var> subsumes the <var>state</var> <a data-link-type="dfn" href="#effective-integrity-label">effective integrity
+         <p>Let <var>effConf</var> be the <a class="idl-code" data-link-type="interface" href="#label0">Label</a> returned by the <a data-link-type="dfn" href="#label-downgrade">label downgrade</a> algorithm when invoked with <var>conf</var> and
+ the <var>state</var> <a data-link-type="dfn" href="#current-privilege">current privilege</a>.</p>
+         <p class="note" role="note">Note, <var>effConf</var> is the <em>effective confidentiality label of
+ the response</em>—COWL flexibly declassifies responses (as much as
+ the <a data-link-type="dfn" href="#current-privilege">current privilege</a> permits).</p>
+        <li data-md="">
+         <p>If the <var>state</var> <a data-link-type="dfn" href="#context-confidentiality-label">context confidentiality
+ label</a> subsumes <var>effConf</var> and <var>int</var> subsumes the <var>state</var> <a data-link-type="dfn" href="#effective-integrity-label">effective integrity
  label</a>, return <strong>allowed</strong>.</p>
         <li data-md="">
          <p>Else, return <strong>blocked</strong>.</p>

@@ -2970,12 +2970,20 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
            The user agent SHOULD report a warning that the server supplied a
            malformed <code>Sec-COWL</code> header.
 
-        4. If the <var>state</var> <a>effective confidentiality
-           label</a> subsumes <var>conf</var> and <var>int</var>
+        4. Let <var>effConf</var> be the <a interface>Label</a> returned by the
+           <a>label downgrade</a> algorithm when invoked with <var>conf</var> and
+           the <var>state</var> <a>current privilege</a>.
+
+           Note, <var>effConf</var> is the <em>effective confidentiality label of
+           the response</em>&mdash;COWL flexibly declassifies responses (as much as
+           the <a>current privilege</a> permits).
+
+        5. If the <var>state</var> <a>context confidentiality
+           label</a> subsumes <var>effConf</var> and <var>int</var>
            subsumes the <var>state</var> <a>effective integrity
            label</a>, return <strong>allowed</strong>.
 
-        5. Else, return <strong>blocked</strong>.
+        6. Else, return <strong>blocked</strong>.
 
            Note, COWL conservatively blocks a response that is
            potentially more confidential or less trustworthy than the
