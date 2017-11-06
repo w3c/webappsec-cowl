@@ -10,11 +10,11 @@ Editor: Deian Stefan, GitStar Inc., deian@gitstar.com
 Abstract:
   This specification defines an API for specifying privacy and
   integrity policies on data, in the form of origin labels, and a
-  mechanism for confining code according to such policies.  This
+  mechanism for confining iframes according to such policies.  This
   allows Web application authors and server operators to shared data
   with untrusted&mdash;buggy but not malicious&mdash;code (e.g., in a mashup
-  scenario) yet impose restrictions on how the code can share the data
-  further.
+  scenario) yet impose restrictions on how the code running in an iframe can
+  share the data further.
 Indent: 2
 Version History: https://github.com/w3c/webappsec-cowl/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
@@ -250,7 +250,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <code>https://example.com</code>.
 
   COWL enforces such policies by confining code at the
-  <a>context</a>-level, according to the sensitivity (i.e., the label)
+  <a>iframe</a>-level, according to the sensitivity (i.e., the label)
   of the data the code has observed. To reap the greatest benefits of
   COWL, authors will need to compartmentalize applications into
   multiple contexts (e.g., <a>iframes</a>).
@@ -265,7 +265,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <code>https://example.com</code>; to be backwards-compatible,
   COWL does not confine the page when reading data sensitive to
   <code>https://example.com</code>.  However, COWL allows the author
-  to run the page with "weaker" <a>delegated privileges</a> (e.g., one
+  to run iframes with "weaker" <a>delegated privileges</a> (e.g., one
   corresponding the current user at <code>https://example.com</code>)
   or to drop the privilege altogether.
 
@@ -319,7 +319,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <h3 id="examples">Use Cases/Examples</h3>
   <h4 id="examples-checker">Confining untrusted third-party services</h4>
 
-  An author wishes to use a service, loaded in the form of an iframe,
+  An author wishes to use a service, loaded in the form of an <a>cowl iframe</a>,
   without trusting it (or its dependencies) to not leak her
   sensitive data. To protect the data, the author associates a
   confidentiality <a>label</a> with the data, specifying the origins
@@ -335,8 +335,9 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     <code>https://untrusted.com</code>.  To protect the
     confidentiality of the password, the
     <code>https://example.com</code> application can use COWL to
-    associate a confidentiality policy, in the form of a <a>label</a>,
-    with the password before sending it to the untrusted service:
+    run the checker code in a <a>cowl iframe</a> and associate a
+    confidentiality policy, in the form of a <a>label</a>, with the password
+    before sending it to the untrusted service:
 
     <pre><code>
     // Create new policy using <a interface>Label</a>s that specifies that the password is sensitive
@@ -414,6 +415,8 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   </div>
 
   <h4 id="examples-isolation">Content isolation via privilege separation</h4>
+
+  TODO: how should we deal with privileges of top-level pages?
 
   A server operator wishes to isolate content (e.g., of different
   users) while serving it from a single physical <a>origin</a>.  The
@@ -844,12 +847,12 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       </dd>
       <dt>Confinement enforcement mechanism</dt>
       <dd>
-        COWL extends <a>browsing contexts</a> and <a>Workers</a> with
-        labels and privileges, which are used when enforcing
-        confinement, i.e., when restricting a context's network and
-        cross-context messaging communication.  This document defines
-        the necessary changes and extensions to existing browser
-        constructs and algorithms to enforce confinement.
+        COWL extends <a>browsing contexts</a>, in particular <a>iframes</a>
+        with labels and privileges, which are used when enforcing confinement,
+        i.e., when restricting a context's network and cross-context messaging
+        communication.  This document defines the necessary changes and
+        extensions to existing browser constructs and algorithms to enforce
+        confinement.
       </dd>
     </dl>
 
@@ -1265,7 +1268,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         // Send the labeled password to the checker iframe:
         checker.postMessage(labeledPassword, "https://untrusted.com");
       </code></pre>
-      Once the <code>https://untrusted.com</code> context reads the
+      Once the <code>https://untrusted.com</code> <a>cowl iframe</a> reads the
       password it will be <a>tainted</a> by the unique, <a>internal
       privilege label</a> of <code>priv</code>; the unique origin
       ensures that it cannot send the password to, for example, public
@@ -1307,15 +1310,17 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <section>
   <h3 id="framework-context-labels">Labeled Contexts</h3>
 
-    COWL extends <a>browsing contexts</a> and <a>Workers</a> with a
-    <dfn>COWL state</dfn>, which is used to restrict the context's
-    communication channels. In this document, the term
-    <dfn>context</dfn> is used to refer to both <a>browsing
-    contexts</a> and <a>Workers</a>. The COWL state consists of:
+    COWL extends <a>browsing contexts</a> with a <dfn>COWL state</dfn>, which
+    is used to restrict the context's communication channels.  The COWL state
+    consists of:
 
     * The <dfn>confinement mode</dfn> status, which indicates whether
       or not COWL confinement is enabled and thus <a>labels</a> should
       be enforced in the current context.
+
+      Note: currently COWL can only enabled for <a>iframes</a>. In future
+      versions we may generalize the enforcement to <a>browsing contexts</a>
+      and <a>Workers</a> in general.
 
     * The <dfn>context <a>labels</a></dfn>, which consist of:
 
@@ -1385,12 +1390,12 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       navigated, COWL has the invariant that <a>top-level browsing contexts</a>
       never get <a>stuck</a>.
 
-      Note, this design decision was not made due to security, but rather due
+      This design decision was not made due to security, but rather due
       to usability: it prevents applications from accidentally (or
       deliberately) reaching a state where users must intervene (e.g., by
       typing in a new URL) to navigate the top-level page.
 
-      Note, this invariant does not mean that code in top-level contexts cannot
+      This invariant does not mean that code in top-level contexts cannot
       read <a>labeled objects</a>. Code can always read <a>labeled objects</a>
       that do not raise the <a>context confidentiality label</a> and all others
       in a nested context.
