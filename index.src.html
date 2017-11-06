@@ -416,8 +416,6 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
   <h4 id="examples-isolation">Content isolation via privilege separation</h4>
 
-  TODO: how should we deal with privileges of top-level pages?
-
   A server operator wishes to isolate content (e.g., of different
   users) while serving it from a single physical <a>origin</a>.  The
   operator can leverage <a>privileges</a> to ensure that content of
@@ -1318,9 +1316,9 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       or not COWL confinement is enabled and thus <a>labels</a> should
       be enforced in the current context.
 
-      Note: currently COWL can only enabled for <a>iframes</a>. In future
-      versions we may generalize the enforcement to <a>browsing contexts</a>
-      and <a>Workers</a> in general.
+      Note: confinement mode can currently only be enabled for <a>iframes</a>.
+      In future versions we may generalize the enforcement to <a>browsing
+      contexts</a> and <a>Workers</a> in general.
 
     * The <dfn>context <a>labels</a></dfn>, which consist of:
 
@@ -1375,11 +1373,11 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     </div>
 
     When confinement mode is enabled, COWL restricts the code running in the
-    context from communicating with other contexts or remote servers in a way
-    that preserves confidentiality and integrity (see [[#enforcement]]). Since
-    navigation is a form of communication channel, COWL naturally disallows
-    code from navigating to certain <a>origins</a> if doing so would result in
-    a leak.
+    (<a>iframe</a>) context from communicating with other contexts or remote
+    servers in a way that preserves confidentiality and integrity (see
+    [[#enforcement]]). Since navigation is a form of communication channel,
+    COWL naturally disallows code from navigating to certain <a>origins</a> if
+    doing so would result in a leak.
 
     We say that a context is <dfn>stuck</dfn> if it cannot navigate
     arbitrarily.  This occurs when the <a>effective confidentiality label</a>
@@ -1395,10 +1393,14 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       deliberately) reaching a state where users must intervene (e.g., by
       typing in a new URL) to navigate the top-level page.
 
-      This invariant does not mean that code in top-level contexts cannot
-      read <a>labeled objects</a>. Code can always read <a>labeled objects</a>
-      that do not raise the <a>context confidentiality label</a> and all others
-      in a nested context.
+      Similarly, COWL has the invariant that a <a>nested browsing context</a>
+      instantiated in <a>iframe</a> without the <code>cowl</code> will never
+      get <a>stuck</a>.
+
+      This invariant does not mean that code in top-level contexts or
+      non-<a>cowl iframes</a> cannot read <a>labeled objects</a>. Code can
+      always read <a>labeled objects</a> that do not raise the <a>context
+      confidentiality label</a>.
     </div>
 
     Each context's <a>COWL state</a> is made available via the <a
