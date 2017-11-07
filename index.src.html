@@ -28,6 +28,9 @@ spec: CORS; urlPrefix: https://www.w3.org/TR/cors/
   type: dfn
     text: CORS
     text: Access-Control-Allow-Origin; url: access-control-allow-origin-response-header
+spec: IndexedDB; urlPrefix: https://www.w3.org/TR/IndexedDB-2/
+  type: dfn
+    text: IndexedDB
 spec: WEBMESSAGING; urlPrefix: https://www.w3.org/TR/webmessaging/
   type: method
     text: postMessage(); url: dom-window-postmessage
@@ -89,6 +92,9 @@ spec: HTML5; urlPrefix: https://www.w3.org/TR/html5/
       text: Window; url: window
     urlPrefix: dom.html
       text: Document; url: the-document-object
+spec: feature-policy; urlPrefix: https://wicg.github.io/feature-policy/
+  type: dfn
+    text: container policy; url: container-policies
 spec: RFC6454; urlPrefix: https://tools.ietf.org/html/rfc6454
   type: dfn
     text: origin; url: section-3.2
@@ -112,6 +118,13 @@ spec: RFC7159; urlPrefix: https://tools.ietf.org/html/rfc4627
     text: JSON object; url: section-2.2
     text: JSON array; url: section-2.3
     text: JSON stringification; url: section-2
+spec: html-comms; urlPrefix: https://html.spec.whatwg.org/multipage/comms.html
+  type: dfn
+    text: Server-sent events; url: server-sent-events
+spec: whatwg-messaging; urlPrefix: https://html.spec.whatwg.org/multipage/web-messaging.html
+  type: dfn
+    text: channel messaging; url: channel-messaging
+    text: broadcast channels; url: broadcasting-to-other-browsing-contexts
 spec: XHR; urlPrefix: https://xhr.spec.whatwg.org/
   type: dfn
     text: XMLHttpRequest
@@ -1601,6 +1614,8 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       </dd>
       <dt><dfn attribute title="LabeledObject/protectedObject">protectedObject</dfn></dt>
       <dd>
+
+        ISSUE: should protectedObject be a promise? Otherwise we may be a bit too strict.
       
         On getting, the user agent MUST use an algorithm equivalent to
         the following:
@@ -2376,7 +2391,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
               interface with a new <code><a attribute>cowl</a></code> attribute:
 
               <pre class="idl">
-                partial interface HTMLIFrameElement : HTMLElement {
+                partial interface HTMLIFrameElement {
                   attribute boolean cowl;
                 };
               </pre>
@@ -2425,15 +2440,16 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
               * The <a>sandboxed top-level navigation browsing context flag</a>.
 
-              In addition to these flags, the <a>container policy</a> of the
-              <a>cowl iframe</a> that contains the <a>confined context</a> MUST
-              disable the following features:
+              In addition to these flags, the user agent MUST set a
+              <a>container policy</a> of the <a>cowl iframe</a> that contains
+              the <a>confined context</a> that disables the following features:
 
-              * Content: <a>Web Workers</a>, <a>Shared Workers</a>, <a>Service Workers</a>
+              * Workers: <a>Web Workers</a>, <a>Shared Workers</a>, <a>Service Workers</a>
 
-              * Networking: <a>Web Sockets</a>, <a>Server-Sent APIs</a>, <a>WebRTC</a>
+              * Communication: <a>Web Sockets</a>, <a>Server-sent events</a>,
+                <a>channel messaging</a>, <a>broadcast channels</a> and <a>Web RTC</a>
 
-              * Storage: <a>document.cookie</a>, <a>localStorage</a>, <a>indexDB</a>
+              * Storage: <a>document.cookie</a>, <a attribute>localStorage</a>, <a>IndexedDB</a>
 
 
     </section>
