@@ -2460,27 +2460,12 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
           * The <a>sandboxed <code>document.domain</code> browsing context flag</a>.
 
-          If the context's <a>effective confidentiality label</a> or
-          integrity label are not the <a>empty label</a>, the
-          user agent MUST additionally set the following flags:
-
           * The <a>sandboxed origin browsing context flag</a>.  This
             flag ensures that the browsing context cannot access content
             of (what was previously) the same origin. It also prevents
             <a>script from reading from or writing to the
               <code>document.cookie</code> IDL attribute</a>, and
             blocks access to <code>localStorage</code>. [[WEBSTORAGE]]
-
-            <div class="note">
-              The user agent MUST ensure that if content has access
-              to another content from the same origin, but either ends
-              up enabling <a>confinement mode</a> and has a
-              non-<a>empty label</a>, access must be revoked and
-              the two must be considered as if they are of different
-              origins.  The current version of this document specifies
-              this requirement in terms of the <a>sandboxed origin
-              browsing context flag</a>.
-            </div>
 
           * The <a>sandboxed navigation browsing context flag</a>.
 
