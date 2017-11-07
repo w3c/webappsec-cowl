@@ -162,6 +162,9 @@ spec: WEBIDL2; urlPrefix: https://heycam.github.io/webidl/
   type: interface
     text: object; url: idl-object
     text: DOMString; url: idl-DOMString
+  type: dfn
+    text: exposed; url: dfn-exposed
+    text: SecureContext; url: SecureContext
 spec: REFERRER-POLICY; urlPrefix: https://w3c.github.io/webappsec-referrer-policy/
   type: dfn
     text: determine request's referrer algorithm; url: determine-requests-referrer
@@ -1124,7 +1127,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     privilege label</a>.
 
     <pre class="idl">
-      [Constructor, Exposed=(Window, Worker)]
+      [Constructor, Exposed=(Window, Worker), SecureContext]
       interface Privilege {
         static Privilege FreshPrivilege(); // Named constructor
         Label asLabel();
@@ -1396,7 +1399,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     <a>exposed</a> to <a>unconfined contexts</a>.
 
     <pre class="idl">
-      [COWLContext]
+      [SecureContext, COWLContext]
       interface COWL {
         [SetterThrows] static attribute Label confidentiality;
         [SetterThrows] static attribute Label integrity;
@@ -1519,7 +1522,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       Label? integrity;
     };
 
-    [Constructor(object obj, CILabel? labels), Exposed=Window, Worker]
+    [Constructor(object obj, CILabel? labels), Exposed=(Window, Worker), SecureContext]
     interface LabeledObject {
       readonly attribute Label confidentiality;
       readonly attribute Label integrity;
@@ -2370,17 +2373,20 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
           the user agent MUST set the following flags
           of the context's <a>active sandboxing flag set</a>:
 
-
           * The <a>sandboxed plugins browsing context flag</a>.
 
           * The <a>sandboxed <code>document.domain</code> browsing context flag</a>.
 
-          * The <a>sandboxed origin browsing context flag</a>.  This
-            flag ensures that the browsing context cannot access content
-            of (what was previously) the same origin. It also prevents
+          * The <a>sandboxed origin browsing context flag</a>.
+
+            Note, this flag is used to ensure that the browsing context cannot
+            directly access content of the same origin. It also prevents
             <a>script from reading from or writing to the
-              <code>document.cookie</code> IDL attribute</a>, and
-            blocks access to <code>localStorage</code>. [[WEBSTORAGE]]
+            <code>document.cookie</code> IDL attribute</a>, and blocks access
+            to <code>localStorage</code>. [[WEBSTORAGE]]
+
+            ISSUE: is there a better way for us to just disallow direct DOM
+            access and preserve same-origin?
 
           * The <a>sandboxed navigation browsing context flag</a>.
 
@@ -2844,9 +2850,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
             6. Set the <var>state</var> <a>context privilege</a> to
                <var>priv</var>.
 
-            7. Enable <a>confinement mode</a> for <var>state</var>.
-
-            8. Return <strong>allowed</strong>.
+            7. Return <strong>allowed</strong>.
 
     8. Else:
 

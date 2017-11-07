@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 67155cabad72a8ab669a7d4421c90e2999a29b68" name="generator">
   <link href="https://www.w3.org/TR/COWL/" rel="canonical">
-  <meta content="45b09d1d7a013a0f01ca08fd00e8cc9ed331e734" name="document-revision">
+  <meta content="d36e6265defdfc39143c77769a19795e89e88755" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1617,6 +1617,7 @@ share the data further.</p>
       <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
     <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
+    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
@@ -2303,7 +2304,7 @@ aORbANDc.toString() === "(https://a.com OR https://b.com) AND (https://c.com)";
     privilege</dfn> of <var>P2</var> if <var>P2</var>’s <a data-link-type="dfn" href="#internal-privilege-label" id="ref-for-internal-privilege-label②">internal
     privilege label</a> <a data-link-type="dfn" href="#subsumes" id="ref-for-subsumes①">subsumes</a> <var>P1</var>’s <a data-link-type="dfn" href="#internal-privilege-label" id="ref-for-internal-privilege-label③">internal
     privilege label</a>.</p>
-<pre class="idl highlight def">[<a class="nv idl-code" data-link-type="constructor" href="#dom-privilege-privilege" id="ref-for-dom-privilege-privilege①">Constructor</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>)]
+<pre class="idl highlight def">[<a class="nv idl-code" data-link-type="constructor" href="#dom-privilege-privilege" id="ref-for-dom-privilege-privilege①">Constructor</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext">SecureContext</a>]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="privilege①"><code>Privilege</code></dfn> {
   <span class="kt">static</span> <a class="n" data-link-type="idl-name" href="#privilege①" id="ref-for-privilege①⑥">Privilege</a> <a class="nv idl-code" data-link-type="method" href="#dom-privilege-freshprivilege" id="ref-for-dom-privilege-freshprivilege">FreshPrivilege</a>(); // Named constructor
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①④⑥">Label</a> <a class="nv idl-code" data-link-type="method" href="#dom-privilege-aslabel" id="ref-for-dom-privilege-aslabel①">asLabel</a>();
@@ -2503,7 +2504,7 @@ sensitivity (and integrity) of the data they are sharing.</p>
      <p class="note" role="note"><span>Note:</span> the <a data-link-type="dfn" href="#cowl-state" id="ref-for-cowl-state①">COWL state</a> of an <a data-link-type="dfn" href="#unconfined-context" id="ref-for-unconfined-context②">unconfined context</a> does not change
     from its original <a data-link-type="dfn" href="#default-cowl-state" id="ref-for-default-cowl-state①">default COWL state</a>.</p>
      <p>The <a data-link-type="dfn" href="#cowl-state" id="ref-for-cowl-state②">COWL state</a> is <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-exposed" id="ref-for-dfn-exposed">exposed</a> to <a data-link-type="dfn" href="#confined-context" id="ref-for-confined-context②">confined contexts</a> via the <a class="idl-code" data-link-type="interface" href="#cowl" id="ref-for-cowl②">COWL</a> interface defined below.  This interface MUST not be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-exposed" id="ref-for-dfn-exposed①">exposed</a> to <a data-link-type="dfn" href="#unconfined-context" id="ref-for-unconfined-context③">unconfined contexts</a>.</p>
-<pre class="idl highlight def">[<a class="nv idl-code" data-link-type="extended-attribute">COWLContext</a>]
+<pre class="idl highlight def">[<a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①">SecureContext</a>, <a class="nv idl-code" data-link-type="extended-attribute">COWLContext</a>]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="cowl"><code>COWL</code></dfn> {
   [<a class="nv idl-code" data-link-type="extended-attribute">SetterThrows</a>] <span class="kt">static</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑤⑥">Label</a> <a class="nv idl-code" data-link-type="attribute" data-type="Label" href="#dom-cowl-confidentiality" id="ref-for-dom-cowl-confidentiality">confidentiality</a>;
   [<a class="nv idl-code" data-link-type="extended-attribute">SetterThrows</a>] <span class="kt">static</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑤⑦">Label</a> <a class="nv idl-code" data-link-type="attribute" data-type="Label" href="#dom-cowl-integrity" id="ref-for-dom-cowl-integrity">integrity</a>;
@@ -2610,7 +2611,7 @@ privilege</a>.</p>
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥③">Label</a>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="CILabel" data-dfn-type="dict-member" data-export="" data-type="Label? " id="dom-cilabel-integrity"><code>integrity</code></dfn>;
 };
 
-[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object"><span class="kt">object</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel">CILabel</a>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></dfn>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②">Exposed</a>=<span class="n">Window</span>, <a class="nv idl-code" data-link-type="extended-attribute">Worker</a>]
+[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object"><span class="kt">object</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel">CILabel</a>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></dfn>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②">SecureContext</a>]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="labeledobject"><code>LabeledObject</code></dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥④">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-confidentiality" id="ref-for-dom-labeledobject-confidentiality">confidentiality</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥⑤">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-integrity" id="ref-for-dom-labeledobject-integrity">integrity</a>;
@@ -3261,10 +3262,12 @@ Content-Type: application/labeled-json;
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-document.domain-browsing-context-flag" id="ref-for-sandboxed-document.domain-browsing-context-flag">sandboxed <code>document.domain</code> browsing context flag</a>.</p>
       <li data-md="">
-       <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a>.  This
-flag ensures that the browsing context cannot access content
-of (what was previously) the same origin. It also prevents <a data-link-type="dfn" href="https://www.w3.org/TR/html5/dom.html#sandboxCookies" id="ref-for-sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and
-blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#biblio-webstorage">[WEBSTORAGE]</a></p>
+       <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a>.</p>
+       <p class="note" role="note"><span>Note,</span> this flag is used to ensure that the browsing context cannot
+directly access content of the same origin. It also prevents <a data-link-type="dfn" href="https://www.w3.org/TR/html5/dom.html#sandboxCookies" id="ref-for-sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and blocks access
+to <code>localStorage</code>. <a data-link-type="biblio" href="#biblio-webstorage">[WEBSTORAGE]</a></p>
+       <p class="issue" id="issue-af89ca42"><a class="self-link" href="#issue-af89ca42"></a> is there a better way for us to just disallow direct DOM
+access and preserve same-origin?</p>
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-navigation-browsing-context-flag" id="ref-for-sandboxed-navigation-browsing-context-flag">sandboxed navigation browsing context flag</a>.</p>
       <li data-md="">
@@ -3615,8 +3618,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
  the <a data-link-type="dfn" href="#context-integrity-label" id="ref-for-context-integrity-label①⓪">context integrity label</a> can be upgraded from the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑥">empty label</a>, while allowing the <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑧">context privilege</a> to also be dropped.</p>
           <li data-md="">
            <p>Set the <var>state</var> <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑨">context privilege</a> to <var>priv</var>.</p>
-          <li data-md="">
-           <p>Enable <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode①⓪">confinement mode</a> for <var>state</var>.</p>
           <li data-md="">
            <p>Return <strong>allowed</strong>.</p>
          </ol>
@@ -4198,13 +4199,14 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
      <li><a href="https://heycam.github.io/webidl/#Exposed">Exposed</a>
+     <li><a href="https://heycam.github.io/webidl/#SecureContext">SecureContext</a>
      <li><a href="https://heycam.github.io/webidl/#idl-boolean">boolean</a>
-     <li><a href="https://heycam.github.io/webidl/#dfn-exposed">exposed</a>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL2]</a> defines the following terms:
     <ul>
      <li><a href="https://heycam.github.io/webidl/#idl-DOMString">DOMString</a>
+     <li><a href="https://heycam.github.io/webidl/#dfn-exposed">exposed</a>
      <li><a href="https://heycam.github.io/webidl/#idl-object">object</a>
     </ul>
    <li>
@@ -4310,7 +4312,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
   <a class="kt" data-link-type="dfn" href="#label-stringification-behavior" id="ref-for-label-stringification-behavior①">stringifier</a>;
 };
 
-[<a class="nv idl-code" data-link-type="constructor" href="#dom-privilege-privilege" id="ref-for-dom-privilege-privilege①①">Constructor</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>)]
+[<a class="nv idl-code" data-link-type="constructor" href="#dom-privilege-privilege" id="ref-for-dom-privilege-privilege①①">Constructor</a>, <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext③">SecureContext</a>]
 <span class="kt">interface</span> <a class="nv" href="#privilege①"><code>Privilege</code></a> {
   <span class="kt">static</span> <a class="n" data-link-type="idl-name" href="#privilege①" id="ref-for-privilege①⑥①">Privilege</a> <a class="nv idl-code" data-link-type="method" href="#dom-privilege-freshprivilege" id="ref-for-dom-privilege-freshprivilege⑥">FreshPrivilege</a>(); // Named constructor
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①④⑥①">Label</a> <a class="nv idl-code" data-link-type="method" href="#dom-privilege-aslabel" id="ref-for-dom-privilege-aslabel①①">asLabel</a>();
@@ -4319,7 +4321,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
   [<a class="nv idl-code" data-link-type="extended-attribute">Throws</a>] <a class="n" data-link-type="idl-name" href="#privilege①" id="ref-for-privilege①⑨①">Privilege</a> <a class="nv idl-code" data-link-type="method" href="#dom-privilege-delegate" id="ref-for-dom-privilege-delegate②">delegate</a>(<a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①④⑦①">Label</a> <a class="nv" href="#dom-privilege-delegate-label-label"><code>label</code></a>);
 };
 
-[<a class="nv idl-code" data-link-type="extended-attribute">COWLContext</a>]
+[<a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①①">SecureContext</a>, <a class="nv idl-code" data-link-type="extended-attribute">COWLContext</a>]
 <span class="kt">interface</span> <a class="nv" href="#cowl"><code>COWL</code></a> {
   [<a class="nv idl-code" data-link-type="extended-attribute">SetterThrows</a>] <span class="kt">static</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑤⑥①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-type="Label" href="#dom-cowl-confidentiality" id="ref-for-dom-cowl-confidentiality①">confidentiality</a>;
   [<a class="nv idl-code" data-link-type="extended-attribute">SetterThrows</a>] <span class="kt">static</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑤⑦①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-type="Label" href="#dom-cowl-integrity" id="ref-for-dom-cowl-integrity①">integrity</a>;
@@ -4331,7 +4333,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥③①">Label</a>? <a class="nv" data-type="Label? " href="#dom-cilabel-integrity"><code>integrity</code></a>;
 };
 
-[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject③">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③"><span class="kt">object</span></a> <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel②">CILabel</a>? <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></a>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①">Exposed</a>=<span class="n">Window</span>, <a class="nv idl-code" data-link-type="extended-attribute">Worker</a>]
+[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject③">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③"><span class="kt">object</span></a> <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel②">CILabel</a>? <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></a>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②①">SecureContext</a>]
 <span class="kt">interface</span> <a class="nv" href="#labeledobject"><code>LabeledObject</code></a> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥④①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-confidentiality" id="ref-for-dom-labeledobject-confidentiality①">confidentiality</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥⑤①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-integrity" id="ref-for-dom-labeledobject-integrity①">integrity</a>;
@@ -4351,6 +4353,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
 };
 
 </pre>
+  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
+  <div style="counter-reset:issue">
+   <div class="issue"> is there a better way for us to just disallow direct DOM
+access and preserve same-origin?<a href="#issue-af89ca42"> ↵ </a></div>
+  </div>
   <aside class="dfn-panel" data-for="origin-label">
    <b><a href="#origin-label">#origin-label</a></b><b>Referenced in:</b>
    <ul>
@@ -4865,8 +4872,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     <li><a href="#ref-for-confinement-mode⑦">3.7.4. Modifications to WebSockets</a> <a href="#ref-for-confinement-mode⑧">(2)</a>
     <li><a href="#ref-for-confinement-mode⑨">4.8. 
       Should fetching request be blocked as COWL? </a>
-    <li><a href="#ref-for-confinement-mode①⓪">4.9. 
-      Process response to request as COWL </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="confined-context">
