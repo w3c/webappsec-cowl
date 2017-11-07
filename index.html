@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 67155cabad72a8ab669a7d4421c90e2999a29b68" name="generator">
   <link href="https://www.w3.org/TR/COWL/" rel="canonical">
-  <meta content="1b4551c630793f4415db50d7ea79c608c6f60555" name="document-revision">
+  <meta content="0cfaf079a7f5b907fa76bcf2f73daa6bc9fc120a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2926,6 +2926,7 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
     </section>
     <section>
      <h3 class="heading settled" data-level="3.6" id="extension-xhr"><span class="secno">3.6. </span><span class="content">Extensions to XMLHttpRequest</span><a class="self-link" href="#extension-xhr"></a></h3>
+     <p class="issue" id="issue-c73fd143"><a class="self-link" href="#issue-c73fd143"></a> should we disable XHR and just force developers to use fetch?</p>
      <p>The XMLHttpRequest specification SHOULD contain the
     modifications described below to enable the rest of this
     specification’s work <a data-link-type="biblio" href="#biblio-xhr">[XHR]</a>.</p>
@@ -3299,11 +3300,11 @@ access and preserve same-origin?</p>
   disable the following features:</p>
        <ul>
         <li data-md="">
-         <p><a data-link-type="dfn" href="https://www.w3.org/TR/workers/#infrastructure" id="ref-for-infrastructure">Web Workers</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#shared-workers" id="ref-for-shared-workers">Shared Workers</a>, <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">Service Workers</a></p>
+         <p>Content: <a data-link-type="dfn" href="https://www.w3.org/TR/workers/#infrastructure" id="ref-for-infrastructure">Web Workers</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#shared-workers" id="ref-for-shared-workers">Shared Workers</a>, <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">Service Workers</a></p>
         <li data-md="">
-         <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/web-sockets.html#network" id="ref-for-network">Web Sockets</a></p>
+         <p>Networking: <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/web-sockets.html#network" id="ref-for-network">Web Sockets</a>, <a data-link-type="dfn">Server-Sent APIs</a>, <a data-link-type="dfn">WebRTC</a></p>
         <li data-md="">
-         <p><a data-link-type="dfn">document.cookie</a>, <a data-link-type="dfn">localStorage</a>, <a data-link-type="dfn">indexDB</a></p>
+         <p>Storage: <a data-link-type="dfn">document.cookie</a>, <a data-link-type="dfn">localStorage</a>, <a data-link-type="dfn">indexDB</a></p>
        </ul>
      </ol>
     </section>
@@ -4362,6 +4363,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
+   <div class="issue"> should we disable XHR and just force developers to use fetch?<a href="#issue-c73fd143"> ↵ </a></div>
    <div class="issue"> what’s the best way to deal with authors modifying the cowl attribute?<a href="#issue-7a249e2a"> ↵ </a></div>
    <div class="issue"> is there a better way for us to just disallow direct DOM
 access and preserve same-origin?<a href="#issue-af89ca42"> ↵ </a></div>
