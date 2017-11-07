@@ -250,7 +250,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <code>https://example.com</code>.
 
   COWL enforces such policies by confining code at the
-  <a>iframe</a>-level, according to the sensitivity (i.e., the label)
+  <a>context</a>-level, according to the sensitivity (i.e., the label)
   of the data the code has observed. To reap the greatest benefits of
   COWL, authors will need to compartmentalize applications into
   multiple contexts (e.g., <a>iframes</a>).
@@ -1316,9 +1316,14 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       or not COWL confinement is enabled and thus <a>labels</a> should
       be enforced in the current context.
 
-      Note: confinement mode can currently only be enabled for <a>iframes</a>.
-      In future versions we may generalize the enforcement to <a>browsing
-      contexts</a> and <a>Workers</a> in general.
+      A context is considered a <dfn>confined context</dfn> if its
+      <a>confinement mode</a> status is set, and a <dfn>unconfined
+      context</dfn> otherwise.
+
+      Note: confinement mode is currently only be enabled for contexts
+      instantiated in <a>cowl iframes</a>.  In future versions we may
+      generalize the enforcement to other <a>browsing contexts</a> and
+      <a>Workers</a>.
 
     * The <dfn>context <a>labels</a></dfn>, which consist of:
 
@@ -1372,49 +1377,29 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         sensitivity (and integrity) of the data they are sharing.
     </div>
 
-    When confinement mode is enabled, COWL restricts the code running in the
-    (<a>iframe</a>) context from communicating with other contexts or remote
-    servers in a way that preserves confidentiality and integrity (see
-    [[#enforcement]]). Since navigation is a form of communication channel,
-    COWL naturally disallows code from navigating to certain <a>origins</a> if
-    doing so would result in a leak.
+    COWL restricts the code running in a <a>confined context</a> from
+    communicating with other contexts or remote servers in a way that preserves
+    confidentiality and integrity (see [[#enforcement]]).
 
-    We say that a context is <dfn>stuck</dfn> if it cannot navigate
-    arbitrarily.  This occurs when the <a>effective confidentiality label</a>
-    of the context is not the <a>empty label</a>.
+    In general, COWL does not restrict code running in <a>unconfined
+    contexts</a> from communicating with other <a>unconfined contexts</a> or
+    remote servers.  To preserve this invariant COWL does, however, prevent
+    such code from reading overly sensitive data (i.e., data that would
+    <a>taint</a> the context) or communicating with certain <a>confined
+    contexts</a> and COWL-enabled servers.
 
-    <div class="note">
-      To avoid scenarios wherein a top-level page cannot be arbitrarily
-      navigated, COWL has the invariant that <a>top-level browsing contexts</a>
-      never get <a>stuck</a>.
+    Note: the <a>COWL state</a> of an <a>unconfined context</a> does not change
+    from its original <a>default COWL state</a>.
 
-      This design decision was not made due to security, but rather due
-      to usability: it prevents applications from accidentally (or
-      deliberately) reaching a state where users must intervene (e.g., by
-      typing in a new URL) to navigate the top-level page.
-
-      Similarly, COWL has the invariant that a <a>nested browsing context</a>
-      instantiated in <a>iframe</a> without the <code>cowl</code> will never
-      get <a>stuck</a>.
-
-      This invariant does not mean that code in top-level contexts or
-      non-<a>cowl iframes</a> cannot read <a>labeled objects</a>. Code can
-      always read <a>labeled objects</a> that do not raise the <a>context
-      confidentiality label</a>.
-    </div>
-
-    Each context's <a>COWL state</a> is made available via the <a
-    interface>COWL</a> interface defined below.
+    The <a>COWL state</a> is <a>exposed</a> to <a>confined contexts</a> via the
+    <a interface>COWL</a> interface defined below.  This interface MUST not be
+    <a>exposed</a> to <a>unconfined contexts</a>.
 
     <pre class="idl">
-      [Exposed=(Window, Worker)]
+      [COWLContext]
       interface COWL {
-        static void enable();
-        static boolean isEnabled();
-
         [SetterThrows] static attribute Label confidentiality;
         [SetterThrows] static attribute Label integrity;
-
         [SetterThrows] static attribute Privilege privilege;
       };
     </pre>
@@ -1430,35 +1415,17 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         * On setting, the user agent MUST use an algorithm equivalent
           to the following:
 
-          1. Enable <a>confinement mode</a>.
+          1. Let <var>conf</var> be the set confidentiality label.
 
-          2. Let <var>conf</var> be the set confidentiality label.
-
-          3. Let <var>canWrite</var> be the result of invoking
+          2. Let <var>canWrite</var> be the result of invoking
              the <a>write check</a> algorithm with <var>conf</var>
              and the <a>current integrity label</a>.
 
-          4. If <var>canWrite</var> is <code>false</code>, throw a
+          3. If <var>canWrite</var> is <code>false</code>, throw a
              <code>SecurityError</code> exception and terminate this
              algorithm.
 
-          5. If the current context is a <a>top-level browsing context</a> and
-             setting the <a>current confidentiality label</a> to
-             <var>conf</var> would result in a <a>stuck</a> context, throw a
-             <code>SecurityError</code> exception and terminate this algorithm.
-
-             <div class="note">
-               To make it easier for developers to debug applications, the user
-               agent SHOULD report a message to inform developers that they can
-               create a child context (e.g., an iframe) for which this
-               restriction does not apply.
-             </div>
-
-             Note, this step ensures that top-level pages never raise the
-             context confidentiality labels in a way that would prevent the
-             page from being able to navigate.
-
-          6. Else, set the <a>current confidentiality label</a> to <var>conf</var>.
+          4. Else, set the <a>current confidentiality label</a> to <var>conf</var>.
 
       </dd>
       <dt><dfn attribute title="COWL/integrity">integrity</dfn></dt>
@@ -1470,19 +1437,17 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         * On setting, the user agent MUST use an algorithm equivalent
           to the following:
 
-          1. Enable <a>confinement mode</a>.
+          1. Let <var>int</var> be the set integrity label.
 
-          2. Let <var>int</var> be the set integrity label.
-
-          3. Let <var>canWrite</var> be the result of invoking the
+          2. Let <var>canWrite</var> be the result of invoking the
              <a>write check</a> algorithm with the <a>current
              confidentiality label</a> and <var>int</var>.
 
-          4. If <var>canWrite</var> is <code>false</code>,
+          3. If <var>canWrite</var> is <code>false</code>,
              throw a <code>SecurityError</code>
              exception and terminate this algorithm.
 
-          5. Else, set the <a>current integrity label</a> to <var>int</var>.
+          4. Else, set the <a>current integrity label</a> to <var>int</var>.
 
       </dd>
       <dt><dfn attribute title="COWL/privilege">privilege</dfn></dt>
@@ -1493,44 +1458,10 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
         * On setting, the user agent MUST use an algorithm equivalent to the following:
         
-          1. Enable <a>confinement mode</a>.
+          1. Let <var>priv</var> be the set privilege.
 
-          2. Let <var>priv</var> be the set privilege.
+          2. Set the <a>current privilege</a> to <var>priv</var>.
 
-          3. If the current context is a <a>top-level browsing context</a> and
-             setting the <a>current privilege</a> to <var>priv</var>
-             would result in a <a>stuck</a> context, throw a
-             <code>SecurityError</code> exception and terminate this algorithm.
-
-             <div class="note">
-               To make it easier for developers to debug applications, the user
-               agent SHOULD report a message to inform developers that they can
-               create a child context (e.g., an iframe) for which this
-               restriction does not apply.
-             </div>
-
-             Note, this step ensures that top-level pages never raise the
-             context confidentiality label and then drop privilege in a way
-             that would prevent the page from being able to navigate.
-          
-          4. Set the <a>current privilege</a> to <var>priv</var>.
-
-      </dd>
-    </dl>
-
-    <h4 id="cowl-methods">Methods</h4>
-    <dl dfn-for="COWL">
-      <dt><dfn method title="COWL/enable(0">enable()</dfn></dt>
-      <dd>
-      On invocation, the user agent MUST enable <a>confinement
-      mode</a> by setting the current context's <a>COWL state</a>
-      confinement mode status.
-      </dd>
-      <dt><dfn method title="COWL/isEnabled()">isEnabled()</dfn></dt>
-      <dd>
-        On invocation, the user agent MUST return <code>true</code> if
-        the <a>confinement mode</a> is enabled for the current
-        context; else, it MUST return <code>false</code>
       </dd>
     </dl>
 
@@ -1538,21 +1469,6 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     Below are several examples showing how to use the <a
     interface>COWL</a> API.  The [[#privilege-examples]] illustrate
     the use of <a>context privileges</a>.
-
-
-    <div class="example">
-      Enabling COWL <a>confinement mode</a> for the current context is
-      straightforward:
-      <pre><code>
-        <a interface>COWL</a>.isEnabled() === false;
-        <a interface>COWL</a>.enable();
-        <a interface>COWL</a>.isEnabled() === true;
-      </code></pre>
-      At this point, no confinement restrictions are
-      applied&mdash;COWL is backwards compatible with the existing
-      model. But, the context labels can be set to restrict
-      communication.
-    </div>
 
     <div class="example">
       An author can set the <a>context integrity label</a> to ensure
@@ -1587,10 +1503,11 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     label, i.e., the object has associated labels.
 
     This API is designed to be used in conjunction with other APIs and
-    elements on the web platform. In particular, <a>postMessage()</a>,
-    <a>Web Workers</a>, and <a>XMLHttpRequest</a> (e.g., with an
+    elements on the web platform. In particular, <a>postMessage()</a>
+    and <a>XMLHttpRequest</a> (e.g., with an
     overloaded <a><code>send()</code></a> method for <a interface>LabeledObject</a>
-    arguments).
+    arguments). It SHOULD be exposed to both <a>confined contexts</a> and
+    <a>unconfined contexts</a>.
 
     A <a interface>LabeledObject</a> MUST have an internal <dfn>protected
     object</dfn>, a confidentiality <a>label</a>, and an
@@ -1621,33 +1538,31 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       When invoking the <a>LabeledObject()</a> constructor, the user
       agent MUST use an algorithm equivalent to the following:
 
-      1. Enable <a>confinement mode</a>.
-
-      2. Let <var>obj clone</var> be the result of obtaining a
+      1. Let <var>obj clone</var> be the result of obtaining a
         <a>structured clone</a> of the <a argument
         for="LabeledObject/LabeledObject(obj, labels)">obj</a> argument.
 
-      3. Let <var>labels</var> be the <a argument
+      2. Let <var>labels</var> be the <a argument
          for="LabeledObject/LabeledObject(obj, labels)">labels</a>
          argument if it provided, otherwise an empty object with no members.
 
-      4. Let <var>conf</var> be the <a dict-member
+      3. Let <var>conf</var> be the <a dict-member
          for="CILabel">confidentiality</a> member of <var>labels</var>, if it
          is set.  Otherwise, let <var>conf</var> be the <a>current
          confidentiality label</a>.
 
-      5. Let <var>int</var> be the <a dict-member
+      4. Let <var>int</var> be the <a dict-member
          for="CILabel">integrity</a> member of <var>labels</var>, if it is set.
          Otherwise, let <var>int</var> be the <a>current integrity label</a>.
 
-      6. Let <var>canWrite</var> be the result of invoking the <a>write
+      5. Let <var>canWrite</var> be the result of invoking the <a>write
          check</a> algorithm with the <var>conf</var> and <var>int</var> labels.
 
-      7. If <var>canWrite</var> is <code>false</code>, the constructor
+      6. If <var>canWrite</var> is <code>false</code>, the constructor
          MUST throw a <code>SecurityError</code> exception
          and terminate this algorithm.
 
-      8. Else, the user agent MUST return a new
+      7. Else, the user agent MUST return a new
          <a interface>LabeledObject</a>, with the <a>protected object</a>
          set to <var>obj clone</var>, the confidentiality label set to
          <var>conf</var>, and the integrity
@@ -1660,12 +1575,12 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       Because COWL enforces labels at context boundaries, there is
       usually no reason to label an object and then use the <a>labeled
       object</a> within the same context.  <a interface>LabeledObject</a>s
-      are mainly useful for sending sensitive data to an untrusted
-      context, e.g., via <a>cross-document messaging</a>, as a way to ensure
-      that the data's confidentiality and integrity (as specified by
+      are mainly useful for sending sensitive data to an untrusted <a>
+      confined context</a>, e.g., via <a>cross-document messaging</a>, as a way
+      to ensure that the data's confidentiality and integrity (as specified by
       the labels) are respected by the untrusted context. Hence, the
-      <a>LabeledObject()</a> constructor only accepts objects that can
-      be <a>structurally cloned</a>.
+      <a>LabeledObject()</a> constructor only accepts objects that can be
+      <a>structurally cloned</a>.
     </div>
 
     <h4 id="labeledobject-attributes">Attributes</h4>
@@ -1682,26 +1597,23 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       </dd>
       <dt><dfn attribute title="LabeledObject/protectedObject">protectedObject</dfn></dt>
       <dd>
-
+      
         On getting, the user agent MUST use an algorithm equivalent to
         the following:
 
-        1. Enable <a>confinement mode</a>.
-
-        2. Invoke the <a>context tainting</a> algorithm with the <a
+        1. Invoke the <a>context tainting</a> algorithm with the <a
            interface>LabeledObject</a>'s confidentiality and integrity labels.
 
-        3. If the tainting algorithm raised an exception, re-throw the
+        2. If the tainting algorithm raised an exception, re-throw the
            exception and terminate this algorithm.
 
            <div class="note">
-             The tainting algorithm fails if code in a <a>top-level browsing
-             context</a> tries to read data that would confine the context,
-             i.e., data that would result in it getting <a>stuck</a>.  To make
-             it easier for developers to debug such cases, the user agent
-             SHOULD report a message to inform developers that they can create
-             child contexts (e.g., iframes) wherein they can inspect such
-             sensitive objects instead.
+             The tainting algorithm fails if code in a <a>unconfined
+             context</a> tries to read data that should confine the context.
+             To make it easier for developers to debug such cases, the user
+             agent SHOULD report a message to inform developers that they can
+             create <a>cowl iframes</a> wherein they can inspect such sensitive
+             objects instead.
            </div>
 
         3. Else, return the <a interface>LabeledObject</a>'s <a>protected object</a>.
@@ -1820,8 +1732,8 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       <code>move</code>). (This design ensures that only the innermost
       iframe gets tainted.)
 
-      The innermost map iframe registers a handler, that, for example,
-      draws cars on top of map tiles:
+      The innermost map <a>cowl iframe</a> registers a handler, that, for
+      example, draws cars on top of map tiles:
       <pre><code>
       window.addEventListener("message", function (event) {
         switch (event.data.cmd) {
@@ -1852,8 +1764,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       filters before submitting it to a remote server.  Consider, for
       example, a form validator that checks if an email address is
       valid. To this end, it labels the JSON and sends the <a>labeled
-      object</a> to (e.g., a Worker or iframe) that performs the
-      validation.
+      object</a> to a <a>cowl iframe</a> that performs the validation.
 
       The validation author inspects the object, but only endorses it
       if it it is an email:
@@ -2337,10 +2248,9 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       of the response, COWL <a>taint</a>s the context and ensures that
       it cannot communicate with anybody.
 
-      Note, to read the protected object, one must do so in a context that is
-      not a <a>top-level browsing context</a> (e.g., an iframe), since reading
-      such a sensitive data would disable navigation (i.e., the context is
-      <a>stuck</a>).
+      Note, to read the protected object, one must do so in a <a>confined context</a>
+      since reading such a sensitive data would prevent code from communicating
+      arbitrarily thereafter.
     </div>
 
     </section>
@@ -2356,8 +2266,6 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         servers that do not preserve the confidentiality of the data.
         Similarly, COWL ensures that a context cannot receive data from a
         context or server that is less trustworthy.
-
-
 
         <h4 id="modifications-fetch">Modifications to Fetch</h4>
 
@@ -2687,36 +2595,35 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     The <dfn>context tainting</dfn> algorithm takes a two labels,
     <var>confidentiality</var> and <var>integrity</var>, and updates the
     <a>context labels</a> to allow for reading data labeled with these labels.
-    If the context is a <a>top-level browsing context</a> and tainting the
-    context would result in it getting <a>stuck</a>, the algorithm throws a
+    If the context is an <a>unconfined context</a> and tainting the
+    context would change its <a>COWL state</a>, the algorithm throws a
     <code>SecurityError</code> exception. The user agent MUST use an algorithm
     whose behavior is as follows:
 
-    1. Enable <a>confinement mode</a>.
-
-    2. Let <var>currentConf</var> be the current <a>context
+    1. Let <var>currentConf</var> be the current <a>context
        confidentiality label</a>.
 
-    3. Let <var>currentInt</var> be the current <a>context
+    2. Let <var>currentInt</var> be the current <a>context
        integrity label</a>.
 
-    4. Let <var>newConf</var> be the <a>Label</a> returned by the by
+    2. Let <var>newConf</var> be the <a>Label</a> returned by the by
        the <a>label downgrade</a> algorithm when invoked with
        <var>currentConf</var>.<a>and(<var>confidentiality</var>)</a>
        and <a>current privilege</a>.
 
-    5. If the current context is a <a>top-level browsing context</a> and
-       setting the <a>context confidentiality label</a> to <var>newConf</var>
-       results in a <a>stuck</a> context, throw a <code>SecurityError</code>
-       exception and terminate this algorithm.
+    3. Let <var>newInt</var> be the <a>Label</a> returned by the
+       <a>label downgrade</a> algorithm when invoked with
+       <var>currentInt</var>.<a>or(<var>integrity</var>)</a> and <a>current
+       privilege</a>.
 
-    6. Set the <a>context confidentiality label</a> to <var>newConf</var>.
+    4. If the current context is an <a>unconfined context</a> and
+       either <var>newConf</var> or <var>newInt</a> are not the
+       <a>empty label</a>, throw a <code>SecurityError</code> exception
+       and terminate this algorithm.
 
-    7. Set the <a>context integrity label</a> to the
-       <a>Label</a> returned by the by the <a>label downgrade</a>
-       algorithm when invoked with
-       <var>currentInt</var>.<a>or(<var>integrity</var>)</a>
-       and <a>current privilege</a>.
+    5. Set the <a>context confidentiality label</a> to <var>newConf</var>.
+
+    6. Set the <a>context integrity label</a> to <var>newInt</var>.
 
   </section>
 
@@ -2917,23 +2824,18 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
          3. Else:
 
-            1. If <var>priv</var> is not a <a>delegated privilege</a> of the
+            1. If <var>context</a> is an <a>unconfined context</a>,
+               return <strong>blocked</strong> and terminate this algorithm.
+
+               The user agent SHOULD report a warning that the application
+               attempted to embed confined content outside a <a>cowl iframe</a>.
+
+            2. If <var>priv</var> is not a <a>delegated privilege</a> of the
                <var>state</var> <a>context privilege</a>, return
                <strong>blocked</strong> and terminate this algorithm.
 
                The user agent SHOULD report a warning that the server supplied
                a privilege that it is not trusted for.
-
-
-            2. If <var>context</var> is a <a>top-level browsing context</a> and
-               setting the <var>state</var> <a>context confidentiality label</a>
-               to <var>conf</var> and <a>context privilege</a> to <var>priv</var> 
-               results in <var>context</var> being <a>stuck</a>,
-               return <strong>blocked</strong> and terminate this algorithm.
-
-               The user agent SHOULD report a warning that the server supplied
-               a confidentiality label and privilege pair that would have led
-               to a top-level <a>stuck</a> context.
 
             3. If the <var>state</var> <a>effective integrity label</a> does
                not <a>subsume</a> <var>int</var>, return <strong>blocked</strong>
