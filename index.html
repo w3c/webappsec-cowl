@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 67155cabad72a8ab669a7d4421c90e2999a29b68" name="generator">
   <link href="https://www.w3.org/TR/COWL/" rel="canonical">
-  <meta content="014058b4dc405304b959102246d3bc58cc511424" name="document-revision">
+  <meta content="45b09d1d7a013a0f01ca08fd00e8cc9ed331e734" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2844,7 +2844,7 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="data-directive-name">data-directive-name</dfn> = "<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="data-confidentiality">data-confidentiality</dfn>" / "<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="data-integrity">data-integrity</dfn>"
 </pre>
      <p>The ABNF for <dfn data-dfn-type="dfn" data-noexport="" id="serialized-labels">serialized labels<a class="self-link" href="#serialized-labels"></a></dfn> is:</p>
-<pre><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="label-expression">label-expression</dfn>   = <a data-link-type="dfn" href="#empty-label①" id="ref-for-empty-label①①⓪">empty-label</a> / <a data-link-type="dfn" href="#and-expression" id="ref-for-and-expression">and-expression</a> / <a data-link-type="dfn" href="#or-expression" id="ref-for-or-expression">or-expression</a> / <a data-link-type="dfn" href="#principal-expression" id="ref-for-principal-expression">principal-expression</a>
+<pre><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="label-expression">label-expression</dfn>   = <a data-link-type="dfn" href="#empty-label①" id="ref-for-empty-label①⑨">empty-label</a> / <a data-link-type="dfn" href="#and-expression" id="ref-for-and-expression">and-expression</a> / <a data-link-type="dfn" href="#or-expression" id="ref-for-or-expression">or-expression</a> / <a data-link-type="dfn" href="#principal-expression" id="ref-for-principal-expression">principal-expression</a>
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="and-expression">and-expression</dfn>     = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1④">WSP</a> "(" <a data-link-type="dfn" href="#or-expression" id="ref-for-or-expression①">or-expression</a> *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1⑤">WSP</a> ")" *( 1*<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1⑥">WSP</a> "AND" <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1⑦">WSP</a> <a data-link-type="dfn" href="#and-expression" id="ref-for-and-expression①">and-expression</a> )
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="or-expression">or-expression</dfn>      = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1⑧">WSP</a> <a data-link-type="dfn" href="#principal-expression" id="ref-for-principal-expression①">principal-expression</a> *( 1*<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1⑨">WSP</a> "OR" <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1" id="ref-for-appendix-B.1①⓪">WSP</a> <a data-link-type="dfn" href="#or-expression" id="ref-for-or-expression②">or-expression</a> ) 
 <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="empty-label①">empty-label</dfn>        = "<dfn data-dfn-type="dfn" data-noexport="" id="none">'none'<a class="self-link" href="#none"></a></dfn>"
@@ -3260,24 +3260,11 @@ Content-Type: application/labeled-json;
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-plugins-browsing-context-flag" id="ref-for-sandboxed-plugins-browsing-context-flag">sandboxed plugins browsing context flag</a>.</p>
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-document.domain-browsing-context-flag" id="ref-for-sandboxed-document.domain-browsing-context-flag">sandboxed <code>document.domain</code> browsing context flag</a>.</p>
-     </ul>
-     <p>If the context’s <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label③">effective confidentiality label</a> or
-          integrity label are not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑦">empty label</a>, the
-          user agent MUST additionally set the following flags:</p>
-     <ul>
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a>.  This
 flag ensures that the browsing context cannot access content
 of (what was previously) the same origin. It also prevents <a data-link-type="dfn" href="https://www.w3.org/TR/html5/dom.html#sandboxCookies" id="ref-for-sandboxCookies">script from reading from or writing to the <code>document.cookie</code> IDL attribute</a>, and
 blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#biblio-webstorage">[WEBSTORAGE]</a></p>
-       <div class="note" role="note"> The user agent MUST ensure that if content has access
-  to another content from the same origin, but either ends
-  up enabling <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑦">confinement mode</a> and has a
-  non-<a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑧">empty label</a>, access must be revoked and
-  the two must be considered as if they are of different
-  origins.  The current version of this document specifies
-  this requirement in terms of the <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag" id="ref-for-sandboxed-origin-browsing-context-flag①">sandboxed origin
-  browsing context flag</a>. </div>
       <li data-md="">
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-navigation-browsing-context-flag" id="ref-for-sandboxed-navigation-browsing-context-flag">sandboxed navigation browsing context flag</a>.</p>
       <li data-md="">
@@ -3286,7 +3273,7 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
        <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/browsers.html#sandboxed-top-level-navigation-browsing-context-flag" id="ref-for-sandboxed-top-level-navigation-browsing-context-flag">sandboxed top-level navigation browsing context flag</a>.</p>
      </ul>
      <h4 class="heading settled" data-level="3.7.4" id="modifications-websockets"><span class="secno">3.7.4. </span><span class="content">Modifications to WebSockets</span><a class="self-link" href="#modifications-websockets"></a></h4>
-     <p>When <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑧">confinement mode</a> is enabled the user agent MUST ensure
+     <p>When <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑦">confinement mode</a> is enabled the user agent MUST ensure
           that code cannot leak information by either creating a new WebSocket
           or writing to an existing (otherwise disallowed) WebSocket. To this
           end, the WebSockets specification SHOULD contain the following
@@ -3302,17 +3289,17 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
  that was passed to the constructor.</p>
         <li data-md="">
          <p>Let <var>canWrite</var> be the result of invoking
- the <a data-link-type="dfn" href="#write-check" id="ref-for-write-check③">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑨">empty label</a>.</p>
+ the <a data-link-type="dfn" href="#write-check" id="ref-for-write-check③">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑦">empty label</a>.</p>
         <li data-md="">
          <p>If <var>canWrite</var> is <code>false</code>, throw a <code>SecurityError</code> exception.</p>
          <p>The user agent SHOULD report a warning that the current context
  may have attempted to leak data to a remote server.</p>
        </ol>
        <p class="note" role="note"><span>Note,</span> only the confidentiality label plays a role in this step
- since conceptually, the integrity label of a server is the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⓪">empty label</a> and, thus, always subsumed.</p>
+ since conceptually, the integrity label of a server is the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑧">empty label</a> and, thus, always subsumed.</p>
      </ul>
-     <p>To prevent leaks via already established WebSockets, if the <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label④">effective confidentiality label</a> or integrity label of the 
-          current context are not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①①">empty label</a> the user agent MUST
+     <p>To prevent leaks via already established WebSockets, if the <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label③">effective confidentiality label</a> or integrity label of the 
+          current context are not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label⑨">empty label</a> the user agent MUST
           additionally perform the following step:</p>
      <ul>
       <li data-md="">
@@ -3323,14 +3310,14 @@ blocks access to <code>localStorage</code>. <a data-link-type="biblio" href="#bi
 the <a data-link-type="functionish" href="#dom-label-label" id="ref-for-dom-label-label①⓪">Label(principal)</a> with the <a href="https://www.w3.org/TR/websockets/#dom-websocket-url">url</a> attribute of the <var>ws</var> object.</p>
         <li data-md="">
          <p>Let <var>canWrite</var> be the result of invoking
-the <a data-link-type="dfn" href="#write-check" id="ref-for-write-check④">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①②">empty label</a>.</p>
+the <a data-link-type="dfn" href="#write-check" id="ref-for-write-check④">write check</a> algorithm with <var>dstConf</var> and the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⓪">empty label</a>.</p>
         <li data-md="">
-         <p>If <var>canWrite</var> is <code>false</code> or the <a data-link-type="dfn" href="#current-integrity-label" id="ref-for-current-integrity-label⑧">current integrity label</a> is not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①③">empty label</a>, the user agent is to <a data-link-type="dfn" href="https://www.w3.org/TR/websockets/#make-disappear" id="ref-for-make-disappear">make
+         <p>If <var>canWrite</var> is <code>false</code> or the <a data-link-type="dfn" href="#current-integrity-label" id="ref-for-current-integrity-label⑧">current integrity label</a> is not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①①">empty label</a>, the user agent is to <a data-link-type="dfn" href="https://www.w3.org/TR/websockets/#make-disappear" id="ref-for-make-disappear">make
 disappear</a> the <var>ws</var> object.</p>
        </ol>
      </ul>
      <p class="note" role="note"><span>Note,</span> it is sufficient for user agents to perform this step when the
-            context enables <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑨">confinement mode</a> and whenever it gets <a data-link-type="dfn" href="#tainted" id="ref-for-tainted⑥">tainted</a>.</p>
+            context enables <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑧">confinement mode</a> and whenever it gets <a data-link-type="dfn" href="#tainted" id="ref-for-tainted⑥">tainted</a>.</p>
      <div class="note" role="note"> This step closes any WebSockets that are deemed unsafe for
              the current context to communicate with. This may be because it
              may be possible for the context to leak overly-confidential data
@@ -3348,7 +3335,7 @@ disappear</a> the <var>ws</var> object.</p>
     according to the following steps: 
      <ol>
       <li data-md="">
-       <p>Let <var>lset</var> be the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set⑥">label set</a> of an <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①④">empty label</a>.</p>
+       <p>Let <var>lset</var> be the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set⑥">label set</a> of an <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①②">empty label</a>.</p>
       <li data-md="">
        <p>For each <a data-link-type="dfn" href="#disjunction-set" id="ref-for-disjunction-set⑦">disjunction set</a> <var>dset</var> in the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set⑦">label set</a> of <var>label</var>:</p>
        <ol>
@@ -3402,7 +3389,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
       <li data-md="">
        <p>Let <var>privLabel</var> be the <a data-link-type="dfn" href="#internal-privilege-label" id="ref-for-internal-privilege-label①⑧">internal privilege label</a> of <var>priv</var>.</p>
       <li data-md="">
-       <p>Let <var>lset</var> be the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set①②">label set</a> of an <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑤">empty label</a>.</p>
+       <p>Let <var>lset</var> be the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set①②">label set</a> of an <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①③">empty label</a>.</p>
       <li data-md="">
        <p>For each <a data-link-type="dfn" href="#disjunction-set" id="ref-for-disjunction-set①③">disjunction set</a> <var>dset</var> in the <a data-link-type="dfn" href="#label-set" id="ref-for-label-set①③">label set</a> of <var>label</var>:</p>
        <ol>
@@ -3453,7 +3440,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
  privilege</a>.</p>
       <li data-md="">
        <p>If the current context is an <a data-link-type="dfn" href="#unconfined-context" id="ref-for-unconfined-context⑦">unconfined context</a> and
- either <var>newConf</var> or <var>newInt are not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑥">empty label</a>, throw a <code>SecurityError</code> exception
+ either <var>newConf</var> or <var>newInt are not the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①④">empty label</a>, throw a <code>SecurityError</code> exception
  and terminate this algorithm.</var></p>
       <li data-md="">
        <p>Set the <a data-link-type="dfn" href="#context-confidentiality-label" id="ref-for-context-confidentiality-label⑦">context confidentiality label</a> to <var>newConf</var>.</p>
@@ -3468,7 +3455,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     behavior is as follows: 
      <ol>
       <li data-md="">
-       <p>Let <var>currentConf</var> be the current  context’s <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label⑤">effective
+       <p>Let <var>currentConf</var> be the current  context’s <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label④">effective
  confidentiality label</a>.</p>
       <li data-md="">
        <p>Let <var>currentInt</var> be the current context’s <a data-link-type="dfn" href="#effective-integrity-label" id="ref-for-effective-integrity-label③">effective
@@ -3533,11 +3520,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
       <li data-md="">
        <p>Let <var>state</var> be the <a data-link-type="dfn" href="#cowl-state" id="ref-for-cowl-state⑨">COWL state</a> retrieved via the <a data-link-type="dfn" href="https://www.w3.org/TR/html5/webappapis.html#settings-object" id="ref-for-settings-object">environment settings object</a> <var>context</var>.</p>
       <li data-md="">
-       <p>If the <var>state</var> <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode①⓪">confinement mode</a> is not
+       <p>If the <var>state</var> <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑨">confinement mode</a> is not
  enabled, return <strong>allowed</strong> and terminate this
  algorithm.</p>
       <li data-md="">
-       <p>Let <var>conf</var> be the <var>state</var> <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label⑥">effective confidentiality label</a>.</p>
+       <p>Let <var>conf</var> be the <var>state</var> <a data-link-type="dfn" href="#effective-confidentiality-label" id="ref-for-effective-confidentiality-label⑤">effective confidentiality label</a>.</p>
       <li data-md="">
        <p>Let <var>dstConf</var> be the <a class="idl-code" data-link-type="interface" href="#label①" id="ref-for-label①⑦⑧">Label</a> created by invoking
  the <a data-link-type="functionish" href="#dom-label-label" id="ref-for-dom-label-label①③">Label(principal)</a> constructor with the stringified <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2" id="ref-for-section-3.2⑧">origin</a> of the <a href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> associated with the <var>request</var>.</p>
@@ -3550,7 +3537,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
      </ol>
      <p class="note" role="note"><span>Note,</span> the integrity label of the current context is not used in
     this algorithm since, conceptually, the integrity label of a
-    server is the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑦">empty label</a> and, thus, always subsumed.
+    server is the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑤">empty label</a> and, thus, always subsumed.
     Server operators SHOULD check the <a href="#request-header"><code>Sec-COWL</code></a> request header
     to ensure untrustworthy data does not affect the computation in an
     unsafe way.</p>
@@ -3625,11 +3612,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
            <p>Set the <var>state</var> <a data-link-type="dfn" href="#context-integrity-label" id="ref-for-context-integrity-label⑨">context integrity label</a> to <var>int</var>.</p>
            <p class="note" role="note"><span>Note,</span> by performing the <a data-link-type="dfn" href="#label-subsumption" id="ref-for-label-subsumption②">label subsumption</a> check (step 3
  above) before setting the <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑦">context privilege</a> (next step),
- the <a data-link-type="dfn" href="#context-integrity-label" id="ref-for-context-integrity-label①⓪">context integrity label</a> can be upgraded from the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑧">empty label</a>, while allowing the <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑧">context privilege</a> to also be dropped.</p>
+ the <a data-link-type="dfn" href="#context-integrity-label" id="ref-for-context-integrity-label①⓪">context integrity label</a> can be upgraded from the <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑥">empty label</a>, while allowing the <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑧">context privilege</a> to also be dropped.</p>
           <li data-md="">
            <p>Set the <var>state</var> <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①⑨">context privilege</a> to <var>priv</var>.</p>
           <li data-md="">
-           <p>Enable <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode①①">confinement mode</a> for <var>state</var>.</p>
+           <p>Enable <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode①⓪">confinement mode</a> for <var>state</var>.</p>
           <li data-md="">
            <p>Return <strong>allowed</strong>.</p>
          </ol>
@@ -3777,7 +3764,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     The user agent MUST use an algorithm equivalent to the following:</p>
      <ol>
       <li data-md="">
-       <p>Let <var>label</var> be a new <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑨">empty label</a>.</p>
+       <p>Let <var>label</var> be a new <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑦">empty label</a>.</p>
       <li data-md="">
        <p>If <var>input</var> is not a string, fail.</p>
       <li data-md="">
@@ -3819,7 +3806,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
         <li data-md="">
          <p>Let <var>OR expr</var> be the remaining characters in <var>input</var>.</p>
         <li data-md="">
-         <p>Let <var>orExp</var> be a new <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label②⓪">empty label</a>.</p>
+         <p>Let <var>orExp</var> be a new <a data-link-type="dfn" href="#empty-label" id="ref-for-empty-label①⑧">empty label</a>.</p>
         <li data-md="">
          <p><a data-link-type="dfn" href="#split" id="ref-for-split①">Split</a> the string <var>OR expr</var> on <code>"OR"</code>. Let <var>OR
   tokens</var> be the resulting list of tokens, if the splitting didn’t
@@ -4539,10 +4526,9 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
    <ul>
     <li><a href="#ref-for-effective-confidentiality-label">2.2. Privileges</a>
     <li><a href="#ref-for-effective-confidentiality-label①">3.7.2. Modifications to Web Messaging</a> <a href="#ref-for-effective-confidentiality-label②">(2)</a>
-    <li><a href="#ref-for-effective-confidentiality-label③">3.7.3. Modifications to HTML5</a>
-    <li><a href="#ref-for-effective-confidentiality-label④">3.7.4. Modifications to WebSockets</a>
-    <li><a href="#ref-for-effective-confidentiality-label⑤">4.6. Write Check</a>
-    <li><a href="#ref-for-effective-confidentiality-label⑥">4.8. 
+    <li><a href="#ref-for-effective-confidentiality-label③">3.7.4. Modifications to WebSockets</a>
+    <li><a href="#ref-for-effective-confidentiality-label④">4.6. Write Check</a>
+    <li><a href="#ref-for-effective-confidentiality-label⑤">4.8. 
       Should fetching request be blocked as COWL? </a>
    </ul>
   </aside>
@@ -4601,17 +4587,16 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     <li><a href="#ref-for-empty-label②">3.1.3. Serializing labels</a>
     <li><a href="#ref-for-empty-label③">3.2. Privileges</a>
     <li><a href="#ref-for-empty-label④">3.3. Labeled Contexts</a> <a href="#ref-for-empty-label⑤">(2)</a> <a href="#ref-for-empty-label⑥">(3)</a>
-    <li><a href="#ref-for-empty-label⑦">3.7.3. Modifications to HTML5</a> <a href="#ref-for-empty-label⑧">(2)</a>
-    <li><a href="#ref-for-empty-label⑨">3.7.4. Modifications to WebSockets</a> <a href="#ref-for-empty-label①⓪">(2)</a> <a href="#ref-for-empty-label①①">(3)</a> <a href="#ref-for-empty-label①②">(4)</a> <a href="#ref-for-empty-label①③">(5)</a>
-    <li><a href="#ref-for-empty-label①④">4.1. Label Normal Form Reduction</a>
-    <li><a href="#ref-for-empty-label①⑤">4.3. Label Downgrade</a>
-    <li><a href="#ref-for-empty-label①⑥">4.5. Context Tainting</a>
-    <li><a href="#ref-for-empty-label①⑦">4.8. 
+    <li><a href="#ref-for-empty-label⑦">3.7.4. Modifications to WebSockets</a> <a href="#ref-for-empty-label⑧">(2)</a> <a href="#ref-for-empty-label⑨">(3)</a> <a href="#ref-for-empty-label①⓪">(4)</a> <a href="#ref-for-empty-label①①">(5)</a>
+    <li><a href="#ref-for-empty-label①②">4.1. Label Normal Form Reduction</a>
+    <li><a href="#ref-for-empty-label①③">4.3. Label Downgrade</a>
+    <li><a href="#ref-for-empty-label①④">4.5. Context Tainting</a>
+    <li><a href="#ref-for-empty-label①⑤">4.8. 
       Should fetching request be blocked as COWL? </a>
-    <li><a href="#ref-for-empty-label①⑧">4.9. 
+    <li><a href="#ref-for-empty-label①⑥">4.9. 
       Process response to request as COWL </a>
-    <li><a href="#ref-for-empty-label①⑨">4.12. 
-      Parse label expression </a> <a href="#ref-for-empty-label②⓪">(2)</a>
+    <li><a href="#ref-for-empty-label①⑦">4.12. 
+      Parse label expression </a> <a href="#ref-for-empty-label①⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-label-label-principal-principal">
@@ -4876,11 +4861,11 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
    <ul>
     <li><a href="#ref-for-confinement-mode">3.3. Labeled Contexts</a> <a href="#ref-for-confinement-mode①">(2)</a> <a href="#ref-for-confinement-mode②">(3)</a> <a href="#ref-for-confinement-mode③">(4)</a>
     <li><a href="#ref-for-confinement-mode④">3.5.1. Sec-COWL in HTTP Requests</a>
-    <li><a href="#ref-for-confinement-mode⑤">3.7.3. Modifications to HTML5</a> <a href="#ref-for-confinement-mode⑥">(2)</a> <a href="#ref-for-confinement-mode⑦">(3)</a>
-    <li><a href="#ref-for-confinement-mode⑧">3.7.4. Modifications to WebSockets</a> <a href="#ref-for-confinement-mode⑨">(2)</a>
-    <li><a href="#ref-for-confinement-mode①⓪">4.8. 
+    <li><a href="#ref-for-confinement-mode⑤">3.7.3. Modifications to HTML5</a> <a href="#ref-for-confinement-mode⑥">(2)</a>
+    <li><a href="#ref-for-confinement-mode⑦">3.7.4. Modifications to WebSockets</a> <a href="#ref-for-confinement-mode⑧">(2)</a>
+    <li><a href="#ref-for-confinement-mode⑨">4.8. 
       Should fetching request be blocked as COWL? </a>
-    <li><a href="#ref-for-confinement-mode①①">4.9. 
+    <li><a href="#ref-for-confinement-mode①⓪">4.9. 
       Process response to request as COWL </a>
    </ul>
   </aside>
@@ -5251,7 +5236,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
    <b><a href="#empty-label①">#empty-label①</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-empty-label①">3.2.1. Constructors</a>
-    <li><a href="#ref-for-empty-label①①⓪">3.5. The Sec-COWL HTTP Header Field</a>
+    <li><a href="#ref-for-empty-label①⑨">3.5. The Sec-COWL HTTP Header Field</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="principal-expression">
