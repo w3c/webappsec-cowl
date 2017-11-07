@@ -1964,7 +1964,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         <code>https://b.com</code>, while simultaneously indicating that
         it endorses the response data:
         <pre><code>
-        Sec-COWL: <a>data-confidentiality</a> 'self' AND https://b.com;
+        Sec-COWL: <a>data-confidentiality</a> ('self') AND (https://b.com);
                   <a>data-integrity</a> 'self'
         </code></pre>
         COWL blocks the response unless the current context's labels
