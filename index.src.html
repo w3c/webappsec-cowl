@@ -1958,6 +1958,8 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <section>
     <h3 id="extension-xhr">Extensions to XMLHttpRequest</h3>
 
+    ISSUE: should we disable XHR and just force developers to use fetch?
+
     The XMLHttpRequest specification SHOULD contain the
     modifications described below to enable the rest of this
     specification's work [[XHR]].
@@ -2365,99 +2367,74 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
           <h4 id="modifications-to-html5">Modifications to HTML5</h4>
 
-          When <a>confinement mode</a> is enabled the user agent MUST
-          ensure that content cannot access other content from the
-          same origin (e.g., using an iframe's
-          <code><a element-attr>contentDocument</a></code>) that would violate
-          label restrictions. Specifically, if a <a>browsing
-            context</a>'s <a>confinement mode</a> is enabled
-          the user agent MUST set the following flags
-          of the context's <a>active sandboxing flag set</a>:
+          The HTML5 specification SHOULD contain the following
+          modifications in order to enable the rest of this
+          specification's work [[HTML5]]:
 
-          * The <a>sandboxed plugins browsing context flag</a>.
+          1.  To allow authors to create <a>confined contexts</a> this this
+              specification extends the <a interface>HTMLIFrameElement</a>
+              interface with a new <code><a attribute>cowl</a></code> attribute:
 
-          * The <a>sandboxed <code>document.domain</code> browsing context flag</a>.
+              <pre class="idl">
+                partial interface HTMLIFrameElement : HTMLElement {
+                  attribute boolean cowl;
+                };
+              </pre>
 
-          * The <a>sandboxed origin browsing context flag</a>.
+              The <dfn attribute title="cowl">cowl</dfn> attribute, when
+              specified, enables a set of extra restrictions on any content
+              hosted by the <a>iframe</a>, much like the <a>sandbox</a> attribute.
+              We call an <a>iframe</a> with the <a attribute>cowl</a> attribute set
+              a <dfn>cowl iframe</a>.
 
-            Note, this flag is used to ensure that the browsing context cannot
-            directly access content of the same origin. It also prevents
-            <a>script from reading from or writing to the
-            <code>document.cookie</code> IDL attribute</a>, and blocks access
-            to <code>localStorage</code>. [[WEBSTORAGE]]
+              When an <a>iframe</a> element with a <a attribute>cowl</a>
+              attribute has its <a>nested browsing context created</a> (before
+              the initial <a>about:blank</a> <a>Document</a> is created), the
+              user agent MUST enable the context's <a>confinement mode</a>. The
+              <a>iframe</a> element's <a attribute>cowl</a> attribute may not
+              be set or changed after this point.
 
-            ISSUE: is there a better way for us to just disallow direct DOM
-            access and preserve same-origin?
+              ISSUE: what's the best way to deal with authors modifying the cowl attribute?
 
-          * The <a>sandboxed navigation browsing context flag</a>.
+          1.  When <a>confinement mode</a> is enabled the user agent MUST
+              ensure that content cannot access other content from the
+              same origin (e.g., using an iframe's
+              <code><a element-attr>contentDocument</a></code>) or use
+              otherwise unsafe APIs that would violate label restrictions.
 
-          * The <a>sandboxed auxiliary navigation browsing context flag</a>.
+              Specifically, if a <a>browsing context</a>'s <a>confinement
+              mode</a> is enabled the user agent MUST set the following flags
+              of the context's <a>active sandboxing flag set</a>:
 
-          * The <a>sandboxed top-level navigation browsing context flag</a>.
+              * The <a>sandboxed <code>document.domain</code> browsing context flag</a>.
 
-        <h4 id="modifications-websockets">Modifications to WebSockets</h4>
+              * The <a>sandboxed origin browsing context flag</a>.
 
-          When <a>confinement mode</a> is enabled the user agent MUST ensure
-          that code cannot leak information by either creating a new WebSocket
-          or writing to an existing (otherwise disallowed) WebSocket. To this
-          end, the WebSockets specification SHOULD contain the following
-          modification in order to enable the rest of this specification's
-          work [[WEBSOCKETS]]:
+                Note, this flag is used to ensure that the browsing context cannot
+                directly access content of the same origin. It also prevents
+                <a>script from reading from or writing to the
+                <code>document.cookie</code> IDL attribute</a>, and blocks access
+                to <code>localStorage</code>. [[WEBSTORAGE]]
 
-          * Perform the following steps between step 6 and 7 in the
-            <a>WebSocket()</a> constructor:
+                ISSUE: is there a better way for us to just disallow direct DOM
+                access and preserve same-origin?
 
-            1. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
-               the <a>Label(principal)</a> with the <var>url</var> argument
-               that was passed to the constructor.
+              * The <a>sandboxed navigation browsing context flag</a>.
 
-            2. Let <var>canWrite</var> be the result of invoking
-               the <a>write check</a> algorithm with <var>dstConf</var>
-               and the <a>empty label</a>.
-            
-            3. If <var>canWrite</var> is <code>false</code>, throw a
-               <code>SecurityError</code> exception.
-               
-               The user agent SHOULD report a warning that the current context
-               may have attempted to leak data to a remote server.
+              * The <a>sandboxed auxiliary navigation browsing context flag</a>.
 
-             Note, only the confidentiality label plays a role in this step
-             since conceptually, the integrity label of a server is the
-             <a>empty label</a> and, thus, always subsumed.
+              * The <a>sandboxed top-level navigation browsing context flag</a>.
 
-          To prevent leaks via already established WebSockets, if the
-          <a>effective confidentiality label</a> or integrity label of the 
-          current context are not the <a>empty label</a> the user agent MUST
-          additionally perform the following step:
+              In addition to these flags, the <a>container policy</a> of the
+              <a>cowl iframe</a> that contains the <a>confined context</a> MUST
+              disable the following features:
 
-            * For each created WebSocket <var>ws</var> associated with the current execution context:
+              * Content: <a>Web Workers</a>, <a>Shared Workers</a>, <a>Service Workers</a>
 
-              1. Let <var>dstConf</var> be the <a interface>Label</a> created by invoking
-                the <a>Label(principal)</a> with the <a
-                  href="https://www.w3.org/TR/websockets/#dom-websocket-url">url</a>
-                attribute of the <var>ws</var> object.
+              * Networking: <a>Web Sockets</a>, <a>Server-Sent APIs</a>, <a>WebRTC</a>
 
-              2. Let <var>canWrite</var> be the result of invoking
-                the <a>write check</a> algorithm with <var>dstConf</var>
-                and the <a>empty label</a>.
-              
-              3. If <var>canWrite</var> is <code>false</code> or the <a>current integrity label</a>
-                is not the <a>empty label</a>, the user agent is to <a>make
-                disappear</a> the <var>ws</var> object.
+              * Storage: <a>document.cookie</a>, <a>localStorage</a>, <a>indexDB</a>
 
-            Note, it is sufficient for user agents to perform this step when the
-            context enables <a>confinement mode</a> and whenever it gets
-            <a>tainted</a>.
-
-          <div class="note">
-             This step closes any WebSockets that are deemed unsafe for
-             the current context to communicate with. This may be because it
-             may be possible for the context to leak overly-confidential data
-             to the remote server; or, it may be because the <a>context
-             integrity label</a> is set and thus the (high integrity) context
-             should not be affected by reading potentially less trustworthy
-             data from the remote server.
-          </div>
 
     </section>
 
