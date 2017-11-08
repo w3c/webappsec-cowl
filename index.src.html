@@ -1618,15 +1618,19 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       <dt><dfn attribute title="LabeledObject/protectedObject">protectedObject</dfn></dt>
       <dd>
 
-        ISSUE: should protectedObject be a promise? Otherwise we may be a bit too strict.
+        ISSUE: should protectedObject be a promise? Otherwise we may be a bit too inflexible.
       
         On getting, the user agent MUST use an algorithm equivalent to
         the following:
 
-        1. Invoke the <a>context tainting</a> algorithm with the <a
+        1. If the <a>current settings object</a> is not a <a>secure
+           context</a>, then the user agent MUST throw a
+           <code>SecurityError</code> exception and terminnate this algorithm.
+
+        2. Invoke the <a>context tainting</a> algorithm with the <a
            interface>LabeledObject</a>'s confidentiality and integrity labels.
 
-        2. If the tainting algorithm raised an exception, re-throw the
+        3. If the tainting algorithm raised an exception, re-throw the
            exception and terminate this algorithm.
 
            <div class="note">
@@ -1638,7 +1642,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
              objects instead.
            </div>
 
-        3. Else, return the <a interface>LabeledObject</a>'s <a>protected object</a>.
+        4. Else, return the <a interface>LabeledObject</a>'s <a>protected object</a>.
 
       </dd>
     </dl>
