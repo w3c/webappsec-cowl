@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 67155cabad72a8ab669a7d4421c90e2999a29b68" name="generator">
   <link href="https://www.w3.org/TR/COWL/" rel="canonical">
-  <meta content="c71c93fe4f742aa0c87c1d85fc2b8062729615a6" name="document-revision">
+  <meta content="d3f17fa5fd85ca2b80fc29caab7c80acc16935b2" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2915,11 +2915,11 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
 <pre><code>Sec-COWL: <a data-link-type="dfn" href="#ctx-privilege" id="ref-for-ctx-privilege⑤">ctx-privilege</a> 'self' OR app:user1;
 </code></pre>
       </div>
-      <div class="example" id="example-a846a5f3">
-       <a class="self-link" href="#example-a846a5f3"></a> The author of <code>https://a.com</code> may wish to respond to a
+      <div class="example" id="example-32b4b809">
+       <a class="self-link" href="#example-32b4b809"></a> The author of <code>https://a.com</code> may wish to respond to a
         request with data that is sensitive to both <code>https://a.com</code> and <code>https://b.com</code>, while simultaneously indicating that
         it endorses the response data: 
-<pre><code>Sec-COWL: <a data-link-type="dfn" href="#data-confidentiality" id="ref-for-data-confidentiality②">data-confidentiality</a> 'self' AND https://b.com;
+<pre><code>Sec-COWL: <a data-link-type="dfn" href="#data-confidentiality" id="ref-for-data-confidentiality②">data-confidentiality</a> ('self') AND (https://b.com);
           <a data-link-type="dfn" href="#data-integrity" id="ref-for-data-integrity①">data-integrity</a> 'self'
 </code></pre>
        <p>COWL blocks the response unless the current context’s labels
