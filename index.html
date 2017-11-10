@@ -1178,7 +1178,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 67155cabad72a8ab669a7d4421c90e2999a29b68" name="generator">
   <link href="https://www.w3.org/TR/COWL/" rel="canonical">
-  <meta content="d3f17fa5fd85ca2b80fc29caab7c80acc16935b2" name="document-revision">
+  <meta content="113530904d77e24f95635083f46772dd733385c3" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1425,7 +1425,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1>Confinement with Origin Web Labels</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2017-11-08">8 November 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2017-11-09">9 November 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2611,14 +2611,14 @@ privilege</a>.</p>
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥③">Label</a>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="CILabel" data-dfn-type="dict-member" data-export="" data-type="Label? " id="dom-cilabel-integrity"><code>integrity</code></dfn>;
 };
 
-[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object"><span class="kt">object</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel">CILabel</a>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></dfn>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②">SecureContext</a>]
+[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object"><span class="kt">object</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></dfn>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel">CILabel</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/LabeledObject(obj, labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></dfn>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②">SecureContext</a>]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="labeledobject"><code>LabeledObject</code></dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥④">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-confidentiality" id="ref-for-dom-labeledobject-confidentiality">confidentiality</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥⑤">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-integrity" id="ref-for-dom-labeledobject-integrity">integrity</a>;
 
   [<a class="nv idl-code" data-link-type="extended-attribute">GetterThrows</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object①"><span class="kt">object</span></a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="object" href="#dom-labeledobject-protectedobject" id="ref-for-dom-labeledobject-protectedobject">protectedObject</a>;
 
-  [<a class="nv idl-code" data-link-type="extended-attribute">Throws</a>] <a class="n" data-link-type="idl-name" href="#labeledobject" id="ref-for-labeledobject⑧">LabeledObject</a> <a class="nv idl-code" data-link-type="method" href="#dom-labeledobject-clone" id="ref-for-dom-labeledobject-clone">clone</a>(<a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel①">CILabel</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/clone(labels)" data-dfn-type="argument" data-export="" id="dom-labeledobject-clone-labels-labels"><code>labels</code></dfn>);
+  [<a class="nv idl-code" data-link-type="extended-attribute">Throws</a>] <a class="n" data-link-type="idl-name" href="#labeledobject" id="ref-for-labeledobject⑧">LabeledObject</a> <a class="nv idl-code" data-link-type="method" href="#dom-labeledobject-clone" id="ref-for-dom-labeledobject-clone">clone</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel①">CILabel</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="LabeledObject/clone(labels), LabeledObject/clone()" data-dfn-type="argument" data-export="" id="dom-labeledobject-clone-labels-labels"><code>labels</code></dfn>);
 };
 </pre>
      <h4 class="heading settled" data-level="3.4.1" id="labeledobject-constructor"><span class="secno">3.4.1. </span><span class="content">Constructors</span><a class="self-link" href="#labeledobject-constructor"></a></h4>
@@ -2877,7 +2877,7 @@ mapsIframe.postMessage({ cmd: 'plot', locations: labeledLocations }, mapsOrigin)
       confidentiality label</a>, <a data-link-type="dfn" href="#context-integrity-label" id="ref-for-context-integrity-label③">context integrity label</a>, and <a data-link-type="dfn" href="#context-privilege" id="ref-for-context-privilege①②">context privileges</a>. The user agent MAY send another header with
       this field name whose value is <a data-link-type="dfn" href="#labeled-data-metadata" id="ref-for-labeled-data-metadata①">labeled data metadata</a> (e.g., when
       sending <a data-link-type="dfn" href="#labeled-objects" id="ref-for-labeled-objects⑥">labeled objects</a> with <a data-link-type="dfn" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest②">XMLHttpRequest</a>).</p>
-      <p class="note" role="note"><span>Note,</span> according to <a data-link-type="biblio" href="#biblio-rfc2616">[RFC2616]</a>, the user agent MAY combine
+      <p class="note" role="note"><span>Note,</span> according to <a data-link-type="biblio" href="#biblio-rfc7231">[RFC7231]</a>, the user agent MAY combine
       multiple header field values into a single, comma-separated
       value.</p>
       <div class="example" id="example-e12abee0">
@@ -3265,14 +3265,14 @@ Content-Type: application/labeled-json;
   <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean②"><span class="kt">boolean</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="HTMLIFrameElement" data-dfn-type="attribute" data-export="" data-type="boolean" id="dom-htmliframeelement-cowl"><code>cowl</code></dfn>;
 };
 </pre>
-       <p>The <dfn class="idl-code" data-dfn-type="attribute" title="cowl">cowl</dfn> attribute, when
+       <p>The <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl①">cowl</a> attribute, when
   specified, enables a set of extra restrictions on any content
   hosted by the <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element②">iframe</a>, much like the <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#sandbox" id="ref-for-sandbox">sandbox</a> attribute.
-  We call an <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a> with the <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl①">cowl</a> attribute set
+  We call an <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element③">iframe</a> with the <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl②">cowl</a> attribute set
   a <dfn data-dfn-type="dfn" data-noexport="" id="cowl-iframe">cowl iframe.<a class="self-link" href="#cowl-iframe"></a></dfn></p>
-       <p>When an <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a> element with a <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl②">cowl</a> attribute has its <a data-link-type="dfn">nested browsing context created</a> (before
+       <p>When an <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element④">iframe</a> element with a <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl③">cowl</a> attribute has its <a data-link-type="dfn">nested browsing context created</a> (before
   the initial <a data-link-type="dfn">about:blank</a> <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document">Document</a> is created), the
-  user agent MUST enable the context’s <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑤">confinement mode</a>. The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a> element’s <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl③">cowl</a> attribute may not
+  user agent MUST enable the context’s <a data-link-type="dfn" href="#confinement-mode" id="ref-for-confinement-mode⑤">confinement mode</a>. The <a data-link-type="dfn" href="https://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element" id="ref-for-the-iframe-element⑤">iframe</a> element’s <a class="idl-code" data-link-type="attribute" href="#dom-htmliframeelement-cowl" id="ref-for-dom-htmliframeelement-cowl④">cowl</a> attribute may not
   be set or changed after this point.</p>
        <p class="issue" id="issue-7a249e2a"><a class="self-link" href="#issue-7a249e2a"></a> what’s the best way to deal with authors modifying the cowl attribute?</p>
       <li data-md="">
@@ -3308,7 +3308,7 @@ access and preserve same-origin?</p>
         <li data-md="">
          <p>Communication: <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/web-sockets.html#network" id="ref-for-network">Web Sockets</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/comms.html#server-sent-events" id="ref-for-server-sent-events">Server-sent events</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/web-messaging.html#channel-messaging" id="ref-for-channel-messaging">channel messaging</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/web-messaging.html#broadcasting-to-other-browsing-contexts" id="ref-for-broadcasting-to-other-browsing-contexts">broadcast channels</a> and <a data-link-type="dfn" href="https://www.w3.org/TR/webrtc/#webrtc" id="ref-for-webrtc">WebRTC</a></p>
         <li data-md="">
-         <p>Storage: <a data-link-type="dfn">document.cookie</a>, <a class="idl-code" data-link-type="attribute" href="https://www.w3.org/TR/webstorage/#the-localstorage-attribute" id="ref-for-the-localstorage-attribute">localStorage</a>, <a data-link-type="dfn" href="https://www.w3.org/TR/IndexedDB-2/#indexeddb" id="ref-for-indexeddb">IndexedDB</a></p>
+         <p>Storage: document.<a class="idl-code" data-link-type="attribute" href="https://html.spec.whatwg.org/multipage/dom.html#dom-document-cookie" id="ref-for-dom-document-cookie">cookie</a>, <a class="idl-code" data-link-type="attribute" href="https://www.w3.org/TR/webstorage/#the-localstorage-attribute" id="ref-for-the-localstorage-attribute">localStorage</a>, <a data-link-type="dfn" href="https://www.w3.org/TR/IndexedDB-2/#indexeddb" id="ref-for-indexeddb">IndexedDB</a></p>
        </ul>
      </ol>
     </section>
@@ -4133,6 +4133,7 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#htmliframeelement">HTMLIFrameElement</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/dom.html#dom-document-cookie">cookie</a>
      <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#current-settings-object">current settings object</a>
      <li><a href="https://html.spec.whatwg.org/multipage/workers.html#shared-workers">shared worker</a>
      <li><a href="https://html.spec.whatwg.org/multipage/web-sockets.html#network">web sockets</a>
@@ -4312,8 +4313,6 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
    <dd>Jochen Eisinger; Emily Stark. <a href="https://www.w3.org/TR/referrer-policy/">Referrer Policy</a>. 26 January 2017. CR. URL: <a href="https://www.w3.org/TR/referrer-policy/">https://www.w3.org/TR/referrer-policy/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
-   <dt id="biblio-rfc2616">[RFC2616]
-   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
    <dt id="biblio-rfc3864">[RFC3864]
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>. September 2004. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc3864">https://tools.ietf.org/html/rfc3864</a>
    <dt id="biblio-rfc4122">[RFC4122]
@@ -4322,6 +4321,8 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
    <dd>D. Crocker, Ed.; P. Overell. <a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>. January 2008. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc5234">https://tools.ietf.org/html/rfc5234</a>
    <dt id="biblio-rfc6454">[RFC6454]
    <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6454">The Web Origin Concept</a>. December 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6454">https://tools.ietf.org/html/rfc6454</a>
+   <dt id="biblio-rfc7231">[RFC7231]
+   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West. <a href="https://www.w3.org/TR/secure-contexts/">Secure Contexts</a>. 15 September 2016. CR. URL: <a href="https://www.w3.org/TR/secure-contexts/">https://www.w3.org/TR/secure-contexts/</a>
    <dt id="biblio-service-workers-1">[SERVICE-WORKERS-1]
@@ -4385,14 +4386,14 @@ a2.<a data-link-type="functionish" href="#dom-label-equals" id="ref-for-dom-labe
   <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥③①">Label</a>? <a class="nv" data-type="Label? " href="#dom-cilabel-integrity"><code>integrity</code></a>;
 };
 
-[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject③">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③"><span class="kt">object</span></a> <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel②">CILabel</a>? <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></a>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②①">SecureContext</a>]
+[<a class="nv idl-code" data-link-type="constructor" href="#dom-labeledobject-labeledobject" id="ref-for-dom-labeledobject-labeledobject③">Constructor</a>(<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③"><span class="kt">object</span></a> <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-obj"><code>obj</code></a>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel②">CILabel</a> <a class="nv" href="#dom-labeledobject-labeledobject-obj-labels-labels"><code>labels</code></a>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①">Exposed</a>=(<span class="n">Window</span>, <span class="n">Worker</span>), <a class="nv idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②①">SecureContext</a>]
 <span class="kt">interface</span> <a class="nv" href="#labeledobject"><code>LabeledObject</code></a> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥④①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-confidentiality" id="ref-for-dom-labeledobject-confidentiality①">confidentiality</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#label①" id="ref-for-label①⑥⑤①">Label</a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="Label" href="#dom-labeledobject-integrity" id="ref-for-dom-labeledobject-integrity①">integrity</a>;
 
   [<a class="nv idl-code" data-link-type="extended-attribute">GetterThrows</a>] <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object①①"><span class="kt">object</span></a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="object" href="#dom-labeledobject-protectedobject" id="ref-for-dom-labeledobject-protectedobject⑤">protectedObject</a>;
 
-  [<a class="nv idl-code" data-link-type="extended-attribute">Throws</a>] <a class="n" data-link-type="idl-name" href="#labeledobject" id="ref-for-labeledobject⑧①">LabeledObject</a> <a class="nv idl-code" data-link-type="method" href="#dom-labeledobject-clone" id="ref-for-dom-labeledobject-clone①">clone</a>(<a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel①①">CILabel</a> <a class="nv" href="#dom-labeledobject-clone-labels-labels"><code>labels</code></a>);
+  [<a class="nv idl-code" data-link-type="extended-attribute">Throws</a>] <a class="n" data-link-type="idl-name" href="#labeledobject" id="ref-for-labeledobject⑧①">LabeledObject</a> <a class="nv idl-code" data-link-type="method" href="#dom-labeledobject-clone" id="ref-for-dom-labeledobject-clone①">clone</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-cilabel" id="ref-for-dictdef-cilabel①①">CILabel</a> <a class="nv" href="#dom-labeledobject-clone-labels-labels"><code>labels</code></a>);
 };
 
 <span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="https://xhr.spec.whatwg.org/#xmlhttprequest" id="ref-for-xmlhttprequest④①">XMLHttpRequest</a> {
@@ -5351,7 +5352,7 @@ access and preserve same-origin?<a href="#issue-af89ca42"> ↵ </a></div>
   <aside class="dfn-panel" data-for="dom-htmliframeelement-cowl">
    <b><a href="#dom-htmliframeelement-cowl">#dom-htmliframeelement-cowl</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-htmliframeelement-cowl">3.7.3. Modifications to HTML5</a> <a href="#ref-for-dom-htmliframeelement-cowl①">(2)</a> <a href="#ref-for-dom-htmliframeelement-cowl②">(3)</a> <a href="#ref-for-dom-htmliframeelement-cowl③">(4)</a>
+    <li><a href="#ref-for-dom-htmliframeelement-cowl">3.7.3. Modifications to HTML5</a> <a href="#ref-for-dom-htmliframeelement-cowl①">(2)</a> <a href="#ref-for-dom-htmliframeelement-cowl②">(3)</a> <a href="#ref-for-dom-htmliframeelement-cowl③">(4)</a> <a href="#ref-for-dom-htmliframeelement-cowl④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="label-normal-form-reduction">

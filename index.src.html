@@ -23,6 +23,11 @@ Boilerplate: omit conformance, omit feedback-header
 Inline Github Issues: true
 Markup Shorthands: css off, markdown on
 </pre>
+<pre class="link-defaults">
+spec:url
+  type: dfn
+    text: url; for: /
+</pre>
 <pre class="anchors">
 spec: CORS; urlPrefix: https://www.w3.org/TR/cors/
   type: dfn
@@ -270,7 +275,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
   <code>https://example.com</code>.
 
   COWL enforces such policies by confining code at the
-  <a>context</a>-level, according to the sensitivity (i.e., the label)
+  <a>browsing context</a>-level, according to the sensitivity (i.e., the label)
   of the data the code has observed. To reap the greatest benefits of
   COWL, authors will need to compartmentalize applications into
   multiple contexts (e.g., <a>iframes</a>).
@@ -598,10 +603,10 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       <dfn>label</dfn>, encodes either a confidentiality or integrity
       security policy as conjunctive normal form (AND's and OR's)
       formulae over <a>principals</a> (typically <a>origin</a>s.)  Labels can
-      be associated with <a>contexts</a> or with <a>structurally clonable</a>
+      be associated with <a>browsing contexts</a> or with <a>structurally clonable</a>
       objects.
 
-      When associated with a <a>context</a>, the label restricts the
+      When associated with a <a>browsing context</a>, the label restricts the
       origins that the context can communicate with, as detailed in
       [[#framework-context-labels]].
 
@@ -766,7 +771,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       Privileges can also be used to bypass integrity restrictions
       imposed by integrity labels. In particular, a privilege can be
       used to endorse an otherwise untrustworthy labeled
-      <a>context</a> (or <a>labeled object</a>) as to allow it to
+      <a>browsing context</a> (or <a>labeled object</a>) as to allow it to
       communicate with more trustworthy end-points (another context or
       server).
 
@@ -1525,7 +1530,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
     This API is designed to be used in conjunction with other APIs and
     elements on the web platform. In particular, <a>postMessage()</a>
     and <a>XMLHttpRequest</a> (e.g., with an
-    overloaded <a><code>send()</code></a> method for <a interface>LabeledObject</a>
+    overloaded <code><a>send()</a></code> method for <a interface>LabeledObject</a>
     arguments). It SHOULD be exposed to both <a>confined contexts</a> and
     <a>unconfined contexts</a>.
 
@@ -1539,14 +1544,14 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       Label? integrity;
     };
 
-    [Constructor(object obj, CILabel? labels), Exposed=(Window, Worker), SecureContext]
+    [Constructor(object obj, optional CILabel labels), Exposed=(Window, Worker), SecureContext]
     interface LabeledObject {
       readonly attribute Label confidentiality;
       readonly attribute Label integrity;
 
       [GetterThrows] readonly attribute object protectedObject;
 
-      [Throws] LabeledObject clone(CILabel labels);
+      [Throws] LabeledObject clone(optional CILabel labels);
     };
     </pre>
 
@@ -1595,10 +1600,10 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       Because COWL enforces labels at context boundaries, there is
       usually no reason to label an object and then use the <a>labeled
       object</a> within the same context.  <a interface>LabeledObject</a>s
-      are mainly useful for sending sensitive data to an untrusted <a>
-      confined context</a>, e.g., via <a>cross-document messaging</a>, as a way
-      to ensure that the data's confidentiality and integrity (as specified by
-      the labels) are respected by the untrusted context. Hence, the
+      are mainly useful for sending sensitive data to an untrusted
+      <a>confined context</a>, e.g., via <a>cross-document messaging</a>, as a
+      way to ensure that the data's confidentiality and integrity (as specified
+      by the labels) are respected by the untrusted context. Hence, the
       <a>LabeledObject()</a> constructor only accepts objects that can be
       <a>structurally cloned</a>.
     </div>
@@ -1899,7 +1904,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
       this field name whose value is <a>labeled data metadata</a> (e.g., when
       sending <a>labeled objects</a> with <a>XMLHttpRequest</a>).
 
-      Note, according to [[!RFC2616]], the user agent MAY combine
+      Note, according to [[!RFC7231]], the user agent MAY combine
       multiple header field values into a single, comma-separated
       value.
 
@@ -2289,7 +2294,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
         <em>This sub-section is non-normative</em>
 
         To enforce confinement, COWL ensures that code in a
-        <a>context</a> cannot send data (e.g., via <a>cross-document
+        <a>browsing context</a> cannot send data (e.g., via <a>cross-document
         messaging</a> or by performing a <a>fetch</a>) to contexts or
         servers that do not preserve the confidentiality of the data.
         Similarly, COWL ensures that a context cannot receive data from a
@@ -2403,15 +2408,15 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
                 };
               </pre>
 
-              The <dfn attribute title="cowl">cowl</dfn> attribute, when
+              The <a attribute>cowl</a> attribute, when
               specified, enables a set of extra restrictions on any content
               hosted by the <a>iframe</a>, much like the <a>sandbox</a> attribute.
               We call an <a>iframe</a> with the <a attribute>cowl</a> attribute set
-              a <dfn>cowl iframe</a>.
+              a <dfn>cowl iframe</dfn>.
 
               When an <a>iframe</a> element with a <a attribute>cowl</a>
-              attribute has its <a>nested browsing context created</a> (before
-              the initial <a>about:blank</a> <a>Document</a> is created), the
+              attribute has its <a>nested browsing context</a> created (before
+              the initial <code>about:blank</code> <a>Document</a> is created), the
               user agent MUST enable the context's <a>confinement mode</a>. The
               <a>iframe</a> element's <a attribute>cowl</a> attribute may not
               be set or changed after this point.
@@ -2456,7 +2461,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
               * Communication: <a>Web Sockets</a>, <a>Server-sent events</a>,
                 <a>channel messaging</a>, <a>broadcast channels</a> and <a>WebRTC</a>
 
-              * Storage: <a>document.cookie</a>, <a attribute>localStorage</a>, <a>IndexedDB</a>
+              * Storage: document.<a attribute>cookie</a>, <a attribute>localStorage</a>, <a>IndexedDB</a>
 
 
     </section>
@@ -2609,7 +2614,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
        privilege</a>.
 
     4. If the current context is an <a>unconfined context</a> and
-       either <var>newConf</var> or <var>newInt</a> are not the
+       either <var>newConf</var> or <var>newInt</var> are not the
        <a>empty label</a>, throw a <code>SecurityError</code> exception
        and terminate this algorithm.
 
@@ -2714,7 +2719,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
        Note, the <a>client</a> associated with the
        <var>request</var> is null when <a>navigating</a>, so we use
        the <a>incumbent settings object</a> to get the <a>COWL
-       state</a> of the <a>context</a> that initiated the request.
+       state</a> of the <a>browsing context</a> that initiated the request.
 
     2. Let <var>state</var> be the <a>COWL state</a> retrieved via the
        <a>environment settings object</a> <var>context</var>.
@@ -2788,7 +2793,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
        Note, the <a>client</a> associated with the
        <var>request</var> is null when <a>navigating</a>, so we use
        the <a>incumbent settings object</a> to get or set the <a>COWL
-       state</a> of the <a>context</a> that initiated the request.
+       state</a> of the <a>browsing context</a> that initiated the request.
 
     5. Let <var>state</var> be the <a>COWL state</a> retrieved via the
        <a>environment settings object</a> <var>context</var>.
@@ -2816,7 +2821,7 @@ spec: WEBSOCKETS; urlPrefix: https://www.w3.org/TR/websockets/
 
          3. Else:
 
-            1. If <var>context</a> is an <a>unconfined context</a>,
+            1. If <var>context</var> is an <a>unconfined context</a>,
                return <strong>blocked</strong> and terminate this algorithm.
 
                The user agent SHOULD report a warning that the application
