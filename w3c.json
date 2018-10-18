@@ -1,5 +1,10 @@
- {
-    "group":      ["49309"]
-,   "contacts":   ["wseltzer"]
-,   "shortName":  "COWL"
+{
+  "group": [
+    "49309"
+  ],
+  "contacts": [
+    "wseltzer"
+  ],
+  "shortName": "COWL",
+  "repo-type": "rec-track"
 }
